@@ -13,6 +13,7 @@ function Carousel() {
   const [activeImage,setActiveImage]=useState<number>(0)  
   const [isPlaying,setIsPlaying]=useState<boolean>(true)  
   const [isMuted,setIsMuted]=useState<boolean>(true)  
+  
   const handleClick=(no:number)=>{    
     setIsPlaying(false)    
     if(no===-1 && activeImage===0) return;
@@ -39,10 +40,10 @@ function Carousel() {
 };
   return (
     <div className={styles.carousel}  style={{width:`${carouselData.width}`,height:`${carouselData.height}`}} >
-      <div className={styles.carouselArrows}>
+     {carouselData.content.length > 1 && <div className={styles.carouselArrows}>
         <MdKeyboardArrowLeft onClick={()=>handleClick(-1)}/>
         <MdKeyboardArrowRight onClick={()=>handleClick(1)}/>
-      </div>
+      </div>}
       {carouselData.content.map((img, index) => (
       <div  key={index} style={{height:"100%"}}>
          {img.type==="image" && 
@@ -61,8 +62,7 @@ function Carousel() {
 
             <video
              id={`video-${index}`}  
-             className={`${styles.carouselHiddenVideo} ${activeImage===index && styles.carouselActiveVideo}`} 
-             autoPlay 
+             className={`${styles.carouselHiddenVideo} ${activeImage===index && styles.carouselActiveVideo}`}  
              loop 
              muted={isMuted} 
              controls={false}  
@@ -93,7 +93,7 @@ function Carousel() {
           ))
         }
         <div className={styles.carouselDots}>
-        {carouselData.content.map((_, index) => (
+        {carouselData.content.length>1 && carouselData.content.map((_, index) => (
           <div key={index} className={`${styles.dot} ${activeImage === index ? styles.activeDot : ''}`}>
             <GoDotFill />
           </div>
