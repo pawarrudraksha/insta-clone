@@ -1,0 +1,55 @@
+.accountHighlightsContainer {
+    padding: 0% 0%;
+    margin-left: 3%;
+    margin-right: 3%;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .accountHighlights {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    gap: 6%;
+    width: 100%;
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+  
+  .accountHighlightCover {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    padding: var(--profile-highlight-padding);
+    border: 1px solid var(--story-viewed-color);
+}
+  
+  .accountHighlightArrows {
+    position: absolute;
+    /* display: flex;
+    z-index: 999;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; */
+  }
+  
+  .accountHighlightArrows svg {
+    background-color: var(--arrow-bg-color);
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 15px;
+    opacity: 0.7;
+    color: var(--primary-color);
+  }
+  .accountHighlight{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    font-size: var(--font-size-medium);
+  }
+  .accountHighlight p {
+    margin: 0px;
+  }
+  

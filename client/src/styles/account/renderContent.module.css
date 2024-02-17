@@ -1,0 +1,39 @@
+
+.accountPostsContent{
+    display: grid;
+    gap: 4px;
+    grid-template-columns: repeat(3,1fr);
+    height: 100px !important;
+}
+
+.accountsPost img{
+    width: 100%;
+    height: 350px;
+    cursor: pointer;
+}
+
+.accountTaggedContent{
+    display: grid;
+    gap: 4px;
+    grid-template-columns: repeat(3,1fr);
+    height: 100px !important;
+}
+
+.accountsTagged img{
+    width: 100%;
+    height: 350px;
+    cursor: pointer;
+}
+.accountReelsContent{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 4px;
+    height: 300px;
+}
+
+.accountsReel video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}

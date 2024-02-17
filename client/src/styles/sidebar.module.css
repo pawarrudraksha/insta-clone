@@ -18,7 +18,7 @@
 }
 .sidebar a{
     text-decoration: none;
-    color: white;
+    color: var(--font-color);
 }
 
 .sidebarTabs{
@@ -34,11 +34,11 @@
     cursor: pointer;
     padding: 0px 3%;
     border-radius: 10px ;
-    transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
+    transition: background-color 0.3s ease; 
 }
 
 .sidebarTab:hover{
-    background-color: #1a1a1a; /* Whitish background color on hover */
+    background-color:var(--hover-color-1); 
 }
 .sidebar img{
     height: 40px;
@@ -46,11 +46,11 @@
 }
 .sidebarTab h3{
     font-family: 'Inter';
-    font-size: 15px;
+    font-size: var(--font-size-large);
 }
 
 .sidebarTab svg{
-    font-size: 25px;
+    font-size: var(--font-size-xxlarge);
 }
 
 .sidebarExtraTabs{

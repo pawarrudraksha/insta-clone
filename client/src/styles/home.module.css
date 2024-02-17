@@ -1,4 +1,4 @@
 .home{
     flex: 6;
-    border-left: .5px solid  #272424;
+    border-left: var(--divider-border)
 }

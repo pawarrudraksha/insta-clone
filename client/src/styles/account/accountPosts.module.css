@@ -1,0 +1,26 @@
+.accountPostsTabs{
+    display: flex;
+    align-items: center;
+    gap: 10%;
+    justify-content: center;
+    width: 1;
+    border-top: var(--divider-border);
+}
+.accountPostsTab{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+    padding-top: 7px;
+}
+
+.accountPostsTab svg{
+    font-size: var(--font-size-medium);
+}
+
+
+.accountPostsActiveTab{
+    border-top: 1px solid var(--font-color);
+}

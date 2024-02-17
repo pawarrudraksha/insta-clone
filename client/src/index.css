@@ -16,3 +16,44 @@ body {
   font-family: "Inter";
   font-weight: 100;
 }
+:root {
+  --primary-color: black;
+  --font-color: white;
+  --hover-color-1: #1a1a1a;
+  --hover-color-2: #302f2f;
+  --btn-bg-color: #3b3b3b;
+  --link-color:#cad0dd;
+  --story-viewed-color:rgb(87, 87, 87);
+  --arrow-bg-color:rgb(255, 255, 255);
+
+  --font-size-small: 12px;
+  --font-size-medium: 14px;
+  --font-size-large: 15px;
+  --font-size-xlarge: 18px;
+  --font-size-xxlarge: 25px;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+  --font-weight-bolder: 700;
+
+  --profile-story-padding:5px;
+  --profile-highlight-padding:3px;
+
+  --divider-border:.5px solid  #272424;
+}
+
+
+::-webkit-scrollbar {
+  width: 0px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

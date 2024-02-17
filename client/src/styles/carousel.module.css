@@ -54,7 +54,7 @@
     right: 50%;
     background-color: transparent;
     border: none;
-    color:white;
+    color:var(--font-color);
     font-size: 40px;
 }
 .hidePlayButton{
@@ -70,7 +70,7 @@
     background: none;
     position: absolute;
     bottom: 25%;
-    color: white;
+    color: var(--font-color);
     border: none;
     font-size: 20px;
     right: 3%;
@@ -89,5 +89,5 @@
     color: gray;
 }
 .activeDot{
-    color: whitesmoke;
+    color: var(--font-color)smoke;
 }
