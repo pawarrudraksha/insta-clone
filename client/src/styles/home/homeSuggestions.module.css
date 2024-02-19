@@ -1,0 +1,32 @@
+
+.homeSuggestionsContainer{
+    display: flex;
+    flex-direction: column;
+    margin: 8% 42% 10%  6%;
+    gap: 10px;
+}
+.homeSuggestionsContentHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.homeSuggestionsContentHeaderTitle{
+    color: var(--secondary-font-color);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xlarge);
+}
+
+.homeSuggestionsContentHeaderBtn{
+    cursor: pointer;
+}
+
+.homeSuggestionsContentHeaderBtn:hover{
+    color: var(--secondary-font-color);
+}
+
+.homeSuggestionsCards{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

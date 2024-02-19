@@ -1,0 +1,42 @@
+export const footerData=[
+    {
+        name:"About",
+        link:"/"
+    },
+    {
+        name:"Help",
+        link:"/"
+    },
+    {
+        name:"Press",
+        link:"/"
+    },
+    {
+        name:"API",
+        link:"/"
+    },
+    {
+        name:"Jobs",
+        link:"/"
+    },
+    {
+        name:"Privacy",
+        link:"/"
+    },
+    {
+        name:"Terms",
+        link:"/"
+    },
+    {
+        name:"Locations",
+        link:"/"
+    },
+    {
+        name:"Language",
+        link:"/"
+    },
+    {
+        name:"Meta Verified",
+        link:"/"
+    }
+]

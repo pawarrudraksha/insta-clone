@@ -1,0 +1,109 @@
+.homePost{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: var(--divider-border);
+}
+.homePost p{
+    margin: 0px;
+}
+.homePostHeader{
+    display: flex;
+    width: 100% !important;
+    /* justify-content: space-between; */
+    align-items: center;
+    gap:15px;
+}
+
+.homePostProflePic img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.homePostHeaderMore{
+    justify-self: flex-end !important;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.homePostHeaderInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.homePostHeader svg{
+    font-size: var(--font-size-xxlarge);
+    justify-self: flex-end !important;
+    width: var(--font-size-xxlarge);
+
+}
+.homePostHeaderDetail{
+    color: var(--secondary-font-color);
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+}
+.homePostHeaderDetailUsername{
+    color: var(--font-color);
+    font-weight: var(--font-weight-bold);
+    /* font-size: var(--font-size-large); */
+}
+.homePostHeaderDetail svg{
+    font-size: var(--font-size-xxlarge);
+    width: 15px;
+}
+
+.homePostInteractions{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.homePostInteractionsIcons{
+    display: flex;
+    justify-content:space-between ;
+}
+
+.homePostInteractionsIcons svg{
+    font-size: var(--font-size-xxxlarge);
+    cursor: pointer;
+}
+.homePostInteractionsIcons svg:hover{
+    color: var(--secondary-font-color);
+}
+.homePostInteractionsIconsReact{
+    display: flex;
+    gap: 21px;
+}
+
+.homePostCaption{
+    display: flex;
+    gap: 10px;
+}
+.homePostCardComments{
+    color: var(--secondary-font-color);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: var(--font-size-xlarge);
+}
+.homePostCardAddComment{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   
+}
+
+.homePostCardAddCommentInput{
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: var(--font-size-xlarge);
+    color: var(--secondary-font-color);
+    width: 100%;
+}
+.homePostCardAddComment svg{
+    cursor: pointer;
+}

@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Error from '../components/Error';
+import Error from '../components/miscellaneous/Error';
 import Home from '../pages/Home';
 import "../App.css"
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/miscellaneous/Sidebar';
 
 function AppRouter() {
   return (

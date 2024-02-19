@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../styles/sidebar.module.css'
+import styles from '../../styles/sidebar.module.css'
 import { MdHomeFilled } from "react-icons/md";
 import { MdExplore } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";

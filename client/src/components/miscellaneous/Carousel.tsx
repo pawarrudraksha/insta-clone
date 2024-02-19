@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styles from '../styles/carousel.module.css';
-import { carouselData } from '../data/CarouselData';
+import styles from '../../styles/carousel.module.css';
+import { carouselData } from '../../data/CarouselData';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { FaLeaf, FaPlay } from "react-icons/fa";
 import { HiMiniSpeakerWave } from "react-icons/hi2";
@@ -17,7 +17,7 @@ function Carousel() {
   const handleClick=(no:number)=>{    
     setIsPlaying(false)    
     if(no===-1 && activeImage===0) return;
-    if(no===1 && activeImage===carouselData.content.length - 1) return;
+    if(no===1 && activeImage===carouselData.posts.length - 1) return;
     setActiveImage((prev)=>(prev+no))
     const video = document.getElementById(`video-${activeImage}`) as HTMLVideoElement;
     if (video) {
@@ -40,11 +40,11 @@ function Carousel() {
 };
   return (
     <div className={styles.carousel}  style={{width:`${carouselData.width}`,height:`${carouselData.height}`}} >
-     {carouselData.content.length > 1 && <div className={styles.carouselArrows}>
+     {carouselData.posts.length > 1 && <div className={styles.carouselArrows}>
         <MdKeyboardArrowLeft onClick={()=>handleClick(-1)}/>
         <MdKeyboardArrowRight onClick={()=>handleClick(1)}/>
       </div>}
-      {carouselData.content.map((img, index) => (
+      {carouselData.posts.map((img, index) => (
       <div  key={index} style={{height:"100%"}}>
          {img.type==="image" && 
          <img 
@@ -93,7 +93,7 @@ function Carousel() {
           ))
         }
         <div className={styles.carouselDots}>
-        {carouselData.content.length>1 && carouselData.content.map((_, index) => (
+        {carouselData.posts.length>1 && carouselData.posts.map((_, index) => (
           <div key={index} className={`${styles.dot} ${activeImage === index ? styles.activeDot : ''}`}>
             <GoDotFill />
           </div>

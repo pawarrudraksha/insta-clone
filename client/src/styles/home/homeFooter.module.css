@@ -1,0 +1,30 @@
+.homeFooterContainer{
+    display: flex;
+    flex-direction: column;
+    color: var(--footer-color);
+    margin-top: 10%;
+}
+
+.homeFooterContainer p{
+    color: var(--footer-color);
+    font-size: var(--font-size-large);
+}
+.homeFooterContent{
+    width: 100%;
+}
+
+.homeFooterLinkBox{
+    display: inline-flex;
+    align-items: center;
+    margin: 3px 3px;
+}
+
+.homeFooterLinkBox p{
+    margin: 0px;
+}
+
+.homeFooterLink{
+    text-decoration: none;
+    color: var(--footer-color);
+    font-size: var(--font-size-medium);
+}

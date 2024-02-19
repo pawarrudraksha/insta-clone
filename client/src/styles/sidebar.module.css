@@ -1,6 +1,8 @@
 .sidebar{
     flex:1;
-    padding: 10px 1.2%;
+    padding: 20px 1%;
+    padding-bottom: 0px;
+    margin:0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -12,7 +14,7 @@
     font-family: "Lobster Two", sans-serif;
     font-weight: 400;
     font-style: normal;
-    margin-top: 10%;
+    margin-top: 7%;
     margin-bottom: 0%;
     font-size: 28px;
 }
@@ -30,7 +32,7 @@
 .sidebarTab{
     display: flex;
     align-items: center;
-    gap: 8%;
+    /* gap: 20px; */
     cursor: pointer;
     padding: 0px 3%;
     border-radius: 10px ;
@@ -46,11 +48,15 @@
 }
 .sidebarTab h3{
     font-family: 'Inter';
-    font-size: var(--font-size-large);
+    /* font-size: var(--font-size-xlarge); */
+    font-size: 20px;
+    /* margin: ; */
+    margin: 20px;
 }
 
 .sidebarTab svg{
-    font-size: var(--font-size-xxlarge);
+    /* font-size: var(--font-size-xxlarge); */
+    font-size: 33px;
 }
 
 .sidebarExtraTabs{

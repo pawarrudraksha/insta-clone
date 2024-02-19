@@ -1,0 +1,10 @@
+.home{
+    flex: 6;
+    border-left: var(--divider-border);
+    overflow: scroll;
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    margin: 0px;
+}
+
+

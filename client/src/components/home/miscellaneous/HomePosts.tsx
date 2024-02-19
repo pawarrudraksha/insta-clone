@@ -1,0 +1,17 @@
+import React from 'react'
+import HomePost from './HomePost'
+import styles from '../../../styles/home/homePosts.module.css'
+
+const HomePosts:React.FC = () => {
+  return (
+    <div className={styles.homePosts}>
+       <HomePost/> 
+       <HomePost/> 
+       <HomePost/> 
+       <HomePost/> 
+       <HomePost/> 
+    </div>
+  )
+}
+
+export default HomePosts
