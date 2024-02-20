@@ -75,7 +75,7 @@ function Carousel() {
             
             </div>
             <button className={`${!isPlaying && activeImage===index ? styles.playButton : styles.hidePlayButton} `}>
-              <FaPlay/>
+              <FaPlay  onClick={togglePlayPause}/>
             </button>
             <button className={`${activeImage===index ?styles.isMuted: styles.isMutedHidden}`}>
               {

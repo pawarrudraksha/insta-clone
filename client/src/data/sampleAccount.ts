@@ -1,5 +1,5 @@
 export const accountData={
-    profilePic:"https://scontent.fpnq13-2.fna.fbcdn.net/v/t39.30808-6/326838405_869378630996518_7408873991121299418_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=SxObKFDuR_AAX8U_H1r&_nc_ht=scontent.fpnq13-2.fna&oh=00_AfC9JU06Anne5i7jfzAHYBur0j4I9ON3Ign45EYAr0DuAw&oe=65D3A2CE",
+    profilePic:"https://images.unsplash.com/photo-1522688306378-fbb315c6ba9a?q=80&w=1638&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     username:"thegoodquote",
     noOfPosts:1326,
     noOfFollowers:2455,

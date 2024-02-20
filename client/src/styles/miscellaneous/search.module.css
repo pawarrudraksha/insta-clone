@@ -1,0 +1,125 @@
+.searchContainer{
+    position: absolute;
+    top: 0px;
+    left: 100px;
+    z-index: 1000;
+    width: 26%;
+    height: 100%;
+    border: 1px solid white ;
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.searchTitle{
+    font-size: var(--font-size-xxlarge);
+    padding: 0% 5%;
+}
+.searchHeader{
+    background: var(--hover-color-2);
+    margin: 0% 5%;
+    display: flex;
+    align-items: center;
+    padding: 10px ;
+    color: var(--search-font-color);
+    border-radius: 5px;
+}
+
+
+.searchHeaderInputContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative; 
+}
+
+.searchCloseIcon{
+    z-index: 999;
+    position: absolute;
+    right: 7%;
+    cursor: pointer;
+    font-size: var(--font-size-xxlarge);
+}
+
+.searchHeaderInput{
+    width: 100%;
+    border: none;
+    color: var(--font-color);
+    outline: none;
+    background:var(--hover-color-2);
+    font-size: var(--font-size-xlarge);
+}
+
+
+.searchContent{
+    border-top: var(--divider-border);
+}
+
+.searchContentHeader{
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 5%;
+}
+.searchContainerClearAll{
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: var(--btn-color);
+}
+.searchContainerClearAll:hover{
+    color: var(--font-color);
+    cursor: pointer;
+}
+
+.searchResults{
+    display: flex;
+    flex-direction: column;
+}
+.searchResult{
+    display: flex;
+    gap: 10px;
+    padding: 2% 5%;
+}
+
+
+.searchResult:hover{
+    background-color: var(--hover-color-1);
+}
+.searchResult p{
+    margin: 0px;
+}
+.searchResultPic img{
+    width: 60px;
+    height: 60px;
+    margin: 0px;
+    border-radius: 50%;
+}
+
+.searchResultContent{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.searchResultInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.searchResultInfoNameAndFollowers{
+    display: flex;
+    color: var(--secondary-font-color);
+    align-items: center;
+}
+
+
+.searchResultInfoUserName{
+    font-weight: var(--font-weight-bold);
+}
+
+.searchResultCloseIcon{
+    color: var(--secondary-font-color);
+    /* font-size: var(--font-size-xlarge); */
+}

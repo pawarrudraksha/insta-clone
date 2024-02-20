@@ -6,10 +6,6 @@ const HomePosts:React.FC = () => {
   return (
     <div className={styles.homePosts}>
        <HomePost/> 
-       <HomePost/> 
-       <HomePost/> 
-       <HomePost/> 
-       <HomePost/> 
     </div>
   )
 }
