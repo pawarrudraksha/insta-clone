@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import appReducer from './features/appSlice'; // Adjust the import path accordingly
+import homeReducer from './features/homeSlice';
 // ...
 
 export const store = configureStore({
   reducer: {
     app: appReducer,
-    
+    home:homeReducer
   },
 })
 

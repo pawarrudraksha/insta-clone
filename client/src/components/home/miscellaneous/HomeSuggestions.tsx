@@ -2,12 +2,13 @@ import React from 'react'
 import HomeSuggestionCard from './HomeSuggestionCard'
 import styles from '../../../styles/home/homeSuggestions.module.css'
 import HomeFooter from './HomeFooter'
+import { homeSuggestionData } from '../../../data/homeSuggestionData'
 
 const HomeSuggestions:React.FC = () => {
   return (
     <div className={styles.homeSuggestionsContainer}>
       <div className={styles.homeSuggestionHeader}>
-        <HomeSuggestionCard isSelf/>
+        <HomeSuggestionCard isSelf id={0}/>
       </div>
       <div className={styles.homeSuggestionsContent}>
         <div className={styles.homeSuggestionsContentHeader}>
@@ -15,11 +16,13 @@ const HomeSuggestions:React.FC = () => {
           <p className={styles.homeSuggestionsContentHeaderBtn}>See All</p>
         </div>
         <div className={styles.homeSuggestionsCards}>
-          <HomeSuggestionCard/>
-          <HomeSuggestionCard/>
-          <HomeSuggestionCard/>
-          <HomeSuggestionCard/>
-          <HomeSuggestionCard/>
+         {
+          homeSuggestionData.map((item,index)=>(
+            <HomeSuggestionCard key={index}
+              id={item.id}
+            />
+          ))
+         }
         </div>
       </div>
       <HomeFooter/>

@@ -10,7 +10,7 @@ interface AppState {
 // Define the initial state using that type
 const initialState: AppState = {
   isSearchModalOpen: false,
-  isProfileModalOpen:true,
+  isProfileModalOpen:false,
 };
 
 export const appSlice = createSlice({

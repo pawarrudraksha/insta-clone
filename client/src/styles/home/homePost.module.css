@@ -113,3 +113,9 @@
 .homePostCardAddComment svg{
     cursor: pointer;
 }
+
+.homePostProfileModalContainer{
+    position: absolute;
+    top: 5%;
+    left: 14%;
+}

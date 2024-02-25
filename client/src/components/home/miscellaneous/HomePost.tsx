@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../../styles/home/homePost.module.css';
 import { postData } from '../../../data/samplePost';
 import { IoIosMore } from 'react-icons/io';
@@ -23,22 +23,29 @@ interface Post {
 const postDataTyped = postData as Post;
 
 const HomePost: React.FC = () => {
+    const dispatch=useAppDispatch()
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value);
     }
-    const dispatch=useAppDispatch()
+
+    const handleMouseEnter = () => {
+        dispatch(openProfileModal());
+    };
+
+    const handleMouseLeave = () => {              
+        dispatch(closeProfileModal())
+    };
     const isProfileModalOpen=useAppSelector(selectIsProfileModalOpen)       
     return (
         <div className={styles.homePost}>
-            <div className={styles.homePostHeader}>
+            <div className={styles.homePostHeader} onMouseLeave={handleMouseLeave}>
                 <div className={styles.homePostProflePic}>
                     <img src={postDataTyped.profilePic} alt="profile pic" />
                 </div>
                 <div className={styles.homePostHeaderInfo}>
-                    <div className={styles.homePostHeaderDetail}>
+                    <div className={styles.homePostHeaderDetail} >
                         <p className={styles.homePostHeaderDetailUsername} 
-                            // onMouseEnter={()=>dispatch(openProfileModal())}
-                            // onMouseLeave={()=>dispatch(closeProfileModal())}
+                              onMouseEnter={handleMouseEnter}
                         >
                             {postDataTyped.username}
                         </p>
@@ -78,7 +85,11 @@ const HomePost: React.FC = () => {
                     <HiOutlineEmojiHappy/>
                 </div>
             </div>
-            {isProfileModalOpen && <ProfileModal/>}
+                {isProfileModalOpen && 
+                <ProfileModal 
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                />}
         </div>
     );
 }

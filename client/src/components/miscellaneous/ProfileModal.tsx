@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from '../../styles/miscellaneous/profileModal.module.css'
 import { accountData } from '../../data/sampleAccount'
 import { FiSend } from 'react-icons/fi'
+import { openProfileModal } from '../../app/features/appSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
-const ProfileModal:React.FC = () => {
+interface ProfileModalProps {
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+}
+const ProfileModal: React.FC<ProfileModalProps> = ({ onMouseEnter, onMouseLeave }) => {
+    const dispatch=useAppDispatch()
+
   return (
-    <div className={styles.profileModalContainer}>
+    <div className={styles.profileModalContainer} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} >
         <div className={styles.profileModalHeader}>
             <div className={styles.profileModalHeaderImage}>
                 <img src={accountData.profilePic} alt="" />

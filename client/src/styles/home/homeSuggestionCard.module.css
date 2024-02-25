@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    position: relative;
 }
 
 .homeSuggestionCardImg img{
@@ -44,4 +45,8 @@
 .homeSuggestionsFollowBtn:hover{
     color:var(--font-color);
     align-self: center;
+}
+
+.homeSuggestionCard p{
+    margin: 0px;
 }
