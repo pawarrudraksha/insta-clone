@@ -74,8 +74,8 @@ const Sidebar = () => {
 
   return (
     <div className={`${styles.sidebar} ${isSearchModalOpen && styles.sidebarHideName}`}>
-        {!isSearchModalOpen ?<h3>Instagram</h3> :<FaInstagram className={styles.sidebarInstagramIcon}/>}
-      <div className={styles.sidebarTabs}>
+        <p>{!isSearchModalOpen ? "Instagram" :<FaInstagram/>}</p>
+      <div className={`${styles.sidebarTabs} ${isSearchModalOpen && styles.hideSidebarTabs}`}>
         {sidebarTab.map((tab, index) => (
           <div className={`${styles.sidebarTab} ${isSearchModalOpen && styles.hideSidebarTab}`} key={index} onClick={tab.onClick}>
             {tab.icon}
@@ -83,7 +83,7 @@ const Sidebar = () => {
           </div>
         ))}
       </div>
-      <div className={styles.sidebarExtraTabs}>
+      <div className={`${styles.sidebarExtraTabs} ${isSearchModalOpen && styles.hideSidebarTabs}`}>
         {sidebarExtraTab.map((tab, index) => (
           <div className={`${styles.sidebarTab}  ${isSearchModalOpen && styles.hideSidebarTab}`} key={index}>
             {tab.icon}

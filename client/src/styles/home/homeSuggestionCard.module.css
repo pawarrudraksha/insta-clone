@@ -5,8 +5,8 @@
 }
 
 .homeSuggestionCardImg img{
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%
 }
 .homeSuggestionCardContent{
@@ -15,16 +15,17 @@
     gap: 3px;
 }
 .homeSuggestionCardInfoName{
+    font-size: var(--font-size-medium);
     margin: 0px;
 }
 .homeSuggestionCardInfoIsSelf{
     margin: 0px;
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-medium);
     color: var(--secondary-font-color);
 }
 
 .homeSuggestionCardInfo{
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-small);
     margin: 0px;
     color: var(--secondary-font-color);
 }
@@ -33,7 +34,7 @@
     background-color: transparent;
     border: none;
     color: var(--btn-color);
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-small);
     cursor: pointer;
     transition: color ease 0.3s;
     margin-left: auto; /* Push the button to the end */

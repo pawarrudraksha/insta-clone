@@ -52,7 +52,7 @@
     /* font-size: var(--font-size-large); */
 }
 .homePostHeaderDetail svg{
-    font-size: var(--font-size-xxlarge);
+    font-size: var(--font-size-xlarge);
     width: 15px;
 }
 
@@ -61,13 +61,16 @@
     flex-direction: column;
     gap: 10px;
 }
+.homePostInteractions p{
+    font-size: var(--font-size-medium);
+}
 .homePostInteractionsIcons{
     display: flex;
     justify-content:space-between ;
 }
 
 .homePostInteractionsIcons svg{
-    font-size: var(--font-size-xxxlarge);
+    font-size: var(--font-size-xxlarge);
     cursor: pointer;
 }
 .homePostInteractionsIcons svg:hover{
@@ -81,13 +84,14 @@
 .homePostCaption{
     display: flex;
     gap: 10px;
+    font-size: var(--font-size-medium);
 }
 .homePostCardComments{
     color: var(--secondary-font-color);
     display: flex;
     flex-direction: column;
     gap: 10px;
-    font-size: var(--font-size-xlarge);
+    font-size: var(--font-size-medium);
 }
 .homePostCardAddComment{
     display: flex;
@@ -100,7 +104,7 @@
     border: none;
     background: transparent;
     outline: none;
-    font-size: var(--font-size-xlarge);
+    font-size: var(--font-size-medium);
     color: var(--secondary-font-color);
     width: 100%;
 }

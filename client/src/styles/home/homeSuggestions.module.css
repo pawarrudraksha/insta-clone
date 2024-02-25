@@ -14,11 +14,12 @@
 .homeSuggestionsContentHeaderTitle{
     color: var(--secondary-font-color);
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-xlarge);
+    font-size: var(--font-size-large);
 }
 
 .homeSuggestionsContentHeaderBtn{
     cursor: pointer;
+    font-size: var(--font-size-large);
 }
 
 .homeSuggestionsContentHeaderBtn:hover{

@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: 2fr 1.2fr;
     margin: 0px;
+    border-left:var(--divider-border) ;
 }
 
 .homeFeed{

@@ -3,11 +3,12 @@
     flex-direction: column;
     color: var(--footer-color);
     margin-top: 10%;
+    gap: 20px;
 }
 
 .homeFooterContainer p{
     color: var(--footer-color);
-    font-size: var(--font-size-large);
+    font-size: var(--font-size-small);
 }
 .homeFooterContent{
     width: 100%;
@@ -16,7 +17,7 @@
 .homeFooterLinkBox{
     display: inline-flex;
     align-items: center;
-    margin: 3px 3px;
+    margin: 1px 1px;
 }
 
 .homeFooterLinkBox p{
@@ -26,5 +27,5 @@
 .homeFooterLink{
     text-decoration: none;
     color: var(--footer-color);
-    font-size: var(--font-size-medium);
+    font-size: var(--font-size-small);
 }
