@@ -13,6 +13,7 @@ import { GrMenu } from "react-icons/gr";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSearchModalOpen, toggleSearchModal } from '../../app/features/appSlice';
+import { BiMoviePlay } from 'react-icons/bi';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const Sidebar = () => {
     },
     {
       name: "Reels",
-      icon: <GoVideo />,
+      icon: <BiMoviePlay/>,
       onClick: () => {}
     },
     {

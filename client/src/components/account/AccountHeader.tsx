@@ -15,7 +15,7 @@ interface HeaderData {
   username: string;
   noOfPosts: number;
   noOfFollowers: number;
-  following:number,
+  noOfFollowing: number;
   name: string;
   description: string;
   link: string;
@@ -57,7 +57,7 @@ const AccountHeader: React.FC = () => {
               <p>followers</p>
             </div>
             <div className={styles.accountHeaderContentAnalyticsBox}>
-              <p>{accountHeaderData.following}</p>
+              <p>{accountHeaderData.noOfFollowing}</p>
               <p>following</p>
             </div>
        </div>

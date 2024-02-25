@@ -3,7 +3,7 @@ export const accountData={
     username:"thegoodquote",
     noOfPosts:1326,
     noOfFollowers:2455,
-    following:35,
+    noOfFollowing:35,
     name:"The Good Quote",
     description:"Motivational Quotes \n Amplifying Voices That Cultivate Self-Love\n Independent Publisher & SM Agency\nJoin our 30M+ communit\n ",
     link:"https://howtostopbreakingyourownheart.com/",
@@ -293,6 +293,38 @@ export const accountData={
             comments:[
                 "nice comment"
             ]
+        },
+    ],
+    mixed:[
+        {
+            caption:"New post",
+            images:[
+                "https://plus.unsplash.com/premium_photo-1703772891809-528af4d0c45c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            comments:[
+                "nice comment"
+            ],
+            isPost:true,
+        },
+        {
+            caption:"New post",
+            images:[
+                "https://plus.unsplash.com/premium_photo-1707988178080-1410d2423487?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            comments:[
+                "nice comment"
+            ],
+            isPost:true,
+        },
+        {
+            caption:"New post",
+            images:[
+                "https://firebasestorage.googleapis.com/v0/b/letschat-mern-6572c.appspot.com/o/145320%20(360p).mp4?alt=media&token=57ef3006-975b-4346-a2c4-0f183b038e17"
+            ],
+            comments:[
+                "nice comment"
+            ],
+            isPost:false,
         },
     ]
 }

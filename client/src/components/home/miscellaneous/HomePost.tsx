@@ -7,6 +7,9 @@ import { FaRegBookmark, FaRegComment, FaRegHeart } from 'react-icons/fa';
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import { FiSend } from 'react-icons/fi';
 import { BsDot } from 'react-icons/bs';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { closeProfileModal, openProfileModal, selectIsProfileModalOpen } from '../../../app/features/appSlice';
+import ProfileModal from '../../miscellaneous/ProfileModal';
 
 interface Post {
     posts: Array<any>,
@@ -23,6 +26,8 @@ const HomePost: React.FC = () => {
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.value);
     }
+    const dispatch=useAppDispatch()
+    const isProfileModalOpen=useAppSelector(selectIsProfileModalOpen)       
     return (
         <div className={styles.homePost}>
             <div className={styles.homePostHeader}>
@@ -31,7 +36,12 @@ const HomePost: React.FC = () => {
                 </div>
                 <div className={styles.homePostHeaderInfo}>
                     <div className={styles.homePostHeaderDetail}>
-                        <p className={styles.homePostHeaderDetailUsername}>{postDataTyped.username}</p>
+                        <p className={styles.homePostHeaderDetailUsername} 
+                            // onMouseEnter={()=>dispatch(openProfileModal())}
+                            // onMouseLeave={()=>dispatch(closeProfileModal())}
+                        >
+                            {postDataTyped.username}
+                        </p>
                         <BsDot/>
                         <p>16h</p>
                     </div>
@@ -68,6 +78,7 @@ const HomePost: React.FC = () => {
                     <HiOutlineEmojiHappy/>
                 </div>
             </div>
+            {isProfileModalOpen && <ProfileModal/>}
         </div>
     );
 }

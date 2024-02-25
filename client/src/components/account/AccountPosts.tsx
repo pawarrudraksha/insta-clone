@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from '../../styles/account/accountPosts.module.css'
 import { BsGrid3X3 } from 'react-icons/bs'
 import { GoVideo } from 'react-icons/go'
-import { BiUserPin } from "react-icons/bi";
+import { BiMoviePlay, BiUserPin } from "react-icons/bi";
 import { accountData } from '../../data/sampleAccount';
 import RenderPosts from './render/RenderPosts';
 import RenderReels from './render/RenderReels';
@@ -16,7 +16,7 @@ const AccountPosts:React.FC = () => {
     },
     {
       name:"REELS",
-      icon: <GoVideo/>
+      icon: <BiMoviePlay/>
     },
     {
       name:"TAGGED",
