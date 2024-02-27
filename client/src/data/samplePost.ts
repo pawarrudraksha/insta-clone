@@ -20,5 +20,42 @@ export const postData={
     profilePic:"https://images.unsplash.com/photo-1708165725218-3a37c2165755?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     noOfLikes:123,
     noOfComments:12,
-    caption:"More at nav.al"
+    caption:"More at nav.al",
+    comments:[
+        {
+            username:"naval",
+            profilePic:"https://images.unsplash.com/photo-1708165725218-3a37c2165755?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            comment:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius facilis sed, deserunt dignissimos consequatur id aliquid tenetur ducimus odio quaerat omnis sapiente, facere consequuntur officia voluptatum a modi ipsum accusamus.",
+            noOfLikes:10,
+            
+        },
+        {
+            username:"naval",
+            profilePic:"https://images.unsplash.com/photo-1708165725218-3a37c2165755?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            comment:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius facilis sed, deserunt dignissimos consequatur id aliquid tenetur ducimus odio quaerat omnis sapiente, facere consequuntur officia voluptatum a modi ipsum accusamus.",
+            noOfLikes:10,
+            
+        },
+        {
+            username:"naval",
+            profilePic:"https://images.unsplash.com/photo-1708165725218-3a37c2165755?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            comment:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius facilis sed, deserunt dignissimos consequatur id aliquid tenetur ducimus odio quaerat omnis sapiente, facere consequuntur officia voluptatum a modi ipsum accusamus.",
+            noOfLikes:10,
+            
+        },
+        {
+            username:"naval",
+            profilePic:"https://images.unsplash.com/photo-1708165725218-3a37c2165755?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            comment:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius facilis sed, deserunt dignissimos consequatur id aliquid tenetur ducimus odio quaerat omnis sapiente, facere consequuntur officia voluptatum a modi ipsum accusamus.",
+            noOfLikes:10,
+            
+        },
+        {
+            username:"naval",
+            profilePic:"https://images.unsplash.com/photo-1708165725218-3a37c2165755?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            comment:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius facilis sed, deserunt dignissimos consequatur id aliquid tenetur ducimus odio quaerat omnis sapiente, facere consequuntur officia voluptatum a modi ipsum accusamus.",
+            noOfLikes:10,
+            
+        },
+    ]
 }

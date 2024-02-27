@@ -20,6 +20,7 @@ body {
   --primary-color: black;
   --secondary-font-color:#A8A8A8;
   --font-color: white;
+  --font-color-1: rgb(204,204,204);
   --hover-color-1: #1a1a1a;
   --hover-color-2: #302f2f;
   --btn-bg-color: #3b3b3b;
@@ -31,6 +32,7 @@ body {
   --footer-color:#737373;
   --search-font-color:#A8A8A8;
 
+
   --font-size-xsmall: 10px;
   --font-size-small: 12px;
   --font-size-medium: 14px;
@@ -38,6 +40,7 @@ body {
   --font-size-xlarge: 18px;
   --font-size-xxlarge: 25px;
   --font-size-xxxlarge: 30px;
+  --font-size-indicator:23px;
 
   --font-weight-light: 300;
   --font-weight-regular: 400;

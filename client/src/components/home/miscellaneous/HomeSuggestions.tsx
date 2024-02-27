@@ -1,7 +1,7 @@
 import React from 'react'
 import HomeSuggestionCard from './HomeSuggestionCard'
 import styles from '../../../styles/home/homeSuggestions.module.css'
-import HomeFooter from './HomeFooter'
+import Footer from '../../miscellaneous/Footer'
 import { homeSuggestionData } from '../../../data/homeSuggestionData'
 
 const HomeSuggestions:React.FC = () => {
@@ -25,7 +25,7 @@ const HomeSuggestions:React.FC = () => {
          }
         </div>
       </div>
-      <HomeFooter/>
+      <Footer isPost={false}/>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../../styles/carousel.module.css';
+import styles from '../../styles/miscellaneous/carousel.module.css';
 import { carouselData } from '../../data/CarouselData';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { FaLeaf, FaPlay } from "react-icons/fa";
@@ -9,10 +9,11 @@ import { GoDotFill } from "react-icons/go";
 
 
 
-function Carousel() {
+const Carousel :React.FC=()=> {
   const [activeImage,setActiveImage]=useState<number>(0)  
   const [isPlaying,setIsPlaying]=useState<boolean>(true)  
   const [isMuted,setIsMuted]=useState<boolean>(true)  
+  
   
   const handleClick=(no:number)=>{    
     setIsPlaying(false)    
@@ -37,23 +38,24 @@ function Carousel() {
             setIsPlaying(!isPlaying);
         }
     
-};
+  };
   return (
-    <div className={styles.carousel}  style={{width:`${carouselData.width}`,height:`${carouselData.height}`}} >
+    <div className={styles.carousel}  style={{width:`100%`,height:`100%`}} >
      {carouselData.posts.length > 1 && <div className={styles.carouselArrows}>
-        <MdKeyboardArrowLeft onClick={()=>handleClick(-1)}/>
-        <MdKeyboardArrowRight onClick={()=>handleClick(1)}/>
+        {!(activeImage===0) && <MdKeyboardArrowLeft onClick={()=>handleClick(-1)} className={styles.carouselLeftArrow}/>}
+        {!(activeImage===carouselData.posts.length -1 ) && <MdKeyboardArrowRight onClick={()=>handleClick(1)} className={styles.carouselRightArrow}/>}
       </div>}
       {carouselData.posts.map((img, index) => (
-      <div  key={index} style={{height:"100%"}}>
+      <div  key={index} style={{height:"100%"}} className={styles.imageContainer}>
          {img.type==="image" && 
          <img 
           src={img.url} 
           alt={`carousel-image-${index}`}  
-          width={carouselData.width} 
-          height={carouselData.height} 
+          width={`100%`} 
+          height={`100%`} 
           className={`${styles.carouselHiddenImage} ${activeImage===index && styles.carouselActiveImage}`} 
-         />}
+         />
+         }
          {
           img.type==="video" && 
           (
@@ -71,7 +73,6 @@ function Carousel() {
             <source src={img.url} type="video/mp4"   />
             Your browser does not support the video tag.
             </video>
-            
             
             </div>
             <button className={`${!isPlaying && activeImage===index ? styles.playButton : styles.hidePlayButton} `}>

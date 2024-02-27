@@ -41,6 +41,7 @@
     font-size: 15px;
     opacity: 0.7;
     color: var(--primary-color);
+    cursor: pointer;
   }
   .accountHighlight{
     display: flex;

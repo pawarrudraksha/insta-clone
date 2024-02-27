@@ -1,20 +1,25 @@
 import React from 'react'
 import { accountData } from '../../../data/sampleAccount'
 import styles from "../../../styles/account/renderContent.module.css"
+import { useNavigate } from 'react-router-dom'
+import { openPostModal } from '../../../app/features/postSlice'
+import { useAppDispatch } from '../../../app/hooks'
+import PostItem from '../../miscellaneous/PostItem'
 
-function RenderPosts() {
+const RenderPosts:React.FC=()=>{
   return (
     <div className={styles.accountPostsContent}>
     {
-        accountData.posts.map((post,index)=> (
-            <div className={styles.accountsPost} key={index}>
-          <img src={post.images[0]} alt="post" />
-          </div>
-        ))
+      accountData.mixed.map((post, index) => (
+        <PostItem 
+          key={index} 
+          item={{ type: `${post.isPost===true ? `post`:`reel`}`,showReelIcon:true, ...post }} 
+  
+        />
+      ))
     }
-    
     </div>
-    )
+)
       
 }
 

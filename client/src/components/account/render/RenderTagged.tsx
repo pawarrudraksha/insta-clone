@@ -1,16 +1,19 @@
 import React from 'react'
 import { accountData } from '../../../data/sampleAccount'
 import styles from "../../../styles/account/renderContent.module.css"
+import PostItem from '../../miscellaneous/PostItem'
 
-function RenderTagged() {
+const RenderTagged:React.FC=()=> {
   return (
     <div className={styles.accountTaggedContent}>
-    {
-        accountData.tagged.map((tagged,index)=> (
-            <div className={styles.accountsTagged} key={index}>
-                <img src={tagged.images[0]} alt="" />                
-            </div>
-        ))
+   {
+      accountData.mixed.map((post, index) => (
+        <PostItem 
+          key={index} 
+          item={{ type: `${post.isPost===true ? `post`:`reel`}`,showReelIcon:true, ...post }} 
+  
+        />
+      ))
     }
     
     </div>

@@ -1,24 +1,18 @@
 import React from 'react'
 import { accountData } from '../../../data/sampleAccount'
 import styles from "../../../styles/account/renderContent.module.css"
+import PostItem from '../../miscellaneous/PostItem'
 
-function RenderReels() {
+const RenderReels=()=> {
   return (
     <div className={styles.accountReelsContent}>
     {
-        accountData.reels.map((reel,index)=> (
-            <div className={styles.accountsReel} key={index}>
-            <video
-             id={`video-${index}`}  
-             loop 
-             muted
-             
-             >
-            <source src={reel.images[0]} type="video/mp4"   />
-            Your browser does not support the video tag.
-            </video>          
-            </div>
-        ))
+      accountData.reels.map((post, index) => (
+        <PostItem 
+          key={index} 
+          item={{type:"reel",showReelIcon:false, ...post }} 
+        />
+      ))
     }
     
     </div>

@@ -7,8 +7,13 @@
     justify-content: center;
     overflow-y: scroll;
     overflow-x: hidden;
+    flex: 6;
+    border-left:var(--divider-border) ;
 }
 
+.accountDetailActOverlay{
+    overflow-y:hidden ;
+}
 
 
 .accountDetailContainer{

@@ -5,20 +5,34 @@ import Home from '../pages/Home';
 import "../App.css"
 import Sidebar from '../components/miscellaneous/Sidebar';
 import Search from '../components/miscellaneous/Search';
-import {  selectIsSearchModalOpen } from '../app/features/appSlice';
-import { useSelector } from 'react-redux';
+import {  selectIsSearchModalOpen, toggleSearchModal } from '../app/features/appSlice';
+import AccountDetail from '../pages/AccountDetail';
+import PostPage from '../pages/PostPage';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { selectIsPostModalOpen } from '../app/features/postSlice'
+import PostModal from '../components/posts/PostModal';
 
 function AppRouter() {
-  const isSearchModalOpen=useSelector(selectIsSearchModalOpen)
+  const dispatch=useAppDispatch()
+  const isSearchModalOpen=useAppSelector(selectIsSearchModalOpen)
+  const isPostModalOpen=useAppSelector(selectIsPostModalOpen)
+
+  const handleModal=()=>{
+    if(isSearchModalOpen){
+      dispatch(toggleSearchModal())
+    }
+  }
   return (
-    <div className="App">
+    <div className="App" onClick={handleModal}>
 
     <BrowserRouter>
         <Sidebar/>
         {isSearchModalOpen && <Search/>}
+        {isPostModalOpen && <PostModal />}
         <Routes>
         <Route path="/" element={<Home/>} />
-        {/* <Route path='/newsPage/:id' element={<NewsPage />}/> */}
+        <Route path='/:username' element={<AccountDetail />}/>
+        <Route path='/p/:id' element={<PostPage />}/>
         <Route path='*' element={<Error />} />
         </Routes>
     </BrowserRouter>

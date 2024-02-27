@@ -1,7 +1,7 @@
 .searchContainer{
     position: absolute;
     top: 0px;
-    left: 100px;
+    left: 80px;
     z-index: 1000;
     width: 26%;
     height: 100%;
@@ -9,11 +9,14 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    border-right: var(--divider-border);
+    border-radius: 10px;
 }
 
 .searchTitle{
-    font-size: var(--font-size-xlarge);
+    font-size: var(--font-size-xxlarge);
     padding: 0% 5%;
+    font-weight: var(--font-weight-bold);
 }
 .searchHeader{
     background: var(--hover-color-2);
@@ -31,6 +34,11 @@
     display: flex;
     align-items: center;
     position: relative; 
+    /* font-size: var(--font-size-small); */
+}
+
+.searchHeaderInputContainer input{
+    font-size: var(--font-size-medium);
 }
 
 .searchCloseIcon{
@@ -38,7 +46,7 @@
     position: absolute;
     right: 7%;
     cursor: pointer;
-    font-size: var(--font-size-xxlarge);
+    font-size: var(--font-size-xxlarge) !important;
 }
 
 .searchHeaderInput{

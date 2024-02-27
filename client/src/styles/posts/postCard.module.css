@@ -1,0 +1,161 @@
+.postCardContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.postCardWrapper{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.postCardImage{
+    /* min-height: 675px; */
+    height: 100%;
+    width: 100%;
+    flex: 1.4;
+}
+
+.postCardContainer p{
+    margin: 0px;
+}
+
+.postCardContentContainer{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.postCardContentHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: .7;
+    border-bottom: var(--divider-border);
+    margin: 0px 10px;
+}
+.postCardContentHeader p{
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+}
+.postCardContentHeader svg{
+    font-size: var(--font-size-xxlarge);
+}
+.postCardContentInnerHeader{
+    display: flex;
+    align-items: center ;
+    gap: 10px;
+}
+
+.postCardContentInnerHeader img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+
+.postCardContent{
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    overflow-y: scroll;
+    margin: 0px 10px;
+}
+
+.postCardCaption{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 20px;
+}
+.postCardCaption img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+.postCardCaptionContent{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.postCardCaptionInnerContent{
+    display: flex;
+    gap: 10px;
+}
+.postCardCaptionInnerContent p{
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+}
+.postCardCaptionInnerContentCaption{
+    font-size: var(--font-size-medium);
+    font-weight: var(  --font-weight-regular) !important;
+    color: var(--font-color-1);
+}
+.postCardCaptionContentDate{
+    font-size: var(--font-size-small);
+    color: var(--secondary-font-color);
+}
+
+.postCardCommentsContainer{
+    flex: 4;
+    border-bottom: var(--divider-border);
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* overflow: hidden; */
+}
+
+.postCardInteractionSection{
+    margin: 10px 15px;
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.postCardInteractionSectionIcons{
+    border-bottom: var(--divider-border);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.postCardInteractionSectionIconsDate{
+    font-size: var(--font-size-small);
+    color: var(--secondary-font-color);
+    padding: 10px 0px;
+    padding-top: 0px;
+}
+.postCardAddCommentSection{
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.postCardAddCommentSection button ,
+.postCardAddCommentSection input
+{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+}
+
+.postCardAddCommentSection input{
+    width: 100%;
+}
+
+.postCardAddCommentSection button{
+    color: var(--btn-color);
+    cursor: pointer;
+}
+.postCardAddCommentSection button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.postCardAddCommentSection svg{
+    font-size: var(--font-size-xxlarge);
+}

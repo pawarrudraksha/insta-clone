@@ -86,11 +86,15 @@ export const accountData={
         {
             caption:"New post",
             images:[
-                "https://images.unsplash.com/photo-1708133244413-5f8ef92a6a4b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                "https://images.unsplash.com/photo-1708133244413-5f8ef92a6a4b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://plus.unsplash.com/premium_photo-1707988178080-1410d2423487?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:1
         },
         {
             caption:"New post",
@@ -99,7 +103,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2
         },
         {
             caption:"New post",
@@ -108,7 +115,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:3
         },
         {
             caption:"New post",
@@ -117,7 +127,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:4
         },
         {
             caption:"New post",
@@ -126,7 +139,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:5
         },
         {
             caption:"New post",
@@ -135,7 +151,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:6
         },
         {
             caption:"New post",
@@ -144,16 +163,23 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:7
         },
         {
             caption:"New post",
             images:[
-                "https://images.unsplash.com/photo-1708149421696-d9fa65123f10?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                "https://images.unsplash.com/photo-1708149421696-d9fa65123f10?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1708105755565-07baf2a1810a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:8
         },
         {
             caption:"New post",
@@ -162,7 +188,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:9
         },
         {
             caption:"New post",
@@ -171,7 +200,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:10
         },
         {
             caption:"New post",
@@ -180,7 +212,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:11
         },
         {
             caption:"New post",
@@ -189,7 +224,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:12
         },
         {
             caption:"New post",
@@ -198,7 +236,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:13
         },
         {
             caption:"New post",
@@ -207,7 +248,10 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:14
         },
     ],
     reels:[
@@ -218,7 +262,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -227,7 +275,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -236,7 +288,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -245,7 +301,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
     ],
     tagged:[
@@ -256,7 +316,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -265,7 +329,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -274,7 +342,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -283,7 +355,11 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
         {
             caption:"New post",
@@ -292,18 +368,26 @@ export const accountData={
             ],
             comments:[
                 "nice comment"
-            ]
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
         },
     ],
     mixed:[
         {
             caption:"New post",
             images:[
-                "https://plus.unsplash.com/premium_photo-1703772891809-528af4d0c45c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                "https://plus.unsplash.com/premium_photo-1703772891809-528af4d0c45c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://plus.unsplash.com/premium_photo-1707988178080-1410d2423487?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             ],
             comments:[
                 "nice comment"
             ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:1,
             isPost:true,
         },
         {
@@ -314,6 +398,9 @@ export const accountData={
             comments:[
                 "nice comment"
             ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
             isPost:true,
         },
         {
@@ -324,6 +411,9 @@ export const accountData={
             comments:[
                 "nice comment"
             ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:3,
             isPost:false,
         },
     ]

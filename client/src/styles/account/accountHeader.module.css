@@ -48,7 +48,7 @@
 }
 
 .accountHeaderContentUsername{
-    font-size: 18px;
+    font-size: var(--font-size-xlarge);
     margin-right:10px !important ;
 }
 
@@ -89,7 +89,7 @@
     gap: 2px;
 }
 .accountHeaderContentDescriptionName{
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-medium);
     font-weight: var(--font-weight-bold);
 }
 .accountHeaderContentDescriptionThreads{
@@ -106,7 +106,7 @@
 .accountHeaderContentDescriptionInfo{
     display: flex;
     flex-direction: column;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-medium);
     gap: 3px;
 }
 .accountHeaderContentDescriptionThreads svg{
@@ -120,4 +120,5 @@
     color: var(--link-color);
     cursor: pointer;
     text-decoration: none;
+    font-size: var(--font-size-medium); 
 }

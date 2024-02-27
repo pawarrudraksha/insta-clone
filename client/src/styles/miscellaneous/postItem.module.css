@@ -1,0 +1,74 @@
+.postItemContainer{
+    position: relative;
+}
+
+.postItemContainerInteractionActive{
+    opacity: .9;
+}
+.postItem img{
+    width: 100%;
+    height: 300px;
+    cursor: pointer;
+}
+
+
+.postItemIsReel video{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.postItemInteractionContainer{
+    position: absolute;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.postItemLikes,
+.postItemComments{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.postItemLikes svg,
+.postItemComments svg{
+    font-size: var(--font-size-xlarge);
+}
+.postItemLikes p,
+.postItemComments p{
+    font-size: var(--font-size-xlarge);
+}
+
+.postItemTypeIndicator{
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
+.postItemTypeIndicator svg{
+    font-size: var(--font-size-indicator);
+    font-size: 22px;
+    opacity: .7;
+}
+
+.postReelViews{
+    position: absolute;
+    bottom: 0%;
+    left: 5%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.postReelViews p{
+    font-size: var(--font-size-medium);
+}
+
+.postReelViews svg{
+    font-size: var(--font-size-large);
+}

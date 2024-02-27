@@ -1,14 +1,12 @@
 export const carouselData={
-    width:"100%",
-    height:"500px",
     posts:[
         {
             type:"image",
-            url:"https://images.unsplash.com/photo-1639020715359-f03b05835829?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            url:"https://firebasestorage.googleapis.com/v0/b/letschat-mern-6572c.appspot.com/o/john%20doe?alt=media&token=21d2dfa2-ef05-4438-8341-153840520aa5"
         },
         {
             type:"image",
-            url:"https://images.unsplash.com/photo-1621272036047-bb0f76bbc1ad?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            url:"https://firebasestorage.googleapis.com/v0/b/letschat-mern-6572c.appspot.com/o/jane%20dow?alt=media&token=d7ad4d99-3a4e-40ba-84c4-00c92086eb43"
         },
         {
             type:"video",

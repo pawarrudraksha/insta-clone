@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import styles from '../../styles/account/accountPosts.module.css'
 import { BsGrid3X3 } from 'react-icons/bs'
-import { GoVideo } from 'react-icons/go'
 import { BiMoviePlay, BiUserPin } from "react-icons/bi";
-import { accountData } from '../../data/sampleAccount';
 import RenderPosts from './render/RenderPosts';
 import RenderReels from './render/RenderReels';
 import RenderTagged from './render/RenderTagged';
+import { useParams } from 'react-router-dom';
 
 const AccountPosts:React.FC = () => {
   const Tabs=[
@@ -24,6 +23,7 @@ const AccountPosts:React.FC = () => {
 
     }
   ]
+  const params=useParams()  
   const [activeTab,setActiveTab]=useState<string>("POSTS")
   return (
     <div className={styles.accountPostsContainer}>

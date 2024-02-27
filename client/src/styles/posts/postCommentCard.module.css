@@ -1,0 +1,67 @@
+.postCommentCardContainer{
+    display: flex;
+    gap: 10px;
+}
+
+.postCommentCardProfilePic img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+
+.postCommentCardContentAndCommentWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.postCommentCardContent p{
+    display: inline;
+    margin: 0px 2px;
+    font-size: var(--font-size-medium);
+    color: var(--font-color-1);
+}
+
+.postCommentCardContentUsername{
+    font-weight: var(--font-weight-bold);
+    color: var(--font-color) !important;
+    cursor: pointer;
+}
+
+
+.postCommentCardInfo{
+    display: flex;
+    gap: 10px;
+    font-size: var(--font-size-small);
+    color: var(--secondary-font-color);
+}
+
+.postCommentCardReplySection{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--secondary-font-color);
+    gap: 15px;
+}
+
+.postCommentCardReplySection hr{
+    width: 20px;
+    margin: 0px;
+    color: var(--secondary-font-color);
+}
+
+.postCommentCardReplySection p{
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+}
+
+.postCommentCardContentWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.postCommentLikeBtn svg{
+    padding-top: 5px;
+    font-size: var(--font-size-small);
+    cursor: pointer;
+}
