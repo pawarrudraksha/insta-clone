@@ -1,0 +1,53 @@
+.inactiveStoryCardContainer{
+    position: relative;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.inactiveStoryCardContainer p{
+    margin: 0px;
+}
+.inactiveStoryProfile{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 900;
+    gap: 14px;
+}
+.inactiveStoryProfile img{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+}
+
+.inactiveStoryProfileInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--font-size-medium);
+    gap: 2px;
+}
+
+.inactiveStoryProfileInfo > p:first-child{
+    font-weight: var(--font-weight-bold);
+}
+.inactiveStoryProfileTime{
+    /* color: var(--font-color-1); */
+    font-weight: var(--font-weight-regular);
+}
+
+.inactiveStory{
+    height: 100%;
+    opacity: .4;
+}
+.inactiveStory img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}

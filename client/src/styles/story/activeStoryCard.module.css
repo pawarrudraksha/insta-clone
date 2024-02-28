@@ -1,0 +1,162 @@
+.storyCardWrapper{
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    border: 1px solid black ;
+    position: relative;
+}
+
+.storyCardWrapper p{
+    margin: 0px;
+}
+
+.storyCardStory{
+    width: 100%;
+    height: 100%;
+}
+.storyCardStory img{
+    width: 100%;
+    border-radius: 15px;
+    height: 100%;
+    object-fit: contain;
+    opacity:.9;
+}
+.storyCardStory video{
+    width: 100%;
+    border-radius: 15px;
+    height: 100%;
+    object-fit: contain;
+    opacity:.9;
+}
+.storyCardHeaderContainer{
+    position: absolute;
+    top: 0px;
+    z-index: 1000;
+    width: 100%;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--font-color-1);
+    color: #fff;
+}
+.storyCardTimeline{
+    display: inline-flex;
+    /* width: 100%; */
+    gap: 1%;
+    padding: 10px 10px;
+    z-index: 999;
+}
+.storyCardTimeline hr{
+    color: var(--font-color);
+    background-color: var(--story-viewed-color);
+    height: 2px !important;
+    border: none;
+}
+
+.activehr{
+    background-color: var(--font-color) !important;
+}
+.storyCardTimeline hr{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+.storyCardHeaderContentWrapper{
+    display: flex;
+    padding: 0px 15px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.storyCardHeaderContent{
+    display: flex;
+    gap: 10px;
+}
+.storyCardHeaderPic img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.storyCardHeaderProfileInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+}
+.storyCardHeaderUsernameAndTime{
+    display: flex;
+    font-size: var(--font-size-medium);
+    gap: 5px;
+}
+
+.storyCardHeaderUsername{
+    font-size: var(--font-size-username);
+    cursor: pointer;
+}
+.storyCardHeaderTime{
+    color: var(--secondary-font-color);
+}
+.storyCardHeaderWatchReel{
+    margin: 0px;
+    padding: 0px;
+    font-size: var(--font-size-username);
+    display: flex;
+    gap: 3px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.storyCardHeaderWatchReel p{
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+}
+
+.storyCardIcons{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--font-size-xlarge);
+
+}
+
+.storyCardPlayIcon{
+    font-size: var(--font-size-medium);
+    cursor: pointer;
+}
+.storyCardMoreIcon{
+    font-size: var(--font-size-xxlarge);
+    cursor: pointer;
+}
+
+.storyCardInteractionContainer{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.storyCardInteractionContainer input{
+    background: transparent;
+    padding: 10px;
+    border: 1px solid var(--font-color);
+    border-radius: 30px;
+    width: 100%;
+    margin-left: 4%;
+}
+.storyCardInteractionContainer input::placeholder{
+    color: var(--font-color);
+}
+.storyCardInteractionContainer div{
+    display: flex;
+    margin:0px 4%;
+    gap: 18px;
+}
+.storyCardInteractionContainer svg{
+    font-size: var(--font-size-xxlarge);
+}
+

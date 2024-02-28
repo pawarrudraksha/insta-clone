@@ -1,0 +1,101 @@
+.storyOverlay{
+    background-color: #121212;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 990;
+    position: absolute;
+}
+.storyOverlay a{
+    font-family: "Lobster Two", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0%;
+    font-size: var(--font-size-xxxlarge);
+    position: absolute;
+    top: 3%;
+    left: 2%;
+    color: var(--font-color);
+    text-decoration: none;
+}
+
+.storyCloseIcon{
+    position: absolute;
+    top:3% ;
+    right: 2%;
+    font-size: var(--font-size-xxxlarge);
+    cursor: pointer;
+}
+
+.activeStoryCard{
+    height: 95%;
+    width: 390px;
+    align-self: center;
+    justify-self: center;
+    position: relative;
+}
+
+.storiesContainer{
+    display: flex;
+    align-items: center;
+    height: 95%;
+    width: 100%;
+    justify-content: center;
+    gap: 40px;
+}
+.inactiveStoryCard{
+    width: 160px;
+    height: 100%;
+}
+
+.inactiveBox1Container,
+.inactiveBox2Container{
+    width: 360px;
+    display: flex;
+    height: 40%;
+    gap: 40px;
+    margin:0px 10px;
+}
+
+.inactiveBox1Container{
+    justify-content: flex-end;
+}
+
+.inactiveBox2Container{
+    justify-content: flex-start;
+}
+
+.storyLeftArrow{
+    position: absolute;
+    top: 50%;
+    z-index: 999;
+    left: -10%;
+}
+
+.storyRightArrow{
+    position: absolute;
+    top: 50%;
+    z-index: 999;
+    right: -10%
+}
+/* 
+.storyArrow > svg:first-child{
+    position: relative;
+    right: 32px;
+} */
+
+.storyArrow svg {
+    background-color: var(--secondary-font-color);
+    border-radius: 50%;
+    padding: 3px;
+    font-size: var(--font-size-xlarge);
+    opacity: 0.7;
+    color: var(--primary-color);
+    cursor: pointer;
+} 
+
+.storyArrowHover svg{
+    background-color: var(--arrow-bg-color);
+}

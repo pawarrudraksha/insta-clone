@@ -5,7 +5,7 @@ import styles from '../../styles/home/homeStories.module.css'
 const HomeStories:React.FC = () => {
   return (
     <div className={styles.homeStories}>
-    <AccountHighlight/>
+    <AccountHighlight isStory={true}/>
     </div>
   )
 }

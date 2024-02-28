@@ -9,7 +9,7 @@ import { IoCloseCircle } from 'react-icons/io5';
 const Search:React.FC = () => {
     const [hideSearchIcon,setHideSearch]=useState(false)  
     return (
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} onClick={(e) => e.stopPropagation()}>
             <p className={styles.searchTitle}>Search</p>
             <div className={styles.searchHeader}>
                 <div className={styles.searchHeaderInputContainer} onClick={()=>setHideSearch(true)}>
