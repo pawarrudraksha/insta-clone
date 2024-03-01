@@ -16,8 +16,7 @@ import { BiMoviePlay } from 'react-icons/bi';
 const Sidebar = () => {
   const dispatch = useDispatch();
   const isSearchModalOpen = useSelector(selectIsSearchModalOpen);
-  const navigate=useNavigate()
-
+  const navigate=useNavigate()  
   const sidebarTab = [
     {
       name: "Home",
@@ -29,17 +28,23 @@ const Sidebar = () => {
     {
       name: "Search",
       icon: <FiSearch />,
-      onClick: () => dispatch(toggleSearchModal())
+      onClick: () => {        
+        dispatch(toggleSearchModal())
+      }
     },
     {
       name: "Explore",
       icon: <MdExplore />,
-      onClick: () => {}
+      onClick: () => {
+        navigate("/explore/")
+      }
     },
     {
       name: "Reels",
       icon: <BiMoviePlay/>,
-      onClick: () => {}
+      onClick: () => {
+        navigate("/reels/12")
+      }
     },
     {
       name: "Messages",

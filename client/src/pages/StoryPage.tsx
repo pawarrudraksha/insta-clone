@@ -98,13 +98,13 @@ const Story: React.FC = () => {
               onMouseLeave={() => setArrowHover(false)}
               onClick={() => handleNavigation(1)}
             >
-             {!(activeIndex===accountData.highlights.length -1) && <GoChevronRight />}
+             {!(activeIndex===accountData.highlights.length -1 && activeStoryNo===activeStoriesSet.stories.length-1) && <GoChevronRight />}
             </div>
           <ActiveStoryCard />
         </div>
         <div className={styles.inactiveBox2Container}>
           {inactiveStoriesSet.slice(activeIndex, activeIndex+2).map((story, index) => (
-            <div className={styles.inactiveStoryCard}>
+            <div className={styles.inactiveStoryCard} key={index}>
               <InactiveStoryCard story={story} />
             </div>
           ))}

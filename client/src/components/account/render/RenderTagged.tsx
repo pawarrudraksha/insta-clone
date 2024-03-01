@@ -8,11 +8,13 @@ const RenderTagged:React.FC=()=> {
     <div className={styles.accountTaggedContent}>
    {
       accountData.mixed.map((post, index) => (
+        <div className={styles.accountPost}  key={index} >
         <PostItem 
           key={index} 
           item={{ type: `${post.isPost===true ? `post`:`reel`}`,showReelIcon:true, ...post }} 
   
         />
+        </div>
       ))
     }
     

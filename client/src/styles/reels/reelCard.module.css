@@ -1,0 +1,197 @@
+.reelWrapper{
+    display: flex;
+    /* flex-direction: column; */
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+}
+
+.reelWrapper p{
+    margin: 0px;
+}
+.reelCardContainer{
+    display: flex;
+    /* flex-direction: column; */
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.reel{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.reelVideoContainer{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5); 
+
+}
+.reelVideoContainer video{
+    display: block;
+    padding: 0px;
+    width: 120%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+.reelPlayBtn{
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    padding: 25px;
+    background-color: var(--btn-black);
+    border-radius: 50%;
+    color: var(--font-color);
+    border: none;
+    font-size: var(--font-size-xlarge);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.reelSpeakerBtn{
+    position: absolute;
+    top: 1%;
+    right: 1%;
+    padding: 10px;
+    background-color: var(--btn-white);
+    cursor: pointer;
+    border-radius: 50%;
+    color: var(--font-color);
+    border: none;
+    font-size: var(--font-size-xlarge);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.reelCardContent{
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    padding:0% 3%;
+    padding-bottom: 2%;
+    gap: 10px;
+}
+
+.reelCardContentHeader{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reelCardContentHeader img{
+    height: 33px;
+    width: 33px;
+    border-radius: 50%;
+}
+.reelCardContentHeaderInfo{
+    display: flex;
+    align-items: center;
+    gap: 5;
+}
+
+.reelCardContentHeaderInfo p{
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+}
+.reelCardContentHeaderInfo button{
+    background: transparent;
+    outline: none;
+    border: none;
+    color: var(--font-color);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-medium);
+    padding: 0px;
+}
+.reelCardContentMoreCaption{
+    max-height: 200px;
+    overflow: scroll;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.reelCardContentMoreCaption p{
+    display: inline;
+}
+.reelCardContentMoreCaption button{
+    background: transparent;
+    outline: none;
+    border: none;
+    color: var(--link-color);
+    cursor: pointer;
+    display: inline;
+}
+.reelCardMusicAndTagged{
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-medium);
+    gap: 5px;
+}
+
+.reelCardScrollingMusicContainer{
+    overflow: hidden;
+    white-space: nowrap;
+}
+.reelCardScrollingMusic{
+    display: inline-block; 
+    animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+.reelCardTagged{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.reelCardInteractions{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    gap: 20px;
+    align-items: center;
+}
+
+.reelCardInteractions svg{
+    font-size: var(--font-size-xxlarge);
+}
+.reelCardInteractions>svg:hover{
+    color: var(--secondary-font-color);
+}
+.reelCardInteraction:hover{
+    color: var(--secondary-font-color);
+}
+
+.reelCardInteraction{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.reelCardInteraction p{
+    font-size: var(--font-size-medium);
+}
+
+.reelCardInteractionsMusic img{
+    height: 25px;
+    width: 25px;
+    border: 1px solid var(--font-color);
+    border-radius: 3px;
+}

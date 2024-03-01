@@ -406,5 +406,44 @@ export const accountData={
             id:3,
             isPost:false,
         },
+         {
+            caption:"New post",
+            images:[
+                "https://plus.unsplash.com/premium_photo-1707988178080-1410d2423487?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            comments:[
+                "nice comment"
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
+        },
+        {
+            caption:"New post",
+            images:[
+                "https://images.unsplash.com/photo-1682685796444-acc2f5c1b7b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            comments:[
+                "nice comment"
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
+        },
+        {
+            caption:"New post",
+            images:[
+                "https://images.unsplash.com/photo-1707124760574-077d74fc3784?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ],
+            comments:[
+                "nice comment"
+            ],
+            noOfLikes:12,
+            noOfComments:5,
+            id:2,
+            isPost:false
+        },
     ]
 }

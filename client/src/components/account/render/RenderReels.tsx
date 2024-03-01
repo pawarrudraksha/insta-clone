@@ -8,10 +8,12 @@ const RenderReels=()=> {
     <div className={styles.accountReelsContent}>
     {
       accountData.reels.map((post, index) => (
-        <PostItem 
-          key={index} 
-          item={{type:"reel",showReelIcon:false, ...post }} 
-        />
+        <div className={styles.accountPost}  key={index} >
+          <PostItem 
+            key={index} 
+            item={{type:"reel",showReelIcon:false, ...post }} 
+          />
+        </div>
       ))
     }
     

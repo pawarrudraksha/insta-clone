@@ -25,7 +25,9 @@ const HomeSuggestions:React.FC = () => {
          }
         </div>
       </div>
+      <div className={styles.homeSuggestionsFooter}>
       <Footer isPost={false}/>
+      </div>
     </div>
   )
 }

@@ -13,6 +13,8 @@ import { selectIsPostModalOpen } from '../app/features/postSlice'
 import PostModal from '../components/posts/PostModal';
 import StoryPage from '../pages/StoryPage';
 import HighlightPage from '../pages/HighlightPage';
+import ReelsPage from '../pages/ReelsPage';
+import ExplorePage from '../pages/ExplorePage';
 
 function AppRouter() {
   const dispatch=useAppDispatch()
@@ -34,7 +36,9 @@ function AppRouter() {
         <Routes>
         <Route path="/" element={<Home/>} />
         <Route path='/:username' element={<AccountDetail />}/>
+        <Route path='/explore/' element={<ExplorePage />}/>
         <Route path='/p/:id' element={<PostPage />}/>
+        <Route path='/reels/:id' element={<ReelsPage />}/>
         <Route path='/stories/:username/:storyId' element={<StoryPage />}/>
         <Route path='/stories/highlights/:highlightId' element={<HighlightPage />}/>
         <Route path='*' element={<Error />} />
