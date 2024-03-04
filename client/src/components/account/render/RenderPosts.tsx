@@ -10,7 +10,7 @@ const RenderPosts:React.FC=()=>{
       accountData.mixed.map((post, index) => (
         <div className={styles.accountPost}  key={index} >
         <PostItem 
-          item={{ type: `${post.isPost===true ? `post`:`reel`}`,showReelIcon:true, ...post }} 
+          item={{ type: `${post.isPost===true ? `image`:`video`}`,showReelIcon:true, ...post }} 
           />
         </div>
       ))

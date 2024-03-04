@@ -11,7 +11,7 @@ const RenderReels=()=> {
         <div className={styles.accountPost}  key={index} >
           <PostItem 
             key={index} 
-            item={{type:"reel",showReelIcon:false, ...post }} 
+            item={{type:"video",showReelIcon:false, ...post }} 
           />
         </div>
       ))

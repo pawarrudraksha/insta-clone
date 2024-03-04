@@ -5,7 +5,7 @@ import PostItem from '../components/miscellaneous/PostItem';
 import Footer from '../components/miscellaneous/Footer';
 
 const ExplorePage: React.FC = () => {
-  const [hideSpacer, setHideSpacer] = useState(true); 
+  const [hideSpacer, setHideSpacer] = useState(false); 
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,17 +27,16 @@ const ExplorePage: React.FC = () => {
     };
   }, []);
   return (
-    <div className={styles.explorePageContainer}>
-      <div ref={containerRef} className={styles.explorePageWrapper}>
+    <div className={styles.explorePageContainer} >
         {!hideSpacer && <div className={styles.explorePageSpacer}></div>}
-        <div className={styles.explorePageWrapper}>
+        <div className={styles.explorePageWrapper} ref={containerRef} >
           <div className={styles.explorePageBox}>
             {accountData.mixed.slice(0, 5).map((data, index) => (
               <div
                 className={`${index === 2 ? styles.explorePagePostBiggerItem1 : styles.explorePagePostItem}`}
                 key={index}
               >
-                <PostItem item={{ type: `${data.isPost === true ? 'post' : 'reel'}`, showReelIcon: true, ...data }} />
+                <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} />
               </div>
             ))}
           </div>
@@ -47,7 +46,7 @@ const ExplorePage: React.FC = () => {
                 className={`${index === 0 ? styles.explorePagePostBiggerItem2 : styles.explorePagePostItem}`}
                 key={index}
               >
-                <PostItem item={{ type: `${data.isPost === true ? 'post' : 'reel'}`, showReelIcon: true, ...data }} />
+                <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} />
               </div>
             ))}
           </div>
@@ -55,7 +54,6 @@ const ExplorePage: React.FC = () => {
             <div className={styles.explorePageFooter}>
               <Footer isPost />
             </div>
-          </div>
         </div>
       </div>
     </div>

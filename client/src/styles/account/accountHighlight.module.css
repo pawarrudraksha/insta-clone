@@ -23,6 +23,7 @@
   border-radius: 50%;
   padding: var(--profile-highlight-padding);
   border: 1px solid var(--story-viewed-color);
+  cursor: pointer;
 }
 .accountStory {
   width: 56px;

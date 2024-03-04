@@ -6,17 +6,21 @@ import { postData } from '../../../data/samplePost';
 import PostComment from './PostComment';
 import Interactions from '../../miscellaneous/Interactions';
 import { BsEmojiSmile } from 'react-icons/bs';
+import { useAppSelector } from '../../../app/hooks';
+import { selectCarouselData } from '../../../app/features/carouselSlice';
 
 const PostCard:React.FC = () => {
   const [comment,setComment]=useState<string>("")
   const handleInputChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
     setComment(e.target.value)
   }
+  const posts=useAppSelector(selectCarouselData)
+
   return (
     <div className={styles.postCardContainer}>
       <div className={styles.postCardWrapper}>
         <div className={styles.postCardImage}>
-          <Carousel />
+          <Carousel posts={posts}/>
         </div>
         <div className={styles.postCardContentContainer}>
           <div className={styles.postCardContentHeader}>

@@ -1,0 +1,37 @@
+
+.aspectRatioList{
+    background-color:var(--modal-color-3);
+    padding: 0px;
+    margin: 0px;
+    border-radius: 10px;
+
+}
+.aspectRatioListItem{
+    display: flex;
+    align-items: center;
+    border-top: var(--divider-border-1);
+    padding:10px 18px;
+    margin: 0px;
+    gap: 5px;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.aspectRatioListItem p{
+    margin: 0px;
+    color: var(--secondary-font-color);
+}
+
+.aspectRatioListItem svg{
+    font-size: var(--font-size-xxxlarge);
+    color: var(--secondary-font-color);
+}
+.aspectRatioListItem:first-child{
+    border-top: unset;
+}
+
+.activeAspectRatioItem p,
+.activeAspectRatioItem svg
+{
+    color: var(--font-color);
+}

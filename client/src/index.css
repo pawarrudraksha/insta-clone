@@ -20,8 +20,10 @@ body {
   --primary-color: black;
   --secondary-font-color:#A8A8A8;
   --font-color: white;
+  --overlay:rgba(0, 0, 0, 0.4);
   --btn-black:rgba(0, 0, 0, 0.4);
   --btn-white:rgba(255,255, 255, 0.2);
+  --tab-bottom-color:rgba(168,168,168,0.4);
   --font-color-1: rgb(204,204,204);
   --hover-color-1: #1a1a1a;
   --hover-color-2: #302f2f;
@@ -33,7 +35,13 @@ body {
   --btn-hover-color:#1877F2;
   --footer-color:#737373;
   --search-font-color:#A8A8A8;
-
+  --modal-color:#232323;
+  --modal-color-2:#121212;
+  --modal-color-3:#1A1A1ACC;
+  --modal-color-4:#272626;
+  --checkbox-color:#3b3a3e;
+  --checkbox-ball-color:#1f1f25;
+  --crop-btn-color:#1c1b1b;
 
   --font-size-xsmall: 10px;
   --font-size-small: 12px;
@@ -55,11 +63,13 @@ body {
   --profile-highlight-padding:3px;
 
   --divider-border:.5px solid  #272424;
+  --divider-border-1:.5px solid  #393939;
 }
 
 
 ::-webkit-scrollbar {
   width: 0px !important;
+  height: 0px !important;
 }
 
 ::-webkit-scrollbar-thumb {

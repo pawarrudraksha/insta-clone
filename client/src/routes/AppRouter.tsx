@@ -3,34 +3,39 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Error from '../components/miscellaneous/Error';
 import Home from '../pages/Home';
 import "../App.css"
-import Sidebar from '../components/miscellaneous/Sidebar';
-import Search from '../components/miscellaneous/Search';
+import Sidebar from '../components/miscellaneous/main/Sidebar';
+import Search from '../components/miscellaneous/main/Search';
 import {  selectIsSearchModalOpen, toggleSearchModal } from '../app/features/appSlice';
 import AccountDetail from '../pages/AccountDetail';
 import PostPage from '../pages/PostPage';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { selectIsPostModalOpen } from '../app/features/postSlice'
+import { selectIsPostModalOpen } from '../app/features/viewPostSlice'
 import PostModal from '../components/posts/PostModal';
 import StoryPage from '../pages/StoryPage';
 import HighlightPage from '../pages/HighlightPage';
 import ReelsPage from '../pages/ReelsPage';
 import ExplorePage from '../pages/ExplorePage';
+import { selectIsCreatePostModalOpen } from '../app/features/createPostSlice';
+import CreatePostOverlay from '../components/create/CreatePostOverlay';
 
 function AppRouter() {
   const dispatch=useAppDispatch()
   const isSearchModalOpen=useAppSelector(selectIsSearchModalOpen)
   const isPostModalOpen=useAppSelector(selectIsPostModalOpen)
+  const isCreatePostModalOpen=useAppSelector(selectIsCreatePostModalOpen)
 
   const handleModal=()=>{
     if(isSearchModalOpen){
       dispatch(toggleSearchModal())
     }
   }
+  
   return (
     <div className="App" onClick={handleModal}>
 
     <BrowserRouter>
         <Sidebar/>
+        {isCreatePostModalOpen && <CreatePostOverlay/>}
         {isSearchModalOpen && <Search/>}
         {isPostModalOpen && <PostModal />}
         <Routes>

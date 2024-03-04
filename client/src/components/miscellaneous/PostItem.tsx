@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useAppDispatch } from '../../app/hooks';
-import { openPostModal } from '../../app/features/postSlice';
+import { openPostModal } from '../../app/features/viewPostSlice';
 import styles from '../../styles/miscellaneous/postItem.module.css'
 import { FaComment, FaHeart, FaImages, FaPlay } from 'react-icons/fa';
 import {  BiSolidMoviePlay } from 'react-icons/bi';
+import { resetCarouselData, setCarouselData } from '../../app/features/carouselSlice';
 
 
 interface PostItemProps{
@@ -22,6 +23,8 @@ const PostItem:React.FC<PostItemProp> = ({item}) => {
     const [isInteractionVisible,setIsInteractionVisible]=useState<boolean>(false)
     const dispatch=useAppDispatch()
     const handleNavigate=(id:number)=>{
+        dispatch(resetCarouselData())
+        dispatch(setCarouselData({type:item.type,post:item.images}))
         dispatch(openPostModal())
         window.history.pushState(null, '', `/p/${id}`);
     }    
@@ -54,7 +57,7 @@ const PostItem:React.FC<PostItemProp> = ({item}) => {
             {
                 <div className={styles.postItemTypeIndicator}>
                     {
-                        (item.type==='reel'&& item.showReelIcon && item.images.length <= 1)  && <BiSolidMoviePlay/>
+                        (item.type==='video'&& item.showReelIcon && item.images.length <= 1)  && <BiSolidMoviePlay/>
                     }
                     {
                         item.images.length>1 && <FaImages/>
@@ -63,21 +66,21 @@ const PostItem:React.FC<PostItemProp> = ({item}) => {
                 </div>
             }
             {
-                (item.type==='reel'&& !item.showReelIcon && item.images.length <= 1)  && 
+                (item.type==='video'&& !item.showReelIcon && item.images.length <= 1)  && 
                 <div className={styles.postReelViews}>
                     <FaPlay/>
                     <p>1M</p>
                 </div>
             }
             {
-                item.type==='post' && (
+                item.type==='image' && (
                     <div className={styles.postItem} >
                         <img src={item.images[0]} alt="post" />
                     </div>
                 )
             }
             {
-                item.type==='reel' && (
+                item.type==='video' && (
                 <div className={styles.postItemIsReel} >
                     <video
                         loop 

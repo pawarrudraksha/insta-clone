@@ -1,0 +1,110 @@
+.cropPostModalContainer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color:var(--modal-color-2);
+    position: relative;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.cropPostHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 8%;
+    width: 100%;
+    background-color: var(--hover-color-2);
+    border-radius:15px 15px 0px 0px ;
+}
+
+.cropPostHeader svg{
+    font-size: var(--font-size-xxxlarge);
+    margin-left: 12px;
+    cursor: pointer;
+}
+.cropNextBtn{
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--btn-color);
+    cursor: pointer;
+    margin-right: 5px;
+}
+.cropNextBtn:hover{
+    color: var(--font-color);
+}
+.cropPostContent{
+    height: 92%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.cropPostGridBox {
+    position: absolute;
+    top: 8%;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    height: 92%; 
+    cursor: grab;
+}
+.cropPostGridBoxCell {
+    border:1px solid var(--font-color);
+    opacity: .2;
+}
+
+.cropPostContent:hover{
+    cursor:grab;
+}
+.cropPostBtns{
+    position: absolute;
+    bottom: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 999;
+    width: 100%;
+}
+
+.cropPostBtns svg{
+    border-radius: 50%;
+    background-color: var(--crop-btn-color);
+    padding: 10px;
+    margin: 0px 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.cropPostBtns >svg:nth-child(2){
+    transform:scaleX(-1)
+}
+
+.aspectRatioModalContainer{
+    position: absolute;
+    bottom: 10%;
+    left: 3%;
+    z-index: 999;
+}
+
+.aspectRatioActiveBtn,
+.managePostsActiveBtn{
+    background-color: var(--font-color) !important;
+}
+.aspectRatioActiveBtn:hover,
+.managePostsActiveBtn:hover{
+    background-color: var(--secondary-font-color) !important;
+    color: var(--secondary-font-color) !important;
+}
+
+.managePostsModalContainer{
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+    max-width: 90%;
+}

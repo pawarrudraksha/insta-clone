@@ -1,0 +1,42 @@
+.accessibilityContainer{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.accessibilityContainer>p{
+    font-size: var(--font-size-small);
+    margin: 0px;
+    color: var(--secondary-font-color);
+}
+
+.accessibilityContent{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.accessibiltyCard{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.accessibiltyCard img,
+.accessibiltyCard video{
+    width: 47px;
+    height: 44px;
+    object-fit: cover;
+}
+.accessibiltyCard input{
+    height: 100%;
+    width: calc(100%-50px);
+    outline: none;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    color: var(--font-color);
+}
+
+.accessibiltyCard input:focus{
+    border: 1px solid var(--secondary-font-color);
+    border-radius: 5px;
+}

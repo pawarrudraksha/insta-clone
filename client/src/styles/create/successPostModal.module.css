@@ -1,0 +1,38 @@
+.successPostModalWrapper{
+    height: 100%;
+    width: 100%;
+    background-color:var(--modal-color-4);
+    display: flex;
+    flex-direction: column;    
+    border-radius: 15px;
+}
+
+.successPostHeader{
+    height: 8%;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border-bottom: var(--divider-border);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
+    border-bottom: var(--divider-border-1);
+}
+
+.successPostContent{
+    width: 100%;
+    height: 92%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.successPostContent img{
+    width: 96px;
+    height: 96px;
+}
+
+.successPostContent p{
+    font-size: var(--font-size-xlarge);
+}

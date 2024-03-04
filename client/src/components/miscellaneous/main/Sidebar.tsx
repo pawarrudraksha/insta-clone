@@ -1,4 +1,4 @@
-import styles from '../../styles/miscellaneous/sidebar.module.css';
+import styles from '../../../styles/miscellaneous/sidebar.module.css';
 import { MdHomeFilled } from "react-icons/md";
 import { MdExplore } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
@@ -9,13 +9,14 @@ import { RxAvatar } from "react-icons/rx";
 import { BsThreads } from "react-icons/bs";
 import { GrMenu } from "react-icons/gr";
 import {  useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSearchModalOpen, toggleSearchModal } from '../../app/features/appSlice';
+import { selectIsSearchModalOpen, toggleSearchModal } from '../../../app/features/appSlice';
 import { BiMoviePlay } from 'react-icons/bi';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { toggleCreatePostModalOpen, toggleUploadPostModal } from '../../../app/features/createPostSlice';
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
-  const isSearchModalOpen = useSelector(selectIsSearchModalOpen);
+  const dispatch =useAppDispatch() 
+  const isSearchModalOpen = useAppSelector(selectIsSearchModalOpen);
   const navigate=useNavigate()  
   const sidebarTab = [
     {
@@ -59,7 +60,10 @@ const Sidebar = () => {
     {
       name: "Create",
       icon: <FaPlusSquare />,
-      onClick: () => {}
+      onClick: ()=>{
+        dispatch(toggleCreatePostModalOpen())    
+        dispatch(toggleUploadPostModal())
+      }
     },
     {
       name: "Profile",
@@ -71,7 +75,10 @@ const Sidebar = () => {
   const sidebarExtraTab = [
     {
       name: "Threads",
-      icon: <BsThreads />
+      icon: <BsThreads />,
+      onClick: () => {
+        window.open("https://www.threads.net/login", "_blank") 
+      }
     },
     {
       name: "More",
@@ -92,7 +99,7 @@ const Sidebar = () => {
       </div>
       <div className={`${styles.sidebarExtraTabs} ${isSearchModalOpen && styles.hideSidebarTabs}`}>
         {sidebarExtraTab.map((tab, index) => (
-          <div className={`${styles.sidebarTab}  ${isSearchModalOpen && styles.hideSidebarTab}`} key={index}>
+          <div className={`${styles.sidebarTab}  ${isSearchModalOpen && styles.hideSidebarTab}`} key={index} onClick={tab.onClick}>
             {tab.icon}
             {!isSearchModalOpen && <p>{tab.name}</p>}
           </div>

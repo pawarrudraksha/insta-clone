@@ -21,7 +21,7 @@ const PostPage:React.FC = () => {
           {
             accountData.mixed.slice(0,6).map((item,index)=>(
               <div className={styles.postItem} key={index}>
-              <PostItem item={{type:item.isPost ? "post":"reel",...item,showReelIcon:true}} />
+              <PostItem item={{type:item.isPost ? "image":"video",...item,showReelIcon:true}} />
               </div>
             ))
           }

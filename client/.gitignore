@@ -7,7 +7,8 @@
 
 # testing
 /coverage
-
+firebase.js
+cors.json
 # production
 /build
 

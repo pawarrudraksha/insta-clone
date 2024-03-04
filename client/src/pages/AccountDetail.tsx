@@ -4,7 +4,7 @@ import AccountHeader from '../components/account/AccountHeader'
 import AccountHighlight from '../components/account/AccountHighlight'
 import AccountPosts from '../components/account/AccountPosts'
 import { useAppSelector } from '../app/hooks'
-import { selectIsPostModalOpen } from '../app/features/postSlice'
+import { selectIsPostModalOpen } from '../app/features/viewPostSlice'
 
 
 const AccountDetail:React.FC=()=> {

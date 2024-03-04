@@ -4,7 +4,7 @@
     justify-content: center;
     overflow: hidden !important;
     position: relative;
-    /* padding: 10px */
+    background-color: var(--hover-color-1) !important;    
 }
 
 .carouselArrows{
@@ -35,24 +35,11 @@
     display: none !important;
 }
 
-.carouselActiveImage{
-    display: flex !important;
-    height: 100%;
-    width: 100%;
-}
 .carouselVideoContainer{
     height: 100%;
 }
 .carouselHiddenVideo {
     display: none;
-}
-
-.carouselActiveVideo {
-    display: block;
-    padding: 0px;
-    width: 100%; /* Set width to 100% to match the container */
-    height: 100%;
-    object-fit: contain;
 }
 
 
@@ -102,4 +89,55 @@
 }
 .activeDot{
     color: var(--font-color)smoke;
+}
+
+.cropPostOriginal{
+    display: block !important;
+    height: 100%;
+    width: 100%;
+}
+.cropPost1to1{
+    display: block !important;
+    width: 100%;
+    aspect-ratio: 1;   
+    object-fit: cover;
+    /* height: 100%; */
+}
+
+.cropPost4to5{
+    display: block !important;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 4/5;   
+    object-fit: cover;
+}
+.cropPost16to9{
+    display: block !important;
+    width: 100%;
+    aspect-ratio: 16/9;   
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.postContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.cropPostImage16to9{
+    display: block !important;
+    width: 100%;
+    aspect-ratio: 16/9;   
+    height:auto;
+    object-fit: cover;
+}
+
+.cropPostImageOriginal{
+    display: block !important;
+    width: 100%;
+    aspect-ratio: 1;   
+    object-fit: cover;
+    /* height: 100%; */
 }

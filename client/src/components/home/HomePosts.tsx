@@ -1,6 +1,6 @@
 import React from 'react'
-import HomePost from './HomePost'
-import styles from '../../../styles/home/homePosts.module.css'
+import HomePost from './miscellaneous/HomePost'
+import styles from '../../styles/home/homePosts.module.css'
 
 const HomePosts:React.FC = () => {
   return (

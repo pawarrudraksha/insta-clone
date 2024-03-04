@@ -11,7 +11,7 @@ const RenderTagged:React.FC=()=> {
         <div className={styles.accountPost}  key={index} >
         <PostItem 
           key={index} 
-          item={{ type: `${post.isPost===true ? `post`:`reel`}`,showReelIcon:true, ...post }} 
+          item={{ type: `${post.isPost===true ? `image`:`video`}`,showReelIcon:true, ...post }} 
   
         />
         </div>

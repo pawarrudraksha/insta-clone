@@ -29,7 +29,6 @@ const InactiveStoryCard:React.FC<Props>= ({story}) => {
     dispatch(setActiveStoriesSet(accountData.highlights[index]));
     dispatch(setActiveStory(accountData.highlights[index].stories[0]));        
     dispatch(setInactiveStoriesSet(accountData.highlights.filter((item) => item.id !== accountData.highlights[index].id)));
-    console.log(story);
     
   }
   return (

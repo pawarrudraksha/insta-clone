@@ -1,0 +1,77 @@
+.editPostContainer{
+    height: 100%;
+    width: 100%;   
+    border-radius: 15px;
+}
+
+.editPostHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 8%;
+    width: 100%;
+    background-color: var(--hover-color-2);
+    border-radius:15px 15px 0px 0px ;
+}
+
+.editPostHeader svg{
+    font-size: var(--font-size-xxxlarge);
+    margin-left: 12px;
+    cursor: pointer;
+}
+.editPostHeaderNextBtn{
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--btn-color);
+    cursor: pointer;
+    margin-right: 5px;
+}
+.editPostHeaderNextBtn:hover{
+    color: var(--font-color);
+}
+.editPostContent{
+    display: flex;
+    height: 92%;
+    width: 100%;
+}
+
+.editPostTabs{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--tab-bottom-color);
+}
+
+.editPostTabsBtn{
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 0px;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--tab-bottom-color);
+}
+
+.editPostActiveBtn{
+    color: var(--font-color);
+    border-bottom: 1px solid var(--font-color);
+}
+.editPostTabsContainer{
+    flex: 1.4;
+    background-color: var(--hover-color-2);
+    border-top: var(--divider-border);
+}
+
+.editPostVideoContainer{
+    flex: 1.4;
+    background-color: var(--hover-color-2);
+    border-top: var(--divider-border);
+}
+
+
+.editPostCarousel{
+    height: 100%;
+    width: 100%;
+    flex:2;
+}

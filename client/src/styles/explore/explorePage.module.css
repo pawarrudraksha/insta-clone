@@ -1,34 +1,30 @@
-.explorePageContainer{
+.explorePageContainer {
     flex: 6;
     border-left: var(--divider-border);
-    /* overflow: scroll; */
-    gap: 4px;
-    /* margin: 2% 0%; */
-    padding: 0px;
+    padding: 0;
+    width: 100%;
     height: 100%;
-    /* margin: 20px 0px; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
+
 .explorePageSpacer{
     height: 25px;
 }
-.explorePageWrapper h3{
-    margin: 0px;
-}
-.explorePageWrapper{
-    flex: 6;
-    overflow: scroll;
+
+
+.explorePageWrapper {
+    display: flex;
     flex-direction: column;
     gap: 4px;
+    height: 100%; 
+    overflow-y: scroll;
 }
 .explorePageBox{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     margin: 0px 13%;
     gap: 4px;
+    padding: 0;
+    height: 100%;
 }
 
 .explorePagePostItem{

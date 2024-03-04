@@ -2,15 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 // Define a type for the slice state
+interface CarouselData{
+  post:string;
+  type:string;
+}
 interface AppState {
   isSearchModalOpen: boolean;
-  isProfileModalOpen: boolean;
+  isProfileModalOpen: boolean
 }
 
 // Define the initial state using that type
 const initialState: AppState = {
   isSearchModalOpen: false,
-  isProfileModalOpen:false,
+  isProfileModalOpen:false
 };
 
 export const appSlice = createSlice({
@@ -26,8 +30,7 @@ export const appSlice = createSlice({
     closeProfileModal:(state)=>{
       state.isProfileModalOpen= false
     }
-  },
-});
+}});
 
 export const { toggleSearchModal ,openProfileModal,closeProfileModal} = appSlice.actions; 
 

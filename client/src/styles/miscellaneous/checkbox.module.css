@@ -1,0 +1,40 @@
+.checkboxContainer{
+    height:24px;
+    width: 40px;
+    border-radius: 15px;
+}
+
+.checkboxContainer input{
+    display: none;
+}
+
+
+.checkbox{
+    display: grid;
+    background-color:var(--checkbox-color);
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 15px;
+    padding: 0% 4%;
+}
+
+.checkboxBall{
+    width:18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color:var(--checkbox-ball-color);
+    justify-self: flex-start;
+}
+.activeCheckbox{
+    background-color: var(--font-color);
+}
+.activeCheckboxBall{
+    justify-self: flex-end;
+}
+
+.disabledCheckbox{
+    cursor: not-allowed;
+    opacity: .5;
+}

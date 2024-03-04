@@ -9,6 +9,7 @@ import { closeProfileModal, openProfileModal, selectIsProfileModalOpen } from '.
 import ProfileModal from '../../miscellaneous/ProfileModal';
 import { useNavigate } from 'react-router-dom';
 import Interactions from '../../miscellaneous/Interactions';
+import { selectCarouselData } from '../../../app/features/carouselSlice';
 
 interface Post {
     posts: Array<any>,
@@ -22,10 +23,9 @@ interface Post {
 const postDataTyped = postData as Post;
 
 const HomePost: React.FC = () => {
-    const navigate=useNavigate( )
+    const navigate=useNavigate()
     const dispatch=useAppDispatch()
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
     }
 
     const handleMouseEnter = () => {
@@ -39,6 +39,7 @@ const HomePost: React.FC = () => {
     const navigateToProfile=()=>{
         navigate(`/${postDataTyped.username}`)
     }   
+    const posts=useAppSelector(selectCarouselData)
     return (
         <div className={styles.homePost}>
             <div className={styles.homePostHeader} onMouseLeave={handleMouseLeave}>
@@ -63,7 +64,7 @@ const HomePost: React.FC = () => {
                 </div>
             </div>
             <div className={styles.homePostCarousel}>
-                <Carousel/>
+                <Carousel posts={posts}/>
             </div>
             <Interactions noOfLikes={postDataTyped.noOfLikes}/>
             <div className={styles.homePostCaption}>

@@ -4,7 +4,7 @@ import PostCard from './miscellaneous/PostCard'
 import { IoMdClose } from 'react-icons/io'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { useAppDispatch } from '../../app/hooks'
-import { closePostModal } from '../../app/features/postSlice'
+import { closePostModal } from '../../app/features/viewPostSlice'
 
 const PostModal:React.FC = () => {
   const dispatch=useAppDispatch()

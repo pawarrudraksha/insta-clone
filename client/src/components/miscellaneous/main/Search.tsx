@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { CiSearch } from "react-icons/ci";
-import { accountData } from '../../data/sampleAccount';
+import { accountData } from '../../../data/sampleAccount';
 import { BsDot } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
-import styles from "../../styles/miscellaneous/search.module.css"
+import styles from "../../../styles/miscellaneous/search.module.css"
 import { IoCloseCircle } from 'react-icons/io5';
 
 const Search:React.FC = () => {
