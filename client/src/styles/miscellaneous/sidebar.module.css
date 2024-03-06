@@ -50,7 +50,11 @@
     padding: 7px 7px;
 }
 
-
+.sidebarTab img{
+    height: var(--font-size-xxlarge);
+    width: var(--font-size-xxlarge);
+    border-radius: 50%;
+}
 .sidebarTab:hover{
     background-color: var(--hover-color-1) !important;
 }

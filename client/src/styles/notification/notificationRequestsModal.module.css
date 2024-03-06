@@ -1,0 +1,113 @@
+.notificationRequestsModalContainer{
+    position: absolute;
+    top: 0px;
+    left: 80px;
+    z-index: 1000;
+    /* width: 26%; */
+    width: 399px;
+    height: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-right: var(--divider-border);
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-left: var(--divider-border);
+    box-sizing: border-box;
+    overflow-y: scroll;
+    margin: 0px;
+    padding: 0px !important;
+}
+.notificationRequestsWrapper{
+    display: flex;
+    flex-direction: column;
+}
+.notificationRequestHeader{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 7px 15px;
+}
+.notificationRequestHeader p{
+    flex-grow: 1;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+}
+.notificationRequestHeader svg{
+    font-size: var(--font-size-xxxlarge);
+    cursor: pointer;
+}
+
+.notificationRequest{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 15px;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.notificationRequest:hover{
+    background-color: var(--hover-color-1);
+}
+.notificationRequest img{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.notificationRequest p{
+    margin: 0px;
+    font-size: var(--font-size-medium);
+}
+
+.notificationRequestInfo p:first-child{
+    font-weight: var(--font-weight-bold);
+}
+
+.notificationRequestInfo :nth-child(2){
+    color: var(--secondary-font-color);
+}
+
+.notificationRequestContent{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notificationRequestBtns{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.notificationReqDeleteBtn,.notificationReqConfirmBtn{
+    border: none;
+    padding: 8px 15px;
+    color: var(--font-color);
+    border-radius: 5px;
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+}
+
+.notificationReqConfirmBtn{
+    background-color: var(--btn-color);
+}
+.notificationReqConfirmBtn:hover{
+    background-color: var(--btn-hover-color);
+}
+
+.notificationReqDeleteBtn{
+    background-color: var(--hover-color-2);
+}
+.notificationReqDeleteBtn:hover{
+    background-color: var(--hover-color-1);
+}
+
+.notificationSuggestionWrapper p{
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    padding: 10px 15px;
+}

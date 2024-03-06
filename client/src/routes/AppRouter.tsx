@@ -5,7 +5,7 @@ import Home from '../pages/Home';
 import "../App.css"
 import Sidebar from '../components/miscellaneous/main/Sidebar';
 import Search from '../components/miscellaneous/main/Search';
-import {  selectIsSearchModalOpen, toggleSearchModal } from '../app/features/appSlice';
+import {  selectIsMoreModalOpen, selectIsNotificationModalOpen, selectIsNotificationRequestsModalOpen, selectIsSearchModalOpen, toggleMoreModal, toggleNotificationModal, toggleSearchModal } from '../app/features/appSlice';
 import AccountDetail from '../pages/AccountDetail';
 import PostPage from '../pages/PostPage';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
@@ -21,19 +21,32 @@ import SignUp from '../pages/SignUp';
 import MessagesPage from '../pages/MessagesPage';
 import NewMessageModal from '../components/messages/sidebar/NewMessageModal';
 import { selectIsNewMessageModalOpen } from '../app/features/messagesSlice';
+import MoreModal from '../components/miscellaneous/main/MoreModal';
+import NotificationModal from '../components/notification/NotificationModal';
+import NotificationRequestsModal from '../components/notification/NotificationRequestsModal';
 
 function AppRouter() {
   const dispatch=useAppDispatch()
   const isSearchModalOpen=useAppSelector(selectIsSearchModalOpen)
   const isPostModalOpen=useAppSelector(selectIsPostModalOpen)
   const isCreatePostModalOpen=useAppSelector(selectIsCreatePostModalOpen)
+  const isNewMessageModalOpen=useAppSelector(selectIsNewMessageModalOpen)
+  const isMoreModalOpen=useAppSelector(selectIsMoreModalOpen)
+  const isNotificationModalOpen=useAppSelector(selectIsNotificationModalOpen)
+  const toggleNotificationRequestsModal=useAppSelector(selectIsNotificationRequestsModalOpen)
 
   const handleModal=()=>{
     if(isSearchModalOpen){
       dispatch(toggleSearchModal())
     }
+    if(isMoreModalOpen){
+      dispatch(toggleMoreModal())
+    }
+    if(isNotificationModalOpen){
+      dispatch(toggleNotificationModal())
+    }
+    
   }
-  const isNewMessageModalOpen=useAppSelector(selectIsNewMessageModalOpen)
   return (
     <div className="App" onClick={handleModal}>
 
@@ -42,6 +55,9 @@ function AppRouter() {
         {isCreatePostModalOpen && <CreatePostOverlay/>}
         {isPostModalOpen && <PostModal />}
         {isNewMessageModalOpen && <NewMessageModal/>}
+        {isMoreModalOpen && <MoreModal/>}
+        {isNotificationModalOpen && <NotificationModal/>}
+        {toggleNotificationRequestsModal && <NotificationRequestsModal/>}
         <Routes>
         <Route path="/" element={<Home/>} />
         <Route path='/:username' element={<AccountDetail />}/>
