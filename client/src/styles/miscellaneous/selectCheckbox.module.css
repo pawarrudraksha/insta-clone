@@ -1,0 +1,22 @@
+.selectCheckboxContainer{
+    border: 1px solid var(--font-color);
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.checkboxWrapper input{
+    display: none;
+}
+.checkboxWrapper svg{
+    display: none;
+    font-size: var(--font-size-xlarge);
+}
+.selectActiveCheckboxContainer{
+    background-color: var(--font-color);
+    padding: 3px;
+}
+
+.selectActiveCheckboxContainer svg{
+    display: block;
+    color: var(--primary-color);
+}

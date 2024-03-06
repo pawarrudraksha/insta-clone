@@ -1,0 +1,43 @@
+.messagesHeader{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.messagesHeader>p{
+    font-size: var(--font-size-xlarge);
+    font-weight: var(--font-weight-bold);
+}
+.messagesHeader p{
+    margin: 0px;
+}
+
+.messagesHeader img{
+    height: 96px;
+    width: 96px;
+    border-radius: 50%;
+}
+
+.messagesHeaderUsernameContainer{
+    display: flex;
+    align-items: center;
+    color: var(--secondary-font-color);
+    font-size: var(--font-size-medium);
+}
+
+.messagesHeaderBtn{
+    border: none;
+    color: var(--font-color);
+    background-color: var(--hover-color-2);
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.messagesHeaderBtn:hover{
+    background-color: var(--hover-color-1);
+}

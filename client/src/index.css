@@ -33,6 +33,7 @@ body {
   --arrow-bg-color:rgb(255, 255, 255);
   --btn-color:#0095F6;
   --btn-hover-color:#1877F2;
+  --selected-bg-color:#E0F1FF;
   --footer-color:#737373;
   --search-font-color:#A8A8A8;
   --modal-color:#232323;
@@ -42,6 +43,7 @@ body {
   --checkbox-color:#3b3a3e;
   --checkbox-ball-color:#1f1f25;
   --crop-btn-color:#1c1b1b;
+  --warning-color:rgba(237, 73, 86);
 
   --font-size-xsmall: 10px;
   --font-size-small: 12px;

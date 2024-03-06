@@ -1,0 +1,128 @@
+.chatWrapper{
+    flex: 3;
+    display: flex;
+    height: 100%;
+}
+
+.chatContainer{
+    flex: 2;
+    border: var(--divider-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    /* justify-content: space-between; */
+}
+.chatDetailsContainer{
+    flex: 1;
+}
+
+.chatHeader{
+    display: flex;
+    flex: .1;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+    border-bottom: var(--divider-border);
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.chatHeaderInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.chatHeaderInfo>p{
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    margin: 0px;
+}
+.chatHeaderInfoBtns{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chatHeaderInfoBtns svg{
+    font-size: var(--font-size-xxlarge);
+    cursor: pointer;
+}
+.chatHeader img{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.inputChatWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    flex: .1;
+}
+.chatInputContainer{
+    padding:10px 20px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    display: flex;
+    margin: 1%;
+    align-self: center;
+    border: var(--divider-border);    
+    gap: 10px;
+    width: 96%;
+}
+
+.chatInputContainer svg{
+    font-size: var(--font-size-xxxlarge);
+    cursor: pointer;
+}
+.replyMsgContainer{
+    display: flex;
+    border-top: var(--divider-border);
+    padding:5px 20px;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    width: 96%;
+}
+.replyMsgContainer p{
+    margin: 0px;
+}
+.replyMsgUserInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.replyMsgUserInfo > p{
+    font-size: var(--font-size-medium);
+}
+.replyMsg{
+    color: var(--secondary-font-color);
+    font-size: var(--font-size-small);
+    overflow: hidden;
+    text-wrap: nowrap;
+    width:700px;
+    text-overflow: ellipsis;
+}
+
+.replyMsgClose{
+    font-size: var(--font-size-xxlarge);
+    cursor: pointer;
+}
+.chatInputContainer input{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+}
+
+.chatMessagesWrapper{
+    height: 70%;
+    width: 100%;
+    flex: 2;
+}

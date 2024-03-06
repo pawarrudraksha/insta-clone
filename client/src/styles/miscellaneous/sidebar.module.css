@@ -1,91 +1,75 @@
+.sidebarWrapper{
+    flex: 1;
+}
 .sidebar{
-    flex:1;
-    padding: 10px 1.2%;
+    width: 150px;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    gap: 55px;
     height: 100%;
+    margin: 0px;
+    padding: 20px 20px;
+    gap: 9%;
+}
+.sidebar p{
     margin: 0px;
 }
 
-
-.sidebar p{
+.sidebarLogo{
     font-family: "Lobster Two", sans-serif;
     font-weight: 400;
     font-style: normal;
-    margin-top: 10%;
-    margin-bottom: 0%;
+    margin: 0%;
     font-size: 28px;
-}
-.sidebar a{
+    height: 28px;
+    text-decoration: none;
     text-decoration: none;
     color: white;
+    align-self: center;
 }
 
 .sidebarTabs{
     display: flex;
     flex-direction: column;
-    gap: 13px;
+    gap: 15px;
     width: 100%;
 }
 .sidebarExtraTabs{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     width: 100%;
 }
 
 .sidebarTab{
     display: flex;
     align-items: center;
-    gap: 8%;
     cursor: pointer;
-    padding: 4% 3%;
     border-radius: 10px ;
     transition: background-color 0.3s ease;
+    gap: 20px;
+    padding: 7px 7px;
 }
 
+
 .sidebarTab:hover{
-    background-color: var(--hover-color-1)
+    background-color: var(--hover-color-1) !important;
 }
-.hideSidebarTab{
-    padding: 4% 2%;
+.activeSidebarTab{
+    background-color: var(--hover-color-1) !important;
 }
-.hideSidebarTab:hover{
-    background-color: unset;
-}
-.hideExtraSidebarTab{
-    padding: 4% 2%;
-}
-.hideSidebarTab:hover{
-    background-color: unset;
-}
-.sidebar img{
-    height: 40px;
-    width: 40px;
+.sidebarTab svg{
+    font-size: var(--font-size-xxlarge);
 }
 .sidebarTab p{
     font-family: 'Inter';
     font-size: 15px;
     margin: 0px;
 }
-
-.sidebarTab svg{
-    font-size: 25px;
+.hideSidebarWrapper{
+    flex: .1;
 }
-
-
-
-.sidebarInstagramIcon{
-    margin-top: 7%;
-    margin-bottom: 0%;
-    font-size: 44px; 
-    margin: 7% 0px 0px 10px;
-    display: flex;
-    align-items: center;
-} 
 .sidebarHideName{
     /* flex: .1; */
-    border: none;
+    width: 40px;
+    border-right: var(--divider-border);
 }

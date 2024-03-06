@@ -11,6 +11,7 @@
     gap: 20px;
     border-right: var(--divider-border);
     border-radius: 10px;
+    border-top-left-radius: 0px;
 }
 
 .searchTitle{

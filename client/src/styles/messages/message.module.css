@@ -1,0 +1,237 @@
+.messageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    gap: 10px;
+}
+
+.sentMessageWrapper {
+    flex-direction: row-reverse;
+}
+
+.messageReceivedContainer {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 10px;
+    width: auto;
+    align-items: flex-end;
+}
+
+.messageContentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.repliedMsgContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;   
+}
+
+.sentRepliedMsg {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+
+.repliedMsgContainer > p {
+    font-size: var(--font-size-small);
+    color: var(--secondary-font-color);
+}
+
+.replyMsgReceivedContent {
+    width: 100%;
+    display: flex;
+    padding: 2px 4px;
+    padding: 2px 10px;
+    border-left: 4px solid var(--modal-color);
+}
+
+.replyMsgSentContent {
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    border: none;
+    border-right: 4px solid var(--modal-color);
+}
+
+.replyMsgReceivedContent img {
+    width: 100px;
+    height: 125px;
+    border-radius: 15px;
+}
+
+.replyMsgContentText {
+    margin: 0px;
+    text-wrap: nowrap;
+    width: auto;
+    background-color: var(--modal-color);
+    border-radius: 20px;
+    padding: 8px;
+}
+
+.repliedMsgIsReel {
+    position: relative;
+}
+
+.repliedMsgIsReel video {
+    height: 177px;
+    width: 100px;
+    border-radius: 15px;
+}
+
+.repliedMsgIsReel svg {
+    position: absolute;
+    bottom: 8%;
+    left: 8%;
+    font-size: var(--font-size-xxlarge);
+    border-radius: 50px;
+}
+
+.messageSentContainer {
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    flex-direction: column;
+    width: auto;
+    align-items: flex-end;
+}
+
+.messageSentContainer p,
+.messageReceivedContainer p {
+    margin: 0px;
+}
+
+.senderProfilePic {
+    height: 30px;
+    width: 30px;
+    align-self: flex-end;
+}
+
+.senderPic {
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+}
+
+.receivedMsg {
+    background-color: var(--modal-color);
+    border-radius: 20px;
+    max-width: 400px;
+    align-self: flex-start;
+    padding: 8px;
+}
+
+.sentMsg {
+    background-color: var(--btn-color);
+    border-radius: 20px;
+    padding: 8px;
+    max-width: 400px;
+    align-self: flex-end;
+}
+
+.receivedMsgReel,
+.sentMsgReel {
+    width: 198px;
+    height: 330px;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.receivedMsgReel video,
+.sentMsgReel video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.receivedMsgReel > svg,
+.sentMsgReel > svg {
+    position: absolute;
+    bottom: 3%;
+    left: 3%;
+    font-size: var(--font-size-xxlarge);
+    border-radius: 50px;
+}
+
+.msgReelHeader {
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.msgReelHeader img,
+.msgPostHeader img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.msgReelHeader p {
+    margin: 0px;
+    font-size: var(--font-size-medium);
+}
+
+.receivedMsgPost,
+.sentMsgPost {
+    width: 300px;
+    height: auto;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    background-color: var(--modal-color-3);
+    border-radius: 15px;
+}
+
+.receivedMsgPost > img,
+.sentMsgPost > img {
+    width: 100%;
+    height: 375px;
+    object-fit: cover;
+}
+
+.postCaption {
+    margin: 0px;
+    font-size: var(--font-size-small);
+    padding: 7px 10px;
+    padding-bottom: 10px;
+}
+
+.msgPostHeader {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+.msgPostHeader > p {
+    font-size: var(--font-size-medium);
+    opacity: .9;
+    font-weight: var(--font-weight-bold);
+}
+
+.hoverOptions {
+    display: none;
+    gap: 8px;
+    flex-direction: row-reverse;
+    cursor: pointer;
+}
+
+.isHoverOptionsSelf {
+    flex-direction: row;
+}
+
+.activeHoverOptions {
+    display: flex;
+    justify-self: flex-end;
+    align-items: center;
+    justify-content: flex-end;
+}

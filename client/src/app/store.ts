@@ -5,6 +5,7 @@ import postReducer from './features/viewPostSlice';
 import createPostReducer from './features/createPostSlice';
 import carouselReducer from './features/carouselSlice';
 import storyReducer from './features/storySlice';
+import messagesReducer from './features/messagesSlice';
 // ...
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     createPost:createPostReducer,
     story:storyReducer,
     carousel:carouselReducer,
+    messages:messagesReducer
   },
 })
 

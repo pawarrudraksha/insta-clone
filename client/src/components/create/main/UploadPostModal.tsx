@@ -27,7 +27,7 @@ const UploadPostModal: React.FC = () => {
         <p>Create new post</p>
       </div>
       <div className={styles.uploadPostContent}>
-        <img src='assets/s1.png' alt="file icon" />
+        <img src='/assets/s1.png' alt="file icon" />
         <p>Drag photos and videos here</p>
         <label htmlFor="upload-post-input">
           <button className={styles.selectPostBtn} onClick={handleBtnClick}>Select from computer</button>

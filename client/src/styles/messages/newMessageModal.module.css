@@ -1,0 +1,116 @@
+.newMessageOverlay{
+    width: 100%;   
+    height: 100%;
+    position: absolute;
+    background-color: var(--overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.newMessageOverlay *{
+    margin: 0px;
+}
+.newMessageModalContainer{
+    background-color: var(--modal-color);
+    border-radius: 15px;
+    position: relative;
+    z-index: 999;
+    width: 40%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.newMessageModalHeader{
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    justify-content: space-between; 
+    width: 100%;
+    box-sizing: border-box;
+    height: 45px;
+    border-bottom: var(--divider-border-1);
+}
+.newMessageModalHeader svg{
+    flex-shrink: 0; /* Prevents the SVG from shrinking */
+    font-size: var(--font-size-xxlarge);
+    cursor: pointer;
+}
+
+.newMessageModalHeader p{
+    flex-grow: 1; /* Prevents the SVG from shrinking */
+    text-align: center;
+    font-weight: var(--font-weight-bold);
+}
+
+
+.newMessageModalSearchBar{
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 10px;
+    min-height: 50px;
+    border-bottom: var(--divider-border-1);
+}
+
+.newMessageModalSearchBar input{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--font-color);
+    display: inline;
+}
+
+.selectedItemsContainer{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+
+.selectedItem{
+    display: inline-flex;
+    color: var(--btn-color);
+    background-color: var(--selected-bg-color);
+    border-radius: 10px;
+    padding: 5px;
+    gap: 3px;
+    align-items: center
+}
+
+.selectedItem p{
+    margin: 0px;
+    text-wrap: nowrap;
+    font-size: var(--font-size-medium);
+}
+
+.selectedItem svg{
+    font-size: var(--font-size-large);
+}
+
+.newMessageModalSearchResults{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 10px;
+    min-height: 58%;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+}
+
+.newMessageModalChatBtn{
+    width: 80%;
+    align-self: center;
+    padding: 15px 0px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: var(--btn-color);
+    color: var(--font-color);
+    border: none;
+    cursor: pointer;
+    justify-self: flex-end;
+}
