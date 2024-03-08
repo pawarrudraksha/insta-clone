@@ -1,0 +1,160 @@
+.signupFormContainer{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 20px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border: var(--card-border);
+}
+.signupFormContainer p{
+    margin: 0px;
+}
+
+.signupFormTitle{
+    font-family: "Lobster Two", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0%;
+    font-size: var(--main-logo-font-size-large);
+    align-self: center;
+}
+
+.signupFormSubTitle{
+    color: var(--sign-up-secondary-font);
+    font-weight: 600;
+    font-size: var(--font-size-sub-title);
+    text-align: center;
+    padding:0px 20px;
+}
+.signupFormFacebookLoginBtn,.signupBtn{
+    background-color: var(--btn-color);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    color: var(--font-color);
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.signupFormFacebookLoginBtn:hover,.signupBtn:hover{
+    background-color: var(--btn-hover-color);
+}
+.disabledSignupBtn{
+    opacity: .7;
+}
+.disabledSignupBtn:hover{
+    background-color:var(--btn-color);
+}
+
+.signupFormFacebookLoginBtn svg{
+    font-size: var(--font-size-xlarge);
+}
+.signupFormFacebookLoginBtn p{
+    font-weight: var(--font-weight-bold);
+}
+.signupFormOrDividerContainer{
+    height: 20px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.signupFormOrDivider{
+    width: 100%;
+    height: 0px;
+    border: var(--card-border);
+}
+
+.signupFormOrDividerContent{
+    position: absolute;
+    z-index: 999;
+    background-color: var(--font-color);
+    color: var(--sign-up-secondary-font);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.signupFormOrDividerContent p{
+    font-weight: var(--font-weight-bold);
+    padding:0px 20px;
+    font-size: var(--font-size-medium);
+}
+.signupFormInputs{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.signupFormInput{
+    position: relative;
+}
+.signupFormInput input{
+    width: 100%;
+    padding:10px;
+    margin:  0px;
+    box-sizing: border-box;
+    border: var(--card-border);
+    outline: none;
+    font-size: var(--font-size-small);
+}
+.signupFormInputAlignEnd input{
+    padding-bottom: 0px;
+    padding-top:18px;
+    padding-bottom: 2px;
+}
+.signupInputName{
+    position: absolute;
+    top: 10%;
+    font-size: var(--font-size-small);
+    color: var(--sign-up-secondary-font);
+    left: 2%;
+}
+.signupFormCloseIcon,.signupFormCheckIcon{
+    position: absolute;
+    right: 1%;
+    top: 20%;
+    color: var(--warning-color);
+    font-size: var(--font-size-xxlarge);
+}
+
+.signupFormCheckIcon{
+    color: var(--sign-up-secondary-font);
+    opacity: .6;
+}
+.signUpShowPassword{
+    position: absolute;
+    right: 2%;
+    top: 30%;
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    opacity: .9;
+}
+
+.signUpIconWhenShowPassword{
+    right: 15%;
+}
+.signupFormWarningInfo,.signupFormAgreement{
+    font-size: var(--font-size-small);
+    display: inline-flex    ;
+    flex-wrap: wrap;
+    color: var(--sign-up-secondary-font);
+    padding: 0px 10px;
+}
+.signupLink{
+    display: inline;   
+    text-decoration: none   ;
+}

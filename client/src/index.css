@@ -33,6 +33,7 @@ body {
   --arrow-bg-color:rgb(255, 255, 255);
   --btn-color:#0095F6;
   --btn-hover-color:#1877F2;
+  --dark-blue-color:#385185;
   --selected-bg-color:#E0F1FF;
   --footer-color:#737373;
   --search-font-color:#A8A8A8;
@@ -44,15 +45,20 @@ body {
   --checkbox-ball-color:#1f1f25;
   --crop-btn-color:#1c1b1b;
   --warning-color:rgba(237, 73, 86);
+  --sign-up-secondary-font:#737373;
+
 
   --font-size-xsmall: 10px;
   --font-size-small: 12px;
   --font-size-username: 13px;
   --font-size-medium: 14px;
   --font-size-large: 15px;
+  --font-size-sub-title:16px;
   --font-size-xlarge: 18px;
   --font-size-modal-title:24px;
   --font-size-xxlarge: 25px;
+  --main-logo-font-size:28px;
+  --main-logo-font-size-large:40px;
   --font-size-xxxlarge: 30px;
   --font-size-indicator:23px;
 
@@ -67,6 +73,7 @@ body {
 
   --divider-border:.5px solid  #272424;
   --divider-border-1:.5px solid  #393939;
+  --card-border:1px solid #c9c9c9;
 }
 
 

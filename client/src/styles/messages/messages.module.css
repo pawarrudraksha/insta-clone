@@ -15,15 +15,15 @@
     gap: 10px;
 }
 
-::-webkit-scrollbar {
+.messages::-webkit-scrollbar {
     width: 10px !important;
   }
   
-  ::-webkit-scrollbar-thumb {
+ .messages ::-webkit-scrollbar-thumb {
     background: rgba(136, 136, 136, 0.281);
   }
   
   /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+.messages::-webkit-scrollbar-thumb:hover {
     background: #555;
   }

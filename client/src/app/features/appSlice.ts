@@ -3,6 +3,7 @@ import { RootState } from '../store';
 
 // Define a type for the slice state
 interface AppState {
+  isUser:boolean;
   isSearchModalOpen: boolean;
   isProfileModalOpen: boolean
   isMoreModalOpen:boolean;
@@ -12,6 +13,7 @@ interface AppState {
 
 // Define the initial state using that type
 const initialState: AppState = {
+  isUser:false,
   isSearchModalOpen: false,
   isProfileModalOpen:false,
   isMoreModalOpen:false,
@@ -41,11 +43,15 @@ export const appSlice = createSlice({
     closeProfileModal:(state)=>{
       state.isProfileModalOpen= false
     },
+    setUser:(state,action)=>{
+      state.isUser=action.payload
+    }
 }});
 
-export const { toggleSearchModal ,openProfileModal,closeProfileModal,toggleMoreModal,toggleNotificationModal,toggleNotificationRequestsModal} = appSlice.actions; 
+export const { toggleSearchModal ,openProfileModal,closeProfileModal,toggleMoreModal,toggleNotificationModal,toggleNotificationRequestsModal,setUser} = appSlice.actions; 
 
 // Other code such as selectors can use the imported `RootState` type
+export const selectIsUser = (state: RootState): boolean =>state.app.isUser;
 export const selectIsSearchModalOpen = (state: RootState): boolean =>state.app.isSearchModalOpen;
 export const selectIsProfileModalOpen = (state: RootState): boolean =>state.app.isProfileModalOpen;
 export const selectIsMoreModalOpen = (state: RootState): boolean =>state.app.isMoreModalOpen;

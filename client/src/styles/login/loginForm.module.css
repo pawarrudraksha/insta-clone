@@ -1,0 +1,168 @@
+.loginFormContainer{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 40px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    border: var(--card-border);
+}
+.loginFormContainer p{
+    margin: 0px;
+}
+
+.loginFormTitle{
+    font-family: "Lobster Two", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0%;
+    padding: 20px 0px;
+    font-size: var(--main-logo-font-size-large);
+    align-self: center;
+}
+
+.loginFormSubTitle{
+    color: var(--sign-up-secondary-font);
+    font-weight: 600;
+    font-size: var(--font-size-sub-title);
+    text-align: center;
+    padding:0px 20px;
+}
+.loginBtn{
+    background-color: var(--btn-color);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    color: var(--font-color);
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.loginFormFacebookLoginBtn{
+    color: var(--dark-blue-color);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+}
+.loginBtn:hover{
+    background-color: var(--btn-hover-color);
+}
+.disabledLoginBtn{
+    opacity: .7;
+}
+.disabledLoginBtn:hover{
+    background-color:var(--btn-color);
+}
+
+.loginFormFacebookLoginBtn svg{
+    font-size: var(--font-size-xlarge);
+}
+.loginFormFacebookLoginBtn p{
+    font-weight: var(--font-weight-bold);
+}
+.loginFormOrDividerContainer{
+    height: 20px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.loginFormOrDivider{
+    width: 100%;
+    height: 0px;
+    border: var(--card-border);
+}
+
+.loginFormOrDividerContent{
+    position: absolute;
+    z-index: 999;
+    background-color: var(--font-color);
+    color: var(--sign-up-secondary-font);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.loginFormOrDividerContent p{
+    font-weight: var(--font-weight-bold);
+    padding:0px 20px;
+    font-size: var(--font-size-small);
+}
+.loginFormInputs{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.loginFormInput{
+    position: relative;
+}
+.loginFormInput input{
+    width: 100%;
+    padding:10px;
+    margin:  0px;
+    box-sizing: border-box;
+    border: var(--card-border);
+    outline: none;
+    font-size: var(--font-size-small);
+}
+.loginFormInputAlignEnd input{
+    padding-bottom: 0px;
+    padding-top:16px;
+    padding-bottom: 4px;
+}
+.loginInputName{
+    position: absolute;
+    top: 10%;
+    font-size: var(--font-size-small);
+    color: var(--sign-up-secondary-font);
+    left: 2%;
+}
+.loginFormCloseIcon,.loginFormCheckIcon{
+    position: absolute;
+    right: 1%;
+    top: 20%;
+    color: var(--warning-color);
+    font-size: var(--font-size-xxlarge);
+}
+
+.loginFormCheckIcon{
+    color: var(--sign-up-secondary-font);
+    opacity: .6;
+}
+.loginShowPassword{
+    position: absolute;
+    right: 2%;
+    top: 30%;
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    opacity: .9;
+}
+
+.loginIconWhenShowPassword{
+    right: 15%;
+}
+
+.loginLink{
+    display: inline;   
+    text-decoration: none   ;
+}

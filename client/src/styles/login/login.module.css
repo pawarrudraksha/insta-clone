@@ -1,0 +1,37 @@
+.loginContainer{
+    background-color: var(--font-color);
+    color: var(--primary-color);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    padding: 15px 0px;
+    gap: 10px;
+}
+
+.loginContainer::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+}
+
+.loginContainer::-webkit-scrollbar-thumb {
+    background: var(--font-color)
+  }
+  
+.loginMainContent{
+    width: 360px;
+    height: auto;
+}
+
+.loginGetAppAndSuggestionContainer{
+    width: 360px;
+}
+
+.footer{
+    display: flex;
+    width: 79%;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,40 @@
+.optionsFooter{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.optionsFooterQuestion{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: var(--card-border);
+    justify-content: center;
+    padding: 15px 0px;
+    font-size: var(--font-size-medium);
+}
+
+.optionsFooterQuestion a{
+    text-decoration: none;
+    color: var(--btn-color);
+    font-weight: var(--font-weight-bold);
+}
+.optionsFooterGetApp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.optionsFooterGetApp p{
+    font-size: var(--font-size-large);
+}
+.optionsFooterApps{
+    display: flex;
+    gap: 10px;
+    height: 50px;
+}
+.optionsFooterApps img{
+    width: 135px;
+    height: 40px;
+    cursor: pointer;
+}

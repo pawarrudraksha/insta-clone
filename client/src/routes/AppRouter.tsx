@@ -1,11 +1,11 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Error from '../components/miscellaneous/Error';
 import Home from '../pages/Home';
 import "../App.css"
 import Sidebar from '../components/miscellaneous/main/Sidebar';
 import Search from '../components/miscellaneous/main/Search';
-import {  selectIsMoreModalOpen, selectIsNotificationModalOpen, selectIsNotificationRequestsModalOpen, selectIsSearchModalOpen, toggleMoreModal, toggleNotificationModal, toggleSearchModal } from '../app/features/appSlice';
+import {  selectIsMoreModalOpen, selectIsNotificationModalOpen, selectIsNotificationRequestsModalOpen, selectIsSearchModalOpen, selectIsUser, toggleMoreModal, toggleNotificationModal, toggleSearchModal } from '../app/features/appSlice';
 import AccountDetail from '../pages/AccountDetail';
 import PostPage from '../pages/PostPage';
 import { useAppDispatch, useAppSelector } from '../app/hooks'
@@ -24,6 +24,7 @@ import { selectIsNewMessageModalOpen } from '../app/features/messagesSlice';
 import MoreModal from '../components/miscellaneous/main/MoreModal';
 import NotificationModal from '../components/notification/NotificationModal';
 import NotificationRequestsModal from '../components/notification/NotificationRequestsModal';
+import Login from '../pages/Login';
 
 function AppRouter() {
   const dispatch=useAppDispatch()
@@ -47,11 +48,12 @@ function AppRouter() {
     }
     
   }
+  const location=useLocation()
+  const hideSidebar=location.pathname.includes("signup")|| location.pathname.includes("login") 
   return (
     <div className="App" onClick={handleModal}>
 
-    <BrowserRouter>
-        <Sidebar/>
+        {!hideSidebar && <Sidebar/>}
         {isCreatePostModalOpen && <CreatePostOverlay/>}
         {isPostModalOpen && <PostModal />}
         {isNewMessageModalOpen && <NewMessageModal/>}
@@ -67,10 +69,10 @@ function AppRouter() {
         <Route path='/stories/:username/:storyId' element={<StoryPage />}/>
         <Route path='/stories/highlights/:highlightId' element={<HighlightPage />}/>
         <Route path='/accounts/emailsignup' element={<SignUp />}/>
+        <Route path='/accounts/login' element={<Login/>}/>
         <Route path='/direct/inbox' element={<MessagesPage />}/>
         <Route path='*' element={<Error />} />
         </Routes>
-    </BrowserRouter>
     </div>
  )
 }

@@ -1,18 +1,26 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import styles from '../../styles/signup/optionsFooter.module.css'
 
 const OptionsFooter:React.FC= () => {
+  const location=useLocation()
   return (
-    <div className="optionsFooter">
-        <div className="optionsFooterQuestion">
-            <p>Have an account</p>
-            <Link to={"/"}>Log in</Link>
+    <div className={styles.optionsFooter}>
+        {location.pathname.includes("signup")? <div className={styles.optionsFooterQuestion}>
+            <p>Have an account? </p>
+            <Link to={"/accounts/login"}>Log in</Link>
         </div>
-        <div className="optionsFooterGetApp">
+        :
+        <div className={styles.optionsFooterQuestion}>
+            <p>Don't have an account? </p>
+            <Link to={"/accounts/emailsignup"}>Sign up</Link>
+        </div>
+        }
+        <div className={styles.optionsFooterGetApp}>
             <p>Get the app</p>
-            <div className="optionsFooterApps">
-                <img src="assets/googlePlay.png" alt="google play" />
-                <img src="assets/microsoft.png" alt="microsoft" />
+            <div className={styles.optionsFooterApps}>
+                <img src="/assets/googlePlay.png" alt="google play" />
+                <img src="/assets/microsoft.png" alt="microsoft" />
             </div>
         </div>
     </div>
