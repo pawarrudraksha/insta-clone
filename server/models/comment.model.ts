@@ -4,7 +4,7 @@ interface IComment extends Document{
     text:string;
     postId:Schema.Types.ObjectId;
     userId:Schema.Types.ObjectId;
-    toReplyCommentId: Schema.Types.ObjectId 
+    toReplyCommentId?: Schema.Types.ObjectId 
 }
 
 const commentSchema=new Schema<IComment>({

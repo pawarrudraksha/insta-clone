@@ -1,4 +1,4 @@
-import { getMessage } from "../controllers/message.controller";
+import { getMessage } from "../../controllers/notused/message.controller";
 import { Router } from "express";
 
 const router=Router()

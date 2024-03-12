@@ -1,51 +1,45 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IPostItem extends Document {
-    postId: mongoose.Schema.Types.ObjectId;
-    content: string;
-    author: string;
-    aspectRatio: string;
+    content:{
+        type:string,
+        url:string
+    };
+    audioTrack?: {
+        track: string,
+        coverPic?: string,
+        author?:String
+    },
 }
 
-interface IReel extends Document {
-    reelId: mongoose.Schema.Types.ObjectId;
-    audioTrack: {
-        track: string;
-        coverPic: string;
-    };
-    aspectRatio: string;
-    content:string
-}
 
 interface IPost extends Document {
     postedTogetherAt: Date;
-    isStandAlone: boolean;
+    isStandAlone?: boolean;
     posts: IPostItem[];
-    reel: IReel[];
     userId: Schema.Types.ObjectId; 
+    isHideLikesAndViews?: boolean; 
+    isCommentsOff?: boolean; 
+    taggedUsers:[Schema.Types.ObjectId]
 }
 
 const postItemSchema = new Schema<IPostItem>({
-    postId: mongoose.Schema.Types.ObjectId,
     content:{
-        type:String,
-        required:true
+        type:{
+            type:String,
+            required:true,
+            enum:["post","reel"]
+        },
+        url:{
+            type:String,
+            required:true
+        },
     },    
-    author: String,
-    aspectRatio: String,
-},{timestamps:true});
-
-const reelSchema = new Schema<IReel>({
-    reelId: mongoose.Schema.Types.ObjectId,
     audioTrack: {
         track: String,
-        coverPic: String
+        coverPic: String,
+        author:String
     },
-    content:{
-        type:String,
-        required:true
-    },
-    aspectRatio: String,
 },{timestamps:true});
 
 const postSchema = new Schema<IPost>({
@@ -58,11 +52,21 @@ const postSchema = new Schema<IPost>({
         default: true
     },
     posts: [postItemSchema],
-    reel: [reelSchema],
     userId: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required:true
+    },
+    isHideLikesAndViews:{
+        type:Boolean,
+        default:false,
+    },
+    isCommentsOff:{
+        type:Boolean,
+        default:false,
+    },
+    taggedUsers:{
+        type:[Schema.Types.ObjectId],
     }
 }, { timestamps: true });
 

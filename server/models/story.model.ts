@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IStory extends Document {
-    story: string;
+    url: string;
     type: "reel" | "post";
     userId: Schema.Types.ObjectId;
     caption: {
@@ -14,7 +14,7 @@ interface IStory extends Document {
 }
 
 const storySchema = new Schema<IStory>({
-    story: {
+    url: {
         type: String,
         required: true
     },

@@ -3,8 +3,10 @@ import mongoose, { Schema , Document} from "mongoose";
 interface IChat extends Document{
     chatName:string;
     isGroupChat:boolean;
+    admin:[Schema.Types.ObjectId];
     users:[Schema.Types.ObjectId];
-    latestMessage:string
+    latestMessage:string;
+    groupPic:string
 }
 
 const chatSchema=new Schema<IChat>({
@@ -20,6 +22,13 @@ const chatSchema=new Schema<IChat>({
         type:[Schema.Types.ObjectId],
         ref:"User",
         required:true
+    },
+    admin:{
+        type:[Schema.Types.ObjectId],
+        ref:"User"
+    },
+    groupPic:{
+        type:String
     },
     latestMessage:String
 },{timestamps:true})
