@@ -1,181 +1,152 @@
-import { IUser } from "../models/user.model";
+import { IUser, User } from "../models/user.model";
 import { asyncHandler } from "../utils/asyncHandler";
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 import { ApiError } from "../utils/ApiError";
 import { Post } from "../models/post.model";
 import { Like } from "../models/like.model";
 import { ApiResponse } from "../utils/ApiResponse";
 import { Comment } from "../models/comment.model";
 import { Story } from "../models/story.model";
+import mongoose from "mongoose";
+import { Follow } from "../models/follow.model";
 
-interface AuthenticatedRequest extends Request{
-    user:IUser
+interface AuthenticatedRequest extends Request {
+    user: IUser;
 }
 
-const likePost=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {postId}=req.params
-    if(!postId){
-        throw new ApiError(400,"Post id is required")
+interface LikeActionRequest extends AuthenticatedRequest {
+    targetId: string;
+    targetType: 'post' | 'comment' | 'story';
+    action: 'like' | 'unlike';
+}
+
+const likeAction = asyncHandler(async (req: LikeActionRequest, res: Response) => {
+    const { targetId, targetType, action } = req.body;
+    const user = req.user;
+    if (!user) {
+        throw new ApiError(401, "User is not logged in");
     }
-    const user=req.user 
+
+    let target;
+    let owner;
+    let alreadyLiked
+    if (targetType === 'post') {
+        target = await Post.findById(targetId);
+        owner=await User.findById(target.userId)
+        alreadyLiked=await Like.findOne({postId:targetId,userId:user._id})
+    } else if (targetType === 'comment') {
+        target = await Comment.findById(targetId);
+        const post=await Post.findById(target.postId)
+        owner=await User.findById(post.userId)
+        alreadyLiked=await Like.findOne({commentId:targetId,userId:user._id})
+    } else if (targetType === 'story') {
+        target = await Story.findById(targetId);
+        owner=await User.findById(target.userId)
+        alreadyLiked=await Like.findOne({storyId:targetId,userId:user._id})
+    }
+    if (!target) {
+        throw new ApiError(404, "Invalid target id");
+    }
+    if(alreadyLiked && action==='like'){
+        throw new ApiError(400,"You can like item only once")
+    }
+    const isFollow=await Follow.findOne({userId:owner._id,follower:user._id,isRequestAccepted:true})
+    if(owner.isPrivate && !isFollow && owner._id.toString()!==user._id.toString()){
+        throw new ApiError(401,"access denied")
+    }
+    let like;
+    if (action === 'like') {
+        like = await Like.create({
+            [`${targetType}Id`]: target._id,
+            userId: user.id
+        });
+    } else if (action === 'unlike') {
+        like = await Like.findOneAndDelete({
+            $and: [{ [`${targetType}Id`]: target._id }, { userId: user._id }]
+        });
+        if (!like) {
+            throw new ApiError(401, "Nothing to unlike");
+        }
+    }
+
+    res.status(200).json(
+        new ApiResponse(201, {}, action === 'like' ? `${targetType} liked successfully` : `${targetType} unliked successfully`)
+    );
+});
+
+const getAllLikes=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {targetId,targetType}=req.body
+    if(!targetId || !targetType){
+        throw new ApiError(400,"All fields are required")
+    }
+    
+    const limit=Number(req.query.limit || 9)
+    const page=Number(req.query.page || 1)
+    const skip=(page-1)*limit
+    const user=req.user
     if(!user){
         throw new ApiError(401,"User is not logged in")
     }
-    const post=await Post.findById(postId)
-    if(!post){
-        throw new ApiError(401,"Invalid post id")
+    let target
+    if(targetType==='post'){
+        target=await Post.findById(targetId)
+    }else if(targetType==='comment'){
+        target=await Comment.findById(targetId)
+    }else if(targetType==='story'){
+        target=await Story.findById(targetId)
     }
-    const createLike=await Like.create({
-        postId:post._id,
-        userId:user.id
-    })
-    const liked=await Like.findById(createLike._id)
-    if(!liked){
-        throw new ApiError(500,"Like request unsuccessful")
+    if(!target){
+        throw new ApiError(404,"Target not found")
     }
-    res.status(200).json(
-        new ApiResponse( 201,{}, "Post liked Successfully")
-    )
-})
-
-const unlikePost=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {postId}=req.params
-    if(!postId){
-        throw new ApiError(400,"Post id is required")
+    if(targetType==='story' && target.userId.toString()!==user._id.toString()){
+        throw new ApiError(401,"Only story owner can see the story likes")
     }
-    const user=req.user 
-    if(!user){
-        throw new ApiError(401,"User is not logged in")
-    }
-    const post=await Post.findById(postId)
-    if(!post){
-        throw new ApiError(401,"Invalid post id")
-    }
-    const like=await Like.findOne({
-        $and:[{postId:post._id},{userId:user._id}]
-    })
-    if(!like){
-        throw new ApiError(401,"Nothing to unlike")
-    }
-    await Like.findByIdAndDelete(like._id)
-    const liked=await Like.findById(like._id)
-    if(!liked){
-        throw new ApiError(500,"Like request unsuccessful")
-    }
-    res.status(200).json(
-        new ApiResponse( 201,{}, "Post unliked Successfully")
-    )
-})
-
-const likeComment=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {commentId}=req.params
-    if(!commentId){
-        throw new ApiError(400,"comment id is required")
-    }
-    const user=req.user 
-    if(!user){
-        throw new ApiError(401,"User is not logged in")
-    }
-    const comment=await Comment.findById(commentId)
-    if(!comment){
-        throw new ApiError(401,"Invalid comment id")
-    }
-    const createLike=await Like.create({
-        commentId:comment._id,
-        userId:user.id
-    })
-    const liked=await Like.findById(createLike._id)
-    if(!liked){
-        throw new ApiError(500,"Like request unsuccessful")
+    const likes=await Like.aggregate([
+        {
+            $match:{
+                userId:user._id,
+                [`${targetType}Id`]:target._id
+            }
+        },
+        {
+            $skip:skip
+        },
+        {
+            $limit:limit
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"userId",
+                foreignField:"_id",
+                as:"userInfo",
+                pipeline:[
+                    {
+                        $project:{
+                            "name":1,
+                            "username":1,
+                            "profilePic":1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project:{
+                "userInfo.name":1,
+                "userInfo.username":1,
+                "userInfo.profile":1,
+                updatedAt:1
+            }
+        }
+    ])
+    if(likes.length<1){
+        return res.status(204).json(
+            new ApiResponse(204,{},"no likes to fetch")
+        )
     }
     res.status(200).json(
-        new ApiResponse( 201,{}, "comment liked Successfully")
+        new ApiResponse(200,likes,"Likes fetched successfully")
     )
 })
-
-const unlikeComment=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {commentId}=req.params
-    if(!commentId){
-        throw new ApiError(400,"comment id is required")
-    }
-    const user=req.user 
-    if(!user){
-        throw new ApiError(401,"User is not logged in")
-    }
-    const comment=await Comment.findById(commentId)
-    if(!comment){
-        throw new ApiError(401,"Invalid comment id")
-    }
-    const like=await Like.findOne({
-        $and:[{commentId:comment._id},{userId:user._id}]
-    })
-    if(!like){
-        throw new ApiError(401,"Nothing to unlike")
-    }
-    await Like.findByIdAndDelete(like._id)
-    const liked=await Like.findById(like._id)
-    if(!liked){
-        throw new ApiError(500,"Like request unsuccessful")
-    }
-    res.status(200).json(
-        new ApiResponse( 201,{}, "comment unliked Successfully")
-    )
-})
-
-const likeStory=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {storyId}=req.params
-    if(!storyId){
-        throw new ApiError(400,"like id is required")
-    }
-    const user=req.user 
-    if(!user){
-        throw new ApiError(401,"User is not logged in")
-    }
-    const story=await Story.findById(storyId)
-    if(!story){
-        throw new ApiError(401,"Invalid story id")
-    }
-    const createLike=await Like.create({
-        storyId:story._id,
-        userId:user.id
-    })
-    const liked=await Like.findById(createLike._id)
-    if(!liked){
-        throw new ApiError(500,"Like request unsuccessful")
-    }
-    res.status(200).json(
-        new ApiResponse( 201,{}, "story liked Successfully")
-    )
-})
-
-const unlikeStory=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {storyId}=req.params
-    if(!storyId){
-        throw new ApiError(400,"story id is required")
-    }
-    const user=req.user 
-    if(!user){
-        throw new ApiError(401,"User is not logged in")
-    }
-    const story=await Story.findById(storyId)
-    if(!story){
-        throw new ApiError(401,"Invalid story id")
-    }
-    const like=await Like.findOne({
-        $and:[{storyId:story._id},{userId:user._id}]
-    })
-    if(!like){
-        throw new ApiError(401,"Nothing to unlike")
-    }
-    await Like.findByIdAndDelete(like._id)
-    const liked=await Like.findById(like._id)
-    if(!liked){
-        throw new ApiError(500,"Like request unsuccessful")
-    }
-    res.status(200).json(
-        new ApiResponse( 201,{}, "story unliked Successfully")
-    )
-})
-
-
-export {likePost,unlikePost,likeComment,unlikeComment,likeStory,unlikeStory}
+export { likeAction,getAllLikes };

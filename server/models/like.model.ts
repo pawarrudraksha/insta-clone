@@ -3,6 +3,7 @@ import mongoose, { Schema,Document } from "mongoose"
 interface ILike extends Document{
     postId?:Schema.Types.ObjectId,
     commentId?:Schema.Types.ObjectId,
+    storyId?:Schema.Types.ObjectId,
     userId:Schema.Types.ObjectId
 }
 
@@ -14,6 +15,10 @@ const likeSchema=new Schema<ILike>({
     commentId: {
         type: Schema.Types.ObjectId,
         ref: "Comment"
+    },
+    storyId: {
+        type: Schema.Types.ObjectId,
+        ref: "Story"
     },
 
     userId:{

@@ -1,32 +1,44 @@
 import { ApiResponse } from '../utils/ApiResponse';
-import { User } from '../models/user.model';
+import { IUser, User } from '../models/user.model';
 import { ApiError } from '../utils/ApiError';
 import {asyncHandler} from '../utils/asyncHandler'
 import { Request,Response } from 'express';
 import { Schema } from 'mongoose';
 import { sendMail } from '../utils/sendMail';
+import bcrypt from 'bcrypt'
+
+interface AuthenticatedRequest extends Request{
+    user:IUser
+}
 
 const registerUser=asyncHandler(async(req:Request,res:Response)=>{    
     try {
-        
-        const {_id,username,phoneNo,name,password,dob}=req.body
+        const {_id,username,name,password,dob,email}=req.body
+        if(email){
+            throw new ApiError(400,"Email not required")
+        }
         if(!username || !_id || !name || !password ||!dob ){
             throw new ApiError(400,"All fields are mandatory")
+        }
+        const isUserVerified=await User.findById(_id)
+        if(!isUserVerified){
+            throw new ApiError(401,"User not verified")
         }
         const existedUser=await User.findOne({
             $or:[{username}]
         })
         if(existedUser){
-            throw new ApiError(400,"User with email or username or phoneNo already exists")
+            throw new ApiError(400,"User with email or username  already exists")
         }
-        const user=await User.findByIdAndUpdate(
-            _id,
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user=await User.findOneAndUpdate(
+            {_id},
             {
                 $set:{
                     username,
                     name,
-                    password,
-                    phoneNo,
+                    password:hashedPassword,
                     dob
                 }
             }
@@ -61,12 +73,12 @@ const generateAccessAndRefreshTokens = async (userId: Schema.Types.ObjectId) => 
 }
 
 const login=asyncHandler(async(req:Request,res:Response)=>{
-    const {username,email,phoneNo,password}=req.body
-    if(!(username || email || phoneNo) || !password){
+    const {username,email,password}=req.body
+    if(!(username || email ) || !password){
         throw new ApiError(400,"All fields are required")
     }
     const isUser=await User.findOne({
-        $or:[{username},{email},{phoneNo}]
+        $or:[{username},{email}]
     })
     if(!isUser){
         throw new ApiError(404,"User not found")
@@ -105,6 +117,7 @@ const sendOtp = asyncHandler(async (req: Request, res: Response) => {
         res.status(error.status || 500).json(new ApiResponse(error.status || 500, error.message));
     }
 });
+
 const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
     const {email,receivedOtp}=req.body;
     if (!email) {
@@ -133,6 +146,31 @@ const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
 
 })
 
+const logout=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set:{
+                refreshToken:undefined
+            }
+        },
+        {
+            new:true
+        }
+    )
+    const options={
+        httpOnly:true,
+        secure:true
+    }
+    return res
+    .status(200)
+    .clearCookie("accessToken",options)
+    .clearCookie("refreshToken",options)
+    .json(new ApiResponse(200,{},'User logged out'))
+})
 
-
-export {registerUser,login,sendOtp,verifyOtp}
+export {registerUser,login,logout,sendOtp,verifyOtp}

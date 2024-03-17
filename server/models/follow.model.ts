@@ -3,6 +3,7 @@ import mongoose, { Schema,Document } from "mongoose"
 interface IFollow extends Document{
     userId:Schema.Types.ObjectId,
     follower:Schema.Types.ObjectId
+    isRequestAccepted:boolean
 }
 
 const followSchema=new Schema<IFollow>({
@@ -15,6 +16,10 @@ const followSchema=new Schema<IFollow>({
         type:Schema.Types.ObjectId,
         ref:"User",
         required:true,
+    },
+    isRequestAccepted:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true})
 

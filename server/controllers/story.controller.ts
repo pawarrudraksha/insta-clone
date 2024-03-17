@@ -4,14 +4,16 @@ import { Request,Response } from "express";
 import { ApiError } from "../utils/ApiError";
 import { Story } from "../models/story.model";
 import { ApiResponse } from "../utils/ApiResponse";
+import { Follow } from "../models/follow.model";
+import mongoose from "mongoose";
 
 interface AuthenticatedRequest extends Request{
     user:IUser
 }
 
 const createStory=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
-    const {url,caption}=req.body
-    if(!url){
+    const {content,caption}=req.body
+    if(!content){
         throw new ApiError(400,"Story is required to post")
     }
     const user=req.user
@@ -19,7 +21,7 @@ const createStory=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
         throw new ApiError(401,"Login required to post")
     }
     const story=await Story.create({
-        url,
+        content,
         caption,
         userId:user._id 
     })
@@ -45,7 +47,7 @@ const deleteStory=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!story){
         throw new ApiError(400,"story does not exist")
     }
-    if(story.userId!==user._id){
+    if(story.userId.toString()!==user._id.toString()){
         throw new ApiError(401,"unauthorized delete story request")
     }
     await Story.findByIdAndDelete(storyId)
@@ -57,4 +59,209 @@ const deleteStory=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
         new ApiResponse(200,{},"Story deleted successfully")
     )
 })
-export {createStory,deleteStory}
+
+const getUserActiveStories=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {requestedUserId}=req.params
+    if(!requestedUserId){
+        throw new ApiError(401,"Request user id needed")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    const requestedUser=await User.findById(requestedUserId).select({isPrivate:1,profilePic:1,username:1})
+    if(!requestedUser){
+        throw new ApiError(404,"Requested user not found")
+    }
+    const isUserFollowRequestedUser=await Follow.findOne({userId:requestedUserId,follower:user._id,isRequestAccepted:true})
+    if(requestedUser.isPrivate && !isUserFollowRequestedUser){
+        throw new ApiError(404,"User does  not have access to private account content")
+    }
+    const activeStories=await Story.aggregate([
+        {
+            $match:{
+                userId:new mongoose.Types.ObjectId(requestedUserId),
+                createdAt:{
+                    $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) 
+                }
+            }
+        },
+        {
+            $sort:{
+                createdAt:-1
+            }
+        },
+        {
+            $project:{
+                _id:1,
+                content:1,
+                caption:1,
+                updatedAt:1,
+            }
+        }
+    ])
+    if (!activeStories || activeStories.length < 1) {
+        return res.status(204).json(
+            new ApiResponse(204, {}, "No available data")
+        );
+    }
+    const mergedResult={
+        activeStories,
+        userInfo:requestedUser
+    }
+    res.status(200).json(
+        new ApiResponse(200,mergedResult,"Stories fetched successfully")
+    )
+})
+
+const getAllFollowingStories=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const user=req.user
+    if(!user){
+        throw new ApiError(400,"User needs to be logged in")
+    }
+    const page=req.query.page || 1
+    const limit=req.query.limit || 9
+    const skip=(Number(page)-1)*Number(limit)    
+    const stories=await Follow.aggregate([
+        {
+            $match:{
+                follower:user._id
+            }
+        },
+        {
+            $sort:{
+                createdAt:-1
+            }
+        },
+        {
+            $project:{
+                userId:1
+            }
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"userId",
+                foreignField:"_id",
+                as:"userInfo",
+                pipeline:[
+                    {
+                        $project:{
+                            "profilePic":1,
+                            "username":1,
+                            "_id":1,
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $lookup:{
+                from:"stories",
+                localField:"userId",
+                foreignField:"userId",
+                as:"stories",
+                pipeline:[
+                    {
+                        $match:{
+                            createdAt:{
+                                $gte: new Date(Date.now()-24*60*60*1000)
+                            }
+                        }
+                    },
+                    {
+                        $sort:{
+                            createdAt:-1
+                        }
+                    },
+                    {
+                        $skip:skip
+                    },
+                    {
+                        $limit: Number(limit) 
+                    },
+                ]
+            }
+        },
+        {
+            $project:{
+                userInfo:1,
+                stories:1
+            }
+        }
+    ])
+    if (stories.length < 1) {
+        return res.status(204).json(
+            new ApiResponse(204, {}, "No available data")
+        );
+    }
+    res.status(200).json(
+        new ApiResponse(200,stories,"Stories fetched successfully")
+    )
+})
+
+const getStoryById=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {storyId}=req.params
+    if(!storyId){
+        throw new ApiError(400,"Story id required")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    const isStory=await Story.findById(storyId)
+    if(!isStory){
+        throw new ApiError(404,"Story not found")
+    }
+    const isFollow=await Follow.findOne({userId:isStory.userId,follower:user._id,isRequestAccepted:true})
+    
+    if(isStory.userId.toString()!==user._id.toString() && !isFollow){
+        throw new ApiError(401,"Access denied")   
+    }
+    const story = await Story.aggregate([
+        {
+            $match:{
+                _id:new mongoose.Types.ObjectId(storyId)
+            }
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"userId",
+                foreignField:"_id",
+                as:"userInfo",
+                pipeline:[
+                    {
+                        $project:{
+                            "username":1,
+                            "profilePic":1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                "userInfo": { $arrayElemAt: ["$userInfo", 0] }
+            }
+        },
+        {
+            $project:{
+                _id:1,
+                content:1,
+                caption:1,
+                userInfo:1,
+                createdAt:1,
+                updatedAt:1
+            }
+        }
+    ])
+    if(!story){
+        throw new ApiError(500,"Unable to process request")
+    }
+    res.status(200).json(
+        new ApiResponse(200,story,"Story fetched successfully")
+    )
+})
+
+export {createStory,deleteStory,getUserActiveStories,getAllFollowingStories,getStoryById}

@@ -1,15 +1,20 @@
-import { User } from "../models/user.model";
+import mongoose from "mongoose";
+import { IUser, User } from "../models/user.model";
 import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { uploadOnCloudinary } from "../utils/cloudinary";
+import { Request,Response } from "express";
 
-const addProfilePic=asyncHandler(async(req,res)=>{
+interface AuthenticatedRequest extends Request{
+    user:IUser
+}
+const addProfilePic=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     const {email}=req.body    
     if(!email){
         throw new ApiError(400,"All fields are mandatory")
     }
-    const user=await User.findOne({email})
+    const user=req.user
     if(!user){
         throw new ApiError(404,"User not found")
     }    
@@ -33,7 +38,7 @@ const addProfilePic=asyncHandler(async(req,res)=>{
         {
             new :true
         }
-    )
+    ).select("-password  -refreshToken")
     if(updatedUser.profilePic!==response.url){
         throw new ApiError(500,"Profile pic not updated")
     }
@@ -42,4 +47,141 @@ const addProfilePic=asyncHandler(async(req,res)=>{
     )
 })
 
-export {addProfilePic}
+const deleteUser=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    await User.findByIdAndDelete(user._id)
+    const isUser=await User.findById(user._id)
+    if(isUser){
+        throw new ApiError(500,"User delete request failed")
+    }
+    res.status(200).json(
+        new ApiResponse(200,{},"User deleted successfully")
+    )
+})
+
+const updateProfile=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
+    const {name,isPrivate,bio,gender,website}=req.body
+    const isAnyField= Object.keys(req.body).some(key => {
+        return req.body[key] !== undefined && req.body[key] !== null;
+    });
+    if(!isAnyField){
+        throw new ApiError(400,"No field given to update")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    const updatedUser=await User.findByIdAndUpdate(
+        user._id,
+        {
+            name,
+            isPrivate,
+            bio,
+            gender,
+            website
+        },
+        {
+            new:true
+        }
+    ).select("-password -otp -refreshToken")
+    const isUpdated = (
+        updatedUser.name !== user.name ||
+        updatedUser.isPrivate !== user.isPrivate ||
+        updatedUser.bio !== user.bio ||
+        updatedUser.gender !== user.gender ||
+        updatedUser.website !== user.website
+    );
+    if(!isUpdated){
+        throw new ApiError(500,"Failed to update user")
+    }
+    res.status(200).json(
+        new ApiResponse(200,{updatedUser},"User updated successfully")
+    )
+})
+
+const getUserInfoByUsername=asyncHandler(async(req:Request,res:Response)=>{
+    const {username}=req.params
+    if(!username){
+        throw new ApiError(400,"User id required")
+    }    
+    const user=await User.aggregate([
+        {
+          $match:{
+            username
+          }  
+        },
+        {
+            $project:{
+                _id:1,
+                username:1,
+                name:1,
+                bio:1,
+                website:1,
+                profilePic:1
+            }
+        }
+    ])
+    if(!user){
+        throw new ApiError(404,"User not found")
+    }    
+    res.status(200).json(
+        new ApiResponse(200,user,"User fetched successfully")
+    )
+})
+
+const changePassword=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {oldPassword,newPassword}=req.body
+    if(!oldPassword || !newPassword){
+        throw new ApiError(400,"All fields are required")
+    }
+    if(oldPassword.length!==8 || newPassword.length!==8){
+        throw new ApiError(400,"All fields are required")
+    }
+    const user=await User.findById(req.user._id)
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }    
+    const isPasswordCorrect=await user.isPasswordCorrect(oldPassword)
+    if(!isPasswordCorrect){
+        throw new ApiError(401,"Incorrect password")
+    }
+    user.password=newPassword
+    await user.save({validateBeforeSave:false})
+    res.status(200).json(
+        new ApiResponse(200,{},"Password updated successfully")
+    )
+})
+
+const searchUsers=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const searchTerm=req.query.searchTerm
+    const page=Number(req.query.page || 1)
+    const limit=Number(req.query.limit || 9)
+    const skip=(page-1)*limit
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    let query={}
+    if(searchTerm){
+        query={
+            $or:[
+                {username:{$regex:searchTerm,$options:'i'}},
+                {name:{$regex:searchTerm,$options:'i'}}
+            ]
+        }
+    }
+    const results=await User.find(query).skip(skip).limit(limit).select("-password -refreshToken -otp -email -dob")
+    if(results.length<1){
+        return res.status(204).json(
+            new ApiResponse(204,{},"No results for search")
+        )
+    }
+    res.status(200).json(
+        new ApiResponse(200,results,"Results fetched successfully")
+    )
+})
+
+export {addProfilePic,deleteUser,updateProfile,getUserInfoByUsername,changePassword,searchUsers}

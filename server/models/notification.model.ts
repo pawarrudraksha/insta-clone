@@ -4,7 +4,8 @@ interface INotification extends Document{
     type:"follow" | "like" | "comment";
     senderId:Schema.Types.ObjectId;
     receiverId:Schema.Types.ObjectId;
-    postId:Schema.Types.ObjectId
+    postId?:Schema.Types.ObjectId;
+    comment?:string
 }
 
 const notifcationSchema=new Schema<INotification>({
@@ -27,7 +28,9 @@ const notifcationSchema=new Schema<INotification>({
     postId:{
         type:Schema.Types.ObjectId,
         ref:"Post",
-        required:true
+    },
+    comment:{
+        type:String
     },
 },{timestamps:true})
 

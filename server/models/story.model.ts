@@ -1,7 +1,10 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface IStory extends Document {
-    url: string;
+    content: {
+        type:string,
+        url:string
+    };
     type: "reel" | "post";
     userId: Schema.Types.ObjectId;
     caption: {
@@ -10,13 +13,20 @@ interface IStory extends Document {
             top: string;
             left: string;
         };
+        color?:string
     };
 }
 
 const storySchema = new Schema<IStory>({
-    url: {
-        type: String,
-        required: true
+    content: {
+        type:{
+            type:String,
+            enum:["reel","post"]
+        },
+        url:{
+            type: String,
+            required: true
+        }
     },
     userId: {
         type: Schema.Types.ObjectId,
@@ -37,6 +47,10 @@ const storySchema = new Schema<IStory>({
                 type: String,
                 required: true
             }
+        },
+        color:{
+            type:String,
+            default:"#fff"
         }
     }
 }, { timestamps: true });

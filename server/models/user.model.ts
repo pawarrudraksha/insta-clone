@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken'
 export interface IUser extends Document {
     username: string;
     email?: string;
-    phoneNo?: string;
     profilePic: string;
     password: string;
     dob:string;
@@ -18,6 +17,7 @@ export interface IUser extends Document {
     refreshToken:string;
     generateAccessToken: () => Promise<string>;
     generateRefreshToken: () => Promise<string>;
+    isPasswordCorrect: (password: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>({
@@ -35,11 +35,6 @@ const userSchema = new Schema<IUser>({
         type: String,
         unique: true,
         lowercase: true,
-        trim: true,
-    },
-    phoneNo: {
-        type: String,
-        unique: true,
         trim: true,
     },
     profilePic: {
@@ -81,6 +76,8 @@ userSchema.pre("save",async function(next){
 })
 
 userSchema.methods.isPasswordCorrect=async function(password:string){
+    console.log("password",password);
+    
     return await bcrypt.compare(password,this.password)
 }
 userSchema.methods.generateAccessToken=async function () {

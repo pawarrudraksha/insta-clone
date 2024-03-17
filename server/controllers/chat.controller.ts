@@ -1,10 +1,10 @@
-import { IUser } from "models/user.model";
-import { asyncHandler } from "../../utils/asyncHandler";
+import { IUser } from "../models/user.model";
+import { asyncHandler } from "../utils/asyncHandler";
 import { Request,Response } from "express";
-import { ApiError } from "utils/ApiError";
-import { Chat } from "models/chat.model";
-import { ApiResponse } from "utils/ApiResponse";
-import { uploadOnCloudinary } from "utils/cloudinary";
+import { ApiError } from "../utils/ApiError";
+import { Chat } from "../models/chat.model";
+import { ApiResponse } from "../utils/ApiResponse";
+import { uploadOnCloudinary } from "../utils/cloudinary";
 
 interface AuthenticatedRequest extends Request{
     user:IUser
@@ -12,25 +12,25 @@ interface AuthenticatedRequest extends Request{
 
 const createChat=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     const {chatName,isGroupChat,users}=req.body
-    if (!users || (isGroupChat && !chatName)) {
+    if (users.length < 1 || (isGroupChat && !chatName)) {
         throw new ApiError(400, "Required fields are missing");
     }
     const user=req.user
     if(!user){
         throw new ApiError(401,"User must be logged in")
     }
-    const groupPicPath=req.file.path
-    if(!groupPicPath){
-        throw new ApiError(400,"Cover pic path required")
+    const groupIconPath=req.file.path
+    if(!groupIconPath){
+        throw new ApiError(400,"group icon path required")
     }
-    const response=await uploadOnCloudinary(groupPicPath)
+    const response=await uploadOnCloudinary(groupIconPath)
     if(!response){
-        throw new ApiError(500,"group pic upload failed")
+        throw new ApiError(500,"group icon upload failed")
     }
     const data:any={
         users,
         isGroupChat,
-        groupPic:response.url
+        groupIcon:response.url,
     }
     if(isGroupChat){
         data.admin.push(user._id)
@@ -123,7 +123,7 @@ const removeUserFromChat=asyncHandler(async(req:AuthenticatedRequest,res:Respons
 })
 
 const exitGroup=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {chatId}=req.body
+    const {chatId}=req.params
     if( !chatId){
         throw new ApiError(400,"All field are mandatory")
     }
@@ -183,10 +183,44 @@ const deleteChat=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
     }
 })
 
-// const editGroupInfo=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-//     const {chatId}=req.params
-//     const {chatName,admin}=req.body
+const editGroupIcon=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
+    const {chatId}=req.params
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User must be logged in")
+    }
+    const chat=await Chat.findById(chatId)
+    if(!chat){
+        throw new ApiError(404,"Chat not found")
+    }
+    if(!chat.admin.includes(user._id)){
+        throw new ApiError(401,"Unauthorized request")
+    }
+    const groupIconPath=req.file.path
+    if(!groupIconPath){
+        throw new ApiError(400,"group icon path required")
+    }
+    const response=await uploadOnCloudinary(groupIconPath)
+    if(!response){
+        throw new ApiError(500,"Image upload failed")
+    }
+    const updatedChat=await Chat.findByIdAndUpdate(
+        chat._id,
+        {
+            $set:{
+                groupIcon:response.url
+            }
+        },
+        {
+            new:true
+        }
+    )
+    if(updatedChat.groupIcon!==response.url){
+        throw new ApiError(500,"Group icon update request failed")
+    }
+    res.status(200).json(
+        new ApiResponse(200,{updatedChat},"group icon updated successfullly")
+    )
+})
 
-// })
-
-export {createChat,addUserToChat,removeUserFromChat,exitGroup,deleteChat}
+export {createChat,addUserToChat,removeUserFromChat,exitGroup,deleteChat,editGroupIcon}

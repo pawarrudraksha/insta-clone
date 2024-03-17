@@ -5,8 +5,8 @@ interface IChat extends Document{
     isGroupChat:boolean;
     admin:[Schema.Types.ObjectId];
     users:[Schema.Types.ObjectId];
-    latestMessage:string;
-    groupPic:string
+    latestMessage:Schema.Types.ObjectId;
+    groupIcon:string
 }
 
 const chatSchema=new Schema<IChat>({
@@ -27,10 +27,13 @@ const chatSchema=new Schema<IChat>({
         type:[Schema.Types.ObjectId],
         ref:"User"
     },
-    groupPic:{
+    groupIcon:{
         type:String
     },
-    latestMessage:String
+    latestMessage:{
+        type:Schema.Types.ObjectId,
+        ref:"Message"
+    }
 },{timestamps:true})
 
 export const Chat=mongoose.model<IChat>("Chat",chatSchema)
