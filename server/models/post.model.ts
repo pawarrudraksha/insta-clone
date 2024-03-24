@@ -20,7 +20,9 @@ interface IPost extends Document {
     userId: Schema.Types.ObjectId; 
     isHideLikesAndViews?: boolean; 
     isCommentsOff?: boolean; 
-    taggedUsers:[Schema.Types.ObjectId]
+    taggedUsers:[Schema.Types.ObjectId];
+    caption:string;
+    aspectRatio:string
 }
 
 const postItemSchema = new Schema<IPostItem>({
@@ -67,6 +69,12 @@ const postSchema = new Schema<IPost>({
     },
     taggedUsers:{
         type:[Schema.Types.ObjectId],
+    },
+    caption:{
+        type:String
+    },
+    aspectRatio:{
+        type:String
     }
 }, { timestamps: true });
 

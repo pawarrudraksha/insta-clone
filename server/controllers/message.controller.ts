@@ -6,12 +6,15 @@ import { Chat } from "../models/chat.model";
 import { Message } from "../models/message.model";
 import { ApiResponse } from "../utils/ApiResponse";
 import { uploadOnCloudinary } from "../utils/cloudinary";
+import mongoose from "mongoose";
 
 interface AuthenticatedRequest extends Request{
     user:IUser
 }
-const sendMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+const sendTextMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     const {message,toReplyMessage,chatId}=req.body
+    console.log(req.file);
+    
     if(!message.type || !message.content || !chatId){
         throw new ApiError(400,"All fields are required")
     }
@@ -26,35 +29,11 @@ const sendMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!chat.users.includes(user._id)){
         throw new ApiError(401,"User not part of given chat")
     }
-    let data;
-    if(message.type!=='text'){
-        const messagePath=req.file.path;
-        if(!messagePath){
-            throw  new ApiError(400,"message path is required")
-        }
-        const response=await uploadOnCloudinary(messagePath)
-        if(!response){
-            throw new ApiError(500,"Upload message failed")
-        }
-        data={
-            message:{
-                type:message.type,
-                content:response.url
-            },
-            chatId,
-            senderId:user._id,
-            toReplyMessage
-        }
-    }else{
-        data={
-            message,
-            chatId,
-            senderId:user._id,
-            toReplyMessage
-        }
-
-    }
-    const msg=await Message.create(data)
+    const msg=await Message.create({message,
+        chatId,
+        senderId:user._id,
+        toReplyMessage
+    })
     if(!msg){
        throw new ApiError(500,"failed to send message")
     }
@@ -69,11 +48,67 @@ const sendMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
             new:true
         }
     )
-    if(updatedChat.latestMessage!==msg._id){
+    if(updatedChat.latestMessage.toString()!==msg._id.toString()){
         throw new ApiError(500,"failed to update latest chat message")
     }
     res.status(201).json(
-        new ApiResponse(201,msg,"Msg sent successfully")
+        new ApiResponse(201,{},"Msg sent successfully")
+    )
+})
+
+const sendPost=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {messageType,toReplyMessage,chatId}=req.body    
+    if(!messageType|| !chatId){
+        throw new ApiError(400,"All fields are required")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"user must be logged in")
+    }
+    const chat=await Chat.findById(chatId)
+    if(!chat){
+        throw new ApiError(404,"Chat not found")
+    }
+    if(!chat.users.includes(user._id)){
+        throw new ApiError(401,"User not part of given chat")
+    }
+    const messagePath=req.file.path;
+    if(!messagePath){
+        throw  new ApiError(400,"message path is required")
+    }
+    const response=await uploadOnCloudinary(messagePath)
+    if(!response){
+        throw new ApiError(500,"Upload message failed")
+    }
+        
+    const msg=await Message.create({
+        message:{
+            type:messageType,
+            content:response.url
+        },
+        chatId,
+        senderId:user._id,
+        toReplyMessage
+    })
+    if(!msg){
+       throw new ApiError(500,"failed to send message")
+    }
+    const updatedChat=await Chat.findByIdAndUpdate(
+        chatId,
+        {
+            $set:{
+                latestMessage:msg._id
+            }
+        },
+        {
+            new:true
+        }
+    )
+    if(updatedChat.latestMessage.toString()!==msg._id.toString()){
+        throw new ApiError(500,"failed to update latest chat message")
+    }
+    res.status(201).json(
+        new ApiResponse(201,{},"Msg sent successfully")
     )
 })
 
@@ -97,7 +132,10 @@ const editMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!message){
         throw new ApiError(404,"Message not found")
     }
-    if(message.senderId!==user._id){
+    if(message.message.type!=='text'){
+        throw new ApiError(400,"Only text messages can be updated")
+    }
+    if(message.senderId.toString()!==user._id.toString()){
         throw new ApiError(401,"User can only delete his own message")
     }
     const updatedMsg=await Message.findByIdAndUpdate(
@@ -120,7 +158,7 @@ const editMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
 })
 
 const deleteMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
-    const {messageId,chatId}=req.body
+    const {messageId,chatId}=req.query
     if(!messageId || !chatId){
         throw  new ApiError(400,"All fields are required")
     }
@@ -139,7 +177,7 @@ const deleteMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!message){
         throw new ApiError(404,"Message not found")
     }
-    if(message.senderId!==user._id){
+    if(message.senderId.toString()!==user._id.toString()){
         throw new ApiError(401,"User can only delete his own message")
     }
     await Message.findByIdAndDelete(messageId)
@@ -171,7 +209,49 @@ const getChatMessages=asyncHandler(async(req:AuthenticatedRequest,res:Response)=
     if(!chat.users.includes(user._id)){
         throw new ApiError(401,"User not part of chat")
     }
-    const messages = await Message.find({ chatId }).sort({ updatedAt: -1 }).skip(skip).limit(limit);
+    // const messages = await Message.find({ chatId }).sort({ updatedAt: -1 }).skip(skip).limit(limit);
+    const messages = await Message.aggregate([
+        {
+            $match:{
+                chatId:new mongoose.Types.ObjectId(chatId)
+            }
+        },
+        {
+            $sort:{
+                updatedAt:-1
+            }
+        },
+        {
+            $skip:skip
+        },
+        {
+            $limit:limit
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"senderId",
+                foreignField:"_id",
+                as:"senderInfo",
+                pipeline:[
+                    {
+                        $project:{
+                            "username":1,
+                            "profilePic":1,
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project:{
+                message:1,
+                "senderInfo":{$arrayElemAt:["$senderInfo",0]},
+                updatedAt:1
+            }
+        }
+        
+    ])
     if(messages.length<1){
         throw new ApiResponse(404,"Chat does not have any messages")
     }
@@ -181,7 +261,7 @@ const getChatMessages=asyncHandler(async(req:AuthenticatedRequest,res:Response)=
 })
 
 const getMessageById=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
-    const {chatId,messageId}=req.body
+    const {chatId,messageId}=req.query
     if(!chatId || !messageId){
         throw new ApiError(400,"All fields are required")
     }
@@ -204,4 +284,5 @@ const getMessageById=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>
         new ApiResponse(200,message,"Message fetched successfully")
     )
 })
-export {sendMessage,editMessage,deleteMessage,getChatMessages,getMessageById}
+
+export {sendTextMessage,sendPost,editMessage,deleteMessage,getChatMessages,getMessageById}

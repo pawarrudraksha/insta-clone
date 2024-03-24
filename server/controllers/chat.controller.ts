@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError";
 import { Chat } from "../models/chat.model";
 import { ApiResponse } from "../utils/ApiResponse";
 import { uploadOnCloudinary } from "../utils/cloudinary";
+import mongoose from "mongoose";
 
 interface AuthenticatedRequest extends Request{
     user:IUser
@@ -27,13 +28,17 @@ const createChat=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!response){
         throw new ApiError(500,"group icon upload failed")
     }
+    
     const data:any={
-        users,
+        users:[...users,user._id],
         isGroupChat,
         groupIcon:response.url,
+        admin:[],
+        chatName:"Users"
     }
     if(isGroupChat){
-        data.admin.push(user._id)
+        data.admin.push(user._id),
+        data.chatName=chatName
     }
     const chat=await Chat.create(data)
     res.status(201).json(
@@ -60,6 +65,10 @@ const addUserToChat=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!chat.admin.includes(user._id)){
         throw new ApiError(401,"Only admin has access")
     }
+    
+    if(chat.users.includes(addUserId)){
+        throw new ApiError(400,"User already present")
+    }
     const updatedChat=await Chat.findByIdAndUpdate(
         chat._id,
         {
@@ -75,7 +84,7 @@ const addUserToChat=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
         throw new ApiError(500,"failed to add user")
     }
     res.status(200).json(
-        new ApiResponse(200,updatedChat,"user added to group")
+        new ApiResponse(200,{},"user added to group")
     )
 })
 
@@ -156,7 +165,7 @@ const exitGroup=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
         throw new ApiError(500,"Unable to process request")
     }
     res.status(200).json(
-        new ApiResponse(200,updatedChat,"User exited group successfully")
+        new ApiResponse(200,{},"User exited group successfully")
     )
 })
 
@@ -183,7 +192,80 @@ const deleteChat=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
     }
 })
 
-const editGroupIcon=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
+const getChatInfo=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
+    const {chatId}=req.params
+    if(!chatId){
+        throw new ApiError(400,"Chat id is required")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"Unauthorized request ,user not logged in")
+    }
+    const isChat=await Chat.findById(chatId)
+    if(!isChat){
+        throw new ApiError(404,"Chat not found")
+    }
+    if(!isChat.users.includes(user._id)){
+        throw new ApiError(401,"Unauthorized request")
+    }
+    const chatInfo=await Chat.aggregate([
+        {
+            $match:{
+                _id:new mongoose.Types.ObjectId(chatId)
+            }
+        },
+        {
+            $unwind:"$users"
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"users",
+                foreignField:"_id",
+                as:"userInfo",
+                pipeline:[
+                    {
+                        $project:{
+                            "name":1,
+                            "username":1,
+                            "profilePic":1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project:{
+                "userInfo":{$arrayElemAt:["$userInfo",0]},
+                "updatedAt":1,
+                "isGroupChat":1,
+                "groupIcon":1,
+                "admin":1,
+                "chatName":1,
+            }
+        },
+        {
+            $group:{
+                _id:"$_id",
+                users:{$push:"$userInfo"},
+                updatedAt: { $first: "$updatedAt" },
+                isGroupChat: { $first: "$isGroupChat" },
+                groupIcon: { $first: "$groupIcon" },
+                chatName: { $first: "$chatName" },
+                admin: { $first: "$admin" } 
+            }
+        }
+      
+    ])
+    if(!chatInfo){
+        throw new ApiError(500,"Failed to fetch chat info")
+    }
+    res.status(200).json(
+        new ApiResponse(200,chatInfo,"Chat info fetched successfully")
+    )
+})
+
+const updateGroupIcon=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
     const {chatId}=req.params
     const user=req.user
     if(!user){
@@ -219,8 +301,8 @@ const editGroupIcon=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>
         throw new ApiError(500,"Group icon update request failed")
     }
     res.status(200).json(
-        new ApiResponse(200,{updatedChat},"group icon updated successfullly")
+        new ApiResponse(200,{},"group icon updated successfullly")
     )
 })
 
-export {createChat,addUserToChat,removeUserFromChat,exitGroup,deleteChat,editGroupIcon}
+export {createChat,addUserToChat,removeUserFromChat,exitGroup,deleteChat,updateGroupIcon,getChatInfo}
