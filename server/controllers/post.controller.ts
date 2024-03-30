@@ -102,7 +102,27 @@ const getPostById=asyncHandler(async(req:AuthenticatedRequest | Request,res:Resp
                 "posts._id":1,
                 userId:1,
                 updatedAt:1,
-                isStandAlone:1
+                isStandAlone:1,
+                caption:1
+            }
+        },{
+            $lookup:{
+                from:"posts",
+                localField:"userId",
+                foreignField:"userId",
+                as:"userPosts",
+                pipeline:[
+                    {
+                        $project:{
+                            _id:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields:{
+                noOfPostsOfUser:{$size:"$userPosts"}
             }
         },
         {
@@ -115,7 +135,8 @@ const getPostById=asyncHandler(async(req:AuthenticatedRequest | Request,res:Resp
                     {
                         $project:{
                             username:1,
-                            profilePic:1
+                            profilePic:1,
+                            isPrivate:1
                         }
                     }
                 ]
@@ -136,15 +157,26 @@ const getPostById=asyncHandler(async(req:AuthenticatedRequest | Request,res:Resp
             }
         },
         {
+            $addFields: {
+              "userInfo": {
+                $mergeObjects: [
+                  { $arrayElemAt: ["$userInfo", 0] },
+                  { "noOfPostsOfUser": 1 }
+                ]
+              }
+            }
+        },
+        {
             $project:{
                 isStandAlone:1,
                 posts:1,
                 isHideLikesAndViews:1,
+                caption:1,
                 isCommentsOff:1,
                 taggedUsers:1,
                 updatedAt:1,
                 noOfLikes:1,
-                userInfo:{$arrayElemAt:["$userInfo",0]}
+                userInfo:1
             }
         }
     ])
@@ -157,6 +189,10 @@ const getPostsByUsername=asyncHandler(async(req:AuthenticatedRequest | Request,r
     const page=Number(req.query.page || 1)
     const limit=Number(req.query.limit || 9)
     const skip=(page -1 )* limit
+    let filterPost;
+    if(req.query.filterPost){
+        filterPost=String(req.query.filterPost)
+    }
     const {username}=req.params
     if(!username){
         throw new ApiError(400,"user id is required")
@@ -176,7 +212,8 @@ const getPostsByUsername=asyncHandler(async(req:AuthenticatedRequest | Request,r
     const posts=await Post.aggregate([
         {
             $match:{
-                userId:user._id
+                userId:user._id,
+                _id:{$ne:new mongoose.Types.ObjectId(filterPost)}
             }
         },
         {
@@ -711,6 +748,7 @@ const getUserFeed=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
                 isHideLikesAndViews: "$posts.isHideLikesAndViews",
                 isCommentsOff: "$posts.isCommentsOff",
                 taggedUsers: "$posts.taggedUsers",
+                caption: "$posts.caption",
                 noOfComments: "$noOfComments",
                 noOfLikes: "$noOfLikes",
                 userInfo:{$arrayElemAt:["$userInfo",0]},

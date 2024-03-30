@@ -36,7 +36,7 @@ const ExplorePage: React.FC = () => {
                 className={`${index === 2 ? styles.explorePagePostBiggerItem1 : styles.explorePagePostItem}`}
                 key={index}
               >
-                <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} />
+                {/* <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} /> */}
               </div>
             ))}
           </div>
@@ -46,7 +46,7 @@ const ExplorePage: React.FC = () => {
                 className={`${index === 0 ? styles.explorePagePostBiggerItem2 : styles.explorePagePostItem}`}
                 key={index}
               >
-                <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} />
+                {/* <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} /> */}
               </div>
             ))}
           </div>

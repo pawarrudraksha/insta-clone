@@ -133,7 +133,7 @@ const getFollowers=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
                 "followerDetails.name": 1,
                 "followerDetails.username": 1,
                 "followerDetails.hasStory": 1,
-                "_id":1
+                "followerDetails._id":1
             }
         }
     ]);
@@ -211,7 +211,7 @@ const getFollowing=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
                 "followingDetails.profilePic": 1,
                 "followingDetails.name": 1,
                 "followingDetails.username": 1,
-                "_id":1,
+                "followingDetails._id":1,
                 "followingDetails.hasStory":1
             }
         }
@@ -340,6 +340,44 @@ const removeFollower=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>
     )
 })
 
+const checkIsFollowingDoc=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {requestedUserId}=req.params
+    if(!requestedUserId){
+        throw new ApiError(400,"Fields missing")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    const followDoc=await Follow.findOne({userId:requestedUserId,follower:user._id})
+    if(!followDoc){
+        return res.status(200).json(
+            new ApiResponse(204,{},"follow doc not found ")
+    )}
+    res.status(200).json(
+        new ApiResponse(200,followDoc,"follow doc fetched ")
+    )
+})
+
+const checkIsFollowerDoc=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {requestedUserId}=req.params
+    if(!requestedUserId){
+        throw new ApiError(400,"Fields missing")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+    const followDoc=await Follow.findOne({userId:user._id,follower:requestedUserId})
+    if(!followDoc){
+        return res.status(200).json(
+            new ApiResponse(204,{},"follow doc not found ")
+    )}
+    res.status(200).json(
+        new ApiResponse(200,followDoc,"follow doc fetched ")
+    )
+})
+
 export{
     followUser,
     unFollow,
@@ -348,5 +386,7 @@ export{
     getFollowers,
     getFollowRequests,
     getFollowing,
-    removeFollower
+    removeFollower,
+    checkIsFollowerDoc,
+    checkIsFollowingDoc
 }

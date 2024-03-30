@@ -16,7 +16,7 @@ interface InterStyles {
 
 interface Post{
   type:string;
-  post:string;
+  url:string;
 }
 
 interface CarouselProps{
@@ -29,8 +29,7 @@ const Carousel :React.FC<CarouselProps>=({posts,isCreatePost})=> {
   const [isPlaying,setIsPlaying]=useState<boolean>(true)  
   const [isMuted,setIsMuted]=useState<boolean>(true)  
   const isCropPostModalOpen=useAppSelector(selectIsCropPostModalOpen)
-  const videoRef=useRef<HTMLVideoElement>(null)
- 
+  const videoRef=useRef<HTMLVideoElement>(null)  
   const createPostActiveIndex=useAppSelector(selectCarouselActiveIndex)
   useEffect(()=>{
     if(isCreatePost){
@@ -106,9 +105,9 @@ const Carousel :React.FC<CarouselProps>=({posts,isCreatePost})=> {
       </div>}
       {posts.map((img, index) => (
       <div  key={index}  className={styles.postContainer}>
-         {img.type==="image" && 
+         {img.type==="post" && 
             <img 
-              src={img.post} 
+              src={img.url} 
               alt={`carousel-image-${index}`}  
               width={`100%`} 
               height={`100%`} 
@@ -116,7 +115,7 @@ const Carousel :React.FC<CarouselProps>=({posts,isCreatePost})=> {
             />
          }
          {
-          img.type==="video" && 
+          img.type==="reel" && 
           (
             <>
                 <video
@@ -129,7 +128,7 @@ const Carousel :React.FC<CarouselProps>=({posts,isCreatePost})=> {
                 autoPlay={isCropPostModalOpen}
                 ref={videoRef}
                 >
-                <source src={img.post} type="video/mp4"   />
+                <source src={img.url} type="video/mp4"   />
                 Your browser does not support the video tag.
                 </video>
             

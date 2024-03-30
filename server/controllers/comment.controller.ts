@@ -133,7 +133,7 @@ const getPostComments=asyncHandler(async(req:Request | AuthenticatedRequest,res:
         },
         {
             $sort:{
-                updatedAt:-1
+                updatedAt:1
             }
         },
         {

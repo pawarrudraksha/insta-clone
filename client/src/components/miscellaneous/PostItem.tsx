@@ -4,29 +4,14 @@ import { openPostModal } from '../../app/features/viewPostSlice';
 import styles from '../../styles/miscellaneous/postItem.module.css'
 import { FaComment, FaHeart, FaImages, FaPlay } from 'react-icons/fa';
 import {  BiSolidMoviePlay } from 'react-icons/bi';
-import { resetCarouselData, setCarouselData } from '../../app/features/carouselSlice';
+import { AccountPost } from '../account/render/RenderPosts';
 
-
-interface PostItemProps{
-    images:string[];
-    type:string;
-    noOfLikes:number;
-    noOfComments:number;
-    id:number;
-    showReelIcon?:boolean;
-}
-
-interface PostItemProp{
-    item:PostItemProps
-}
-const PostItem:React.FC<PostItemProp> = ({item}) => {
+const PostItem:React.FC<{item:AccountPost,showReelIcon?:boolean}> = ({item,showReelIcon}) => {
     const [isInteractionVisible,setIsInteractionVisible]=useState<boolean>(false)
-    const dispatch=useAppDispatch()
-    const handleNavigate=(id:number)=>{
-        dispatch(resetCarouselData())
-        dispatch(setCarouselData({type:item.type,post:item.images}))
+    const dispatch=useAppDispatch()    
+    const handleNavigate=(postId:string)=>{
         dispatch(openPostModal())
-        window.history.pushState(null, '', `/p/${id}`);
+        window.history.pushState(null, '', `/p/${postId}`);
     }    
     const handleMouseEnter=()=>{
         setIsInteractionVisible(true)
@@ -40,53 +25,53 @@ const PostItem:React.FC<PostItemProp> = ({item}) => {
             className={`${styles.postItemContainer} ${isInteractionVisible && styles.postItemContainerInteractionActive}`} 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave}
-            onClick={()=>handleNavigate(item.id)}
+            onClick={()=>handleNavigate(item?._id)}
         >
            {isInteractionVisible && 
                 <div className={styles.postItemInteractionContainer}>
                     <div className={styles.postItemLikes}>
                         <FaHeart/>
-                        <p>{item.noOfLikes}</p>
+                        <p>{item?.noOfLikes}</p>
                     </div>
                     <div className={styles.postItemComments}>
                         <FaComment/>
-                        <p>{item.noOfComments}</p>
+                        <p>{item?.noOfComments}</p>
                     </div>
                 </div>
             }
             {
                 <div className={styles.postItemTypeIndicator}>
                     {
-                        (item.type==='video'&& item.showReelIcon && item.images.length <= 1)  && <BiSolidMoviePlay/>
+                        (item?.post?.type==='reel'&& showReelIcon && item?.isStandAlone)  && <BiSolidMoviePlay/>
                     }
                     {
-                        item.images.length>1 && <FaImages/>
+                        !item?.isStandAlone && <FaImages/>
 
                     }
                 </div>
             }
             {
-                (item.type==='video'&& !item.showReelIcon && item.images.length <= 1)  && 
+                (item?.post?.type==='reel'&& !showReelIcon && item?.isStandAlone)  && 
                 <div className={styles.postReelViews}>
                     <FaPlay/>
                     <p>1M</p>
                 </div>
             }
             {
-                item.type==='image' && (
+                item?.post?.type==='post' && (
                     <div className={styles.postItem} >
-                        <img src={item.images[0]} alt="post" />
+                        <img src={item?.post?.url} alt="post" />
                     </div>
                 )
             }
             {
-                item.type==='video' && (
+                item?.post?.type==='reel' && (
                 <div className={styles.postItemIsReel} >
                     <video
                         loop 
                         muted
                     >
-                        <source src={item.images[0]} type="video/mp4"   />
+                        <source src={item?.post?.url} type="video/mp4"   />
                         Your browser does not support the video tag.
                     </video>                      
                 </div>

@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import axios from 'axios';
 
 // Define a type for the slice state
 interface HomeState {
@@ -12,6 +13,20 @@ const initialState: HomeState = {
   suggestionProfileModal:false,
   activeSuggestionProfileModal:-1,
 };
+
+export const getUserFeed=createAsyncThunk("home/feed",async(page:number)=>{
+  const response=await axios.get(`/posts/get-user-feed?page=${page}`)
+  return response.data
+})
+
+export const fetchFollowerDoc=createAsyncThunk("home/followerDoc",async(requestedUserId:string)=>{
+    const response=await axios.get(`/follow/check-follower/${requestedUserId}`)
+    return response.data
+})
+export const fetchFollowingDoc=createAsyncThunk("home/followingDoc",async(requestedUserId:string)=>{
+    const response=await axios.get(`/follow/check-following/${requestedUserId}`)
+    return response.data
+})
 
 export const homeSlice = createSlice({
   name: 'home',

@@ -63,9 +63,17 @@
     cursor: pointer;
     transition: background-color 0.3s ease; 
 }
+.accountHeaderFollowBtn{
+    background-color: var(--btn-color); 
+    color: var(--font-color); 
+}
 .accountHeaderContentBtn:hover,
 .accountHeaderContentSimilarAccountsBtn svg:hover{
     background-color: var(--hover-color-2); 
+}
+.accountHeaderFollowBtn:hover{
+    background-color: var(--btn-hover-color); 
+    color: var(--font-color); 
 }
 .accountHeaderContentAnalytics{
     display: flex;
@@ -95,7 +103,7 @@
 .accountHeaderContentDescriptionThreads{
     display: flex;
     background-color: var(--btn-bg-color);
-    width: 100px;
+    width: fit-content;
     gap: 5px;
     margin-bottom: 7px;
     margin-top: 2px;

@@ -88,7 +88,7 @@ const getUserActiveStories=asyncHandler(async(req:AuthenticatedRequest,res:Respo
         },
         {
             $sort:{
-                createdAt:-1
+                updatedAt:1
             }
         },
         {
@@ -125,7 +125,8 @@ const getAllFollowingStories=asyncHandler(async(req:AuthenticatedRequest,res:Res
     const stories=await Follow.aggregate([
         {
             $match:{
-                follower:user._id
+                follower:user._id,
+                isRequestAccepted:true
             }
         },
         {
@@ -171,7 +172,7 @@ const getAllFollowingStories=asyncHandler(async(req:AuthenticatedRequest,res:Res
                     },
                     {
                         $sort:{
-                            createdAt:-1
+                            updatedAt:-1
                         }
                     },
                     {
@@ -180,13 +181,78 @@ const getAllFollowingStories=asyncHandler(async(req:AuthenticatedRequest,res:Res
                     {
                         $limit: Number(limit) 
                     },
+                    {
+                        $project:{
+                            updatedAt:1,
+                            caption:1,
+                            content:1
+                        }
+                    },
+                ]
+            }
+        },
+        {
+            $unwind:"$stories"
+        },
+        {
+            $lookup:{
+                from:"views",
+                localField:"stories._id",
+                foreignField:"storyId",
+                as:"storyView",
+                pipeline:[
+                    {
+                        $match:{
+                            userId:user._id
+                        }
+                    }
                 ]
             }
         },
         {
             $project:{
-                userInfo:1,
-                stories:1
+                userInfo:{$arrayElemAt:["$userInfo",0]},
+                stories:1,
+                isStoryViewed: {
+                    $cond: {
+                        if: { $eq: [{ $size: "$storyView" }, 0] },
+                        then: false,
+                        else: true
+                    }
+                }
+            }
+        },
+        {
+            $group: {
+              _id: "$userInfo._id",
+              username: { $first: "$userInfo.username" },
+              stories: {
+                $push: {
+                  story: "$stories",
+                  isStoryViewed: "$isStoryViewed"
+                }
+              }
+            }
+        },
+        {
+            $project:{
+                _id:1,
+                username:1,
+                firstStory:{
+                  $arrayElemAt:["$stories.story",0]  
+                },
+                areAllStoriesViewed:{
+                    $cond: {
+                        if: {
+                          $gt: [
+                            { $size: { $filter: { input: "$stories", cond: { $eq: ["$$this.isStoryViewed", false] } } } },
+                            0
+                          ]
+                        },
+                        then: false,
+                        else: true
+                      }
+                }
             }
         }
     ])

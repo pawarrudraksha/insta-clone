@@ -1,8 +1,14 @@
 .postCommentCardContainer{
     display: flex;
     gap: 10px;
+    justify-content: space-between;
 }
 
+.postCommentCardContentsContainer{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
 .postCommentCardProfilePic img{
     width: 42px;
     height: 42px;
@@ -34,24 +40,40 @@
     font-size: var(--font-size-small);
     color: var(--secondary-font-color);
 }
-
+.postCommentCardInfo button{
+    font-size: var(--font-size-small);
+    color: var(--secondary-font-color);
+    outline: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
 .postCommentCardReplySection{
     display: flex;
-    align-items: center;
+    flex-direction: column;
     cursor: pointer;
     color: var(--secondary-font-color);
     gap: 15px;
 }
 
-.postCommentCardReplySection hr{
+.postCommentCardReplySectionHeader{
+    display: flex;
+    align-items: center;
+}
+.postCommentCardReplySectionHeader hr{
     width: 20px;
     margin: 0px;
     color: var(--secondary-font-color);
 }
 
-.postCommentCardReplySection p{
+.postCommentCardReplySectionHeader button{
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-bold);
+    background: transparent;
+    outline: none;
+    border: none;
+    color: var(--secondary-font-color);
+    cursor: pointer;
 }
 
 .postCommentCardContentWrapper{

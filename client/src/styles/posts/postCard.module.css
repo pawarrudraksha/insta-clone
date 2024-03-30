@@ -130,19 +130,24 @@
 }
 .postCardAddCommentSection{
     display: flex;
-    margin-top: 10px;
-    gap: 10px;
+    gap: 5px;
+    align-items: center;
 }
 
+
 .postCardAddCommentSection button ,
-.postCardAddCommentSection input
+.postCardAddCommentSection input,
+.postCardAddCommentSection p
 {
     border: none;
     outline: none;
     background-color: transparent;
     color: white;
 }
-
+.postCardAddCommentSection p{
+    margin: 0px;
+    font-size: var(--font-size-medium);
+}
 .postCardAddCommentSection input{
     width: 100%;
 }
@@ -157,5 +162,5 @@
 }
 
 .postCardAddCommentSection svg{
-    font-size: var(--font-size-xxlarge);
+    font-size: var(--font-size-xxxlarge);
 }

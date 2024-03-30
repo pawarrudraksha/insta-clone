@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 import { Request,Response } from "express";
+import { Follow } from "../models/follow.model";
 
 interface AuthenticatedRequest extends Request{
     user:IUser
@@ -114,13 +115,76 @@ const getUserInfoByUsername=asyncHandler(async(req:Request,res:Response)=>{
           }  
         },
         {
+            $lookup:{
+                from:"posts",
+                localField:"_id",
+                foreignField:"userId",
+                as:"posts"
+            }
+        },
+        {
+            $addFields:{
+                noOfPosts:{
+                    $size:"$posts"
+                }
+            }
+        },
+        {
+            $lookup:{
+                from:"follows",
+                localField:"_id",
+                foreignField:"userId",
+                as:"followers",
+                pipeline:[
+                    {
+                        $match:{
+                            isRequestAccepted:true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields:{
+                noOfFollowers:{
+                    $size:"$followers"
+                }
+            }
+        },
+        {
+            $lookup:{
+                from:"follows",
+                localField:"_id",
+                foreignField:"follower",
+                as:"following",
+                pipeline:[
+                    {
+                        $match:{
+                            isRequestAccepted:true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields:{
+                noOfFollowing:{
+                    $size:"$following"
+                }
+            }
+        },
+        {
             $project:{
                 _id:1,
                 username:1,
                 name:1,
                 bio:1,
+                isPrivate:1,
                 website:1,
-                profilePic:1
+                profilePic:1,
+                noOfFollowing:1,
+                noOfFollowers:1,
+                noOfPosts:1,
             }
         }
     ])
@@ -128,7 +192,7 @@ const getUserInfoByUsername=asyncHandler(async(req:Request,res:Response)=>{
         throw new ApiError(404,"User not found")
     }    
     res.status(200).json(
-        new ApiResponse(200,user,"User fetched successfully")
+        new ApiResponse(200,user[0],"User fetched successfully")
     )
 })
 
@@ -164,16 +228,48 @@ const searchUsers=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!user){
         throw new ApiError(401,"User not logged in")
     }
-    let query={}
-    if(searchTerm){
-        query={
-            $or:[
-                {username:{$regex:searchTerm,$options:'i'}},
-                {name:{$regex:searchTerm,$options:'i'}}
-            ]
+    const results=await User.aggregate([
+        {
+            $match: {
+              $or: [
+                { username: { $regex: searchTerm, $options: 'i' } }, 
+                { name: { $regex: searchTerm, $options: 'i' } }      
+              ]
+            }
+        },
+        {
+            $lookup:{
+                from:"follows",
+                localField:"_id",
+                foreignField:"userId",
+                as:"followers"
+            }
+        },
+        {
+            $addFields:{
+                noOfFollowers:{$size:"$followers"}
+            }
+        },
+        {
+            $sort:{
+                noOfFollowers:-1
+            }
+        },
+        {
+            $skip:skip
+        },
+        {
+            $limit:limit
+        },
+        {
+            $project:{
+                name:1,
+                username:1,
+                profilePic:1,
+                noOfFollowers:1,
+            }
         }
-    }
-    const results=await User.find(query).skip(skip).limit(limit).select("-password -refreshToken -otp -email -dob")
+    ])
     if(results.length<1){
         return res.status(204).json(
             new ApiResponse(204,{},"No results for search")
@@ -184,4 +280,56 @@ const searchUsers=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     )
 })
 
-export {addProfilePic,deleteUser,updateProfile,getUserInfoByUsername,changePassword,searchUsers}
+const getSuggestedUsers=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const page=Number(req.query.page || 1)
+    const limit=Number(req.query.limit || 4)
+    const skip=(page-1)*limit
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,'User not logged in')
+    }
+    const suggestions=await User.aggregate([
+        {
+            $match:{
+                _id:{$ne:user._id}
+            }
+        },
+        {
+            $skip:skip
+        },
+        {
+            $limit:limit
+        },
+        {
+            $lookup:{
+                from:"follows",
+                localField:"_id",
+                foreignField:"userId",
+                as:"followers"
+            }
+        },
+        {
+            $match:{
+                "followers.follower": { $nin: [user._id] }
+            }
+        },
+        {
+            $project:{
+                username:1,
+                name:1,
+                profilePic:1,
+                createdAt:1
+            }
+        }
+    ])
+    if(suggestions.length<1){
+        return res.status(204).json(
+            new ApiResponse(204,{},"No suggestions for search")
+        )
+    }
+    res.status(200).json(
+        new ApiResponse(200,suggestions,"Suggestions fetched successfully")
+    )  
+})
+
+export {addProfilePic,deleteUser,updateProfile,getUserInfoByUsername,changePassword,searchUsers,getSuggestedUsers}

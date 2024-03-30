@@ -1,92 +1,191 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import axios from 'axios';
 
 // Define a type for the slice state
-interface StoryObject {
-  name: string;
-  coverPic: string;
-  id: number;
-  username: string;
-  stories: {
-    story: string;
-    type: string;
-  }[]
-}
 
-interface StoryState {
-  activeStoriesSet: StoryObject;
-  isStoryModalOpen: boolean;
-  activeStory:{
-    story:string;
-    type:string;
+export interface ActiveStoryType {
+  _id: string;
+  content: {
+    type: string,
+    url: string
   };
-  activeStoryNo:number;
-  activeIndex:number;
-  inactiveStoriesSet:StoryObject[];
+  updatedAt: string;
+  caption: {
+    text: string,
+    color: string,
+    position: {
+      top: string,
+      left: string
+    };
+  };
+};
+
+interface StoriesSetType{
+  _id:string;//userId,
+  username:string;
+  firstStory:ActiveStoryType;
+  areAllStoriesViewed:boolean;
+  profilePic?:string
+}
+export interface ActiveStoriesSetType{
+  activeStories:ActiveStoryType[],
+  userInfo:{
+    _id:string;
+    isPrivate:boolean;
+    username:string;
+    profilePic?:string
+  }
+}
+interface HomeStoryState {
+  activeStoriesSetOfHomeStories:ActiveStoriesSetType,
+  isStoryModalOpen: boolean;
+  activeStoryOfHomeStories: ActiveStoryType;
+  activeStoryNoOfHomeStories: number;
+  activeIndexOfHomeStories: number;
+  inactiveStoriesSetOfHomeStories: StoriesSetType[];
+  stories:StoriesSetType[]
 }
 
+export const getAllActiveStories = createAsyncThunk(
+  'story/get-all',
+  async (page: number) => {
+    try {
+      const response = await axios.get(`/story/get-all-following-stories?page=${page}&limit=9`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const getStoryById=createAsyncThunk(
+  'story/get-by-id',
+  async(id:string)=>{
+    try {
+      const response=await axios.get(`/story/get-story/${id}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
+export const getUserActiveStories=createAsyncThunk(
+  'story/get-user-active-stories',
+  async(id:string)=>{
+    try {
+      const response=await axios.get(`/story/get-user-active-stories/${id}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
 // Define the initial state using that type
-const initialState: StoryState = {
-  activeStoriesSet: {
-    name: '',
-    coverPic: "",
-    id: -1,
-    username: '',
-    stories: [],
-  },
+const initialState: HomeStoryState = {
+  activeStoriesSetOfHomeStories:{
+    userInfo:{
+      _id:'',
+      isPrivate:true,
+      username:''
+    },
+    activeStories:[]
+  } , // Changed from null to an empty object
   isStoryModalOpen: false,
-  activeStory:{
-    story:'',
-    type:''
+  activeStoryOfHomeStories: {
+    _id:'',
+    updatedAt:'',
+    content:{
+      type:'',
+      url:''
+    },
+    caption:{
+      text:'',
+      position:{
+        top:'',
+        left:''
+      },
+      color:'',
+    }
   },
-  activeStoryNo:0,
-  activeIndex:-1,
-  inactiveStoriesSet:[]
+  activeStoryNoOfHomeStories: 0,
+  activeIndexOfHomeStories: -1,
+  inactiveStoriesSetOfHomeStories:[],
+  stories:[],
 };
 
 export const storySlice = createSlice({
   name: 'story',
   initialState,
   reducers: {
-    setActiveStoriesSet: (state, action) => {
-      state.activeStoriesSet = action.payload;
+    setActiveStoriesSetOfHomeStories: (state, action) => {
+      state.activeStoriesSetOfHomeStories = action.payload;
     },
-    resetActiveStoriesSet: (state) => {
-      state.activeStoriesSet = { // Resetting to an empty object with the same structure
-        name: '',
-        coverPic: '',
-        id: -1,
-        username: '',
-        stories: [],
+    resetActiveStoriesSetOfHomeStories: (state) => {
+      state.activeStoriesSetOfHomeStories ={
+        activeStories:[],
+        userInfo:{
+          _id:'',
+          isPrivate:true,
+          username:''
+        }
       };
     },
-    setActiveStory:(state,action)=>{
-      state.activeStory=action.payload
+    setActiveStoryOfHomeStories: (state, action) => {
+      state.activeStoryOfHomeStories = action.payload;
     },
-    resetActiveStory:(state,action)=>{
-      state.activeStory={
-        story:'',
-        type:''
+    resetActiveStoryOfHomeStories: (state) => {
+      state.activeStoryOfHomeStories = {
+        _id:'',
+        updatedAt:'',
+        content:{
+          type:'',
+          url:''
+        },
+        caption:{
+          text:'',
+          position:{
+            top:'',
+            left:''
+          },
+          color:'',
+        }
       }
     },
-    setActiveStoryNo:(state,action)=>{
-      state.activeStoryNo=action.payload
+    setActiveStoryNoOfHomeStories: (state, action: PayloadAction<number>) => {
+      state.activeStoryNoOfHomeStories = action.payload;
     },
-    setInactiveStoriesSet:(state,action)=>{
-      state.inactiveStoriesSet=action.payload;
+    setInactiveStoriesSetOfHomeStories: (state, action) => {
+      state.inactiveStoriesSetOfHomeStories = action.payload;
     },
-    setActiveIndex:(state,action)=>{
-      state.activeIndex=action.payload
-    }
+    setStoriesOfHomeStories: (state, action) => {
+      state.stories = action.payload;
+    },
+    setActiveIndexOfHomeStories: (state, action: PayloadAction<number>) => {
+      state.activeIndexOfHomeStories = action.payload;
+    },
+    
   },
 });
 
-export const { setActiveStoriesSet, resetActiveStoriesSet,setActiveStory ,resetActiveStory,setActiveStoryNo,setInactiveStoriesSet,setActiveIndex} = storySlice.actions;
+export const {
+  setActiveStoriesSetOfHomeStories,
+  resetActiveStoriesSetOfHomeStories,
+  setActiveStoryOfHomeStories,
+  resetActiveStoryOfHomeStories,
+  setActiveStoryNoOfHomeStories,
+  setInactiveStoriesSetOfHomeStories,
+  setActiveIndexOfHomeStories,
+  setStoriesOfHomeStories
 
-export const selectActiveStoriesSet = (state: RootState): StoryObject => state.story.activeStoriesSet;
-export const selectActiveStory = (state: RootState): {story:string,type:string} => state.story.activeStory;
-export const selectActiveStoryNo = (state: RootState):number => state.story.activeStoryNo;
-export const selectInactiveStoriesSet = (state: RootState):StoryObject[] => state.story.inactiveStoriesSet;
-export const selectActiveIndex = (state: RootState):number => state.story.activeIndex;
+} = storySlice.actions;
+
+export const selectActiveStoriesSetOfHomeStories = (state: RootState): ActiveStoriesSetType => state.story.activeStoriesSetOfHomeStories;
+export const selectActiveStoryOfHomeStories = (state: RootState): ActiveStoryType => state.story.activeStoryOfHomeStories;
+export const selectActiveStoryNoOfHomeStories = (state: RootState): number => state.story.activeStoryNoOfHomeStories;
+export const selectInactiveStoriesSetOfHomeStories = (state: RootState): StoriesSetType[] => state.story.inactiveStoriesSetOfHomeStories;
+export const selectActiveIndexOfHomeStories = (state: RootState): number => state.story.activeIndexOfHomeStories;
+export const selectStories = (state: RootState): StoriesSetType[] => state.story.stories;
 
 export default storySlice.reducer;

@@ -1,47 +1,65 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../../styles/miscellaneous/profileModal.module.css'
 import { accountData } from '../../data/sampleAccount'
 import { FiSend } from 'react-icons/fi'
-import { openProfileModal } from '../../app/features/appSlice'
+import { openProfileModal, selectProfileModalData } from '../../app/features/appSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { getUserPostsWhenLoggedIn } from '../../app/features/accountSlice'
 
 interface ProfileModalProps {
     onMouseEnter: () => void;
     onMouseLeave: () => void;
 }
-const ProfileModal: React.FC<ProfileModalProps> = ({ onMouseEnter, onMouseLeave }) => {
-    const dispatch=useAppDispatch()
 
+interface Post{
+    post:{
+        type:string;
+        url:string;
+    }
+}
+const ProfileModal: React.FC<ProfileModalProps> = ({ onMouseEnter, onMouseLeave }) => {
+  const dispatch=useAppDispatch()
+  const [posts,setPosts]=useState<Post[]>([])
+  const profileData=useAppSelector(selectProfileModalData)
+  useEffect(()=>{
+    if(profileData?._id){
+        const fetchPosts=async()=>{
+            const posts=await dispatch(getUserPostsWhenLoggedIn({username:profileData?.username,page:1,limit:3}))
+            setPosts(posts?.payload?.data)
+        }
+        fetchPosts()
+    }
+  },[])    
   return (
     <div className={styles.profileModalContainer} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} >
         <div className={styles.profileModalHeader}>
             <div className={styles.profileModalHeaderImage}>
-                <img src={accountData.profilePic} alt="" />
+                <img src={profileData?.profilePic} alt="" />
             </div>
             <div className={styles.profileModalInfo}>
-                <p className={styles.profileModalInfoUsername}>{accountData.username}</p>
-                <p className={styles.profileModalInfoName}>{accountData.name}</p>
+                <p className={styles.profileModalInfoUsername}>{profileData?.username}</p>
+                <p className={styles.profileModalInfoName}>{profileData?.name}</p>
             </div>
         </div>
         <div className={styles.profileModalAnalytics}>
             <div className={styles.profileModalAnalyticsBox}>
-                <p>{accountData.noOfPosts}</p>
+                <p>{profileData?.noOfPosts}</p>
                 <p>posts</p>
             </div>
             <div className={styles.profileModalAnalyticsBox}>
-                <p>{accountData.noOfFollowers}</p>
+                <p>{profileData?.noOfFollowers}</p>
                 <p>followers</p>
             </div>
             <div className={styles.profileModalAnalyticsBox}>
-                <p>{accountData.noOfFollowing}</p>
+                <p>{profileData?.noOfFollowing}</p>
                 <p>following</p>
             </div>
         </div>
         <div className={styles.profileModalPosts}>
            {
-            accountData.mixed.slice(0,3).map((post,index)=>(
-                post.isPost ?
-                <img src={post.images[0]} alt="" key={index} />
+            posts?.map((post,index)=>(
+                post?.post?.type==='post' ?
+                <img src={post?.post?.url} alt="" key={index} />
                 :
             <video
              id={`video-${index}`}  
@@ -49,7 +67,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ onMouseEnter, onMouseLeave 
              muted
              key={index}
              >
-            <source src={post.images[0]} type="video/mp4"   />
+            <source src={post?.post?.url} type="video/mp4"   />
             Your browser does not support the video tag.
             </video>              
             ))

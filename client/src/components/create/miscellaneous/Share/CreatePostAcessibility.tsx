@@ -13,10 +13,10 @@ const CreatePostAcessibility:React.FC = () => {
                     posts.map((post,index)=>(
                         <div className={styles.accessibiltyCard} key={index}>
                             {
-                                post.type==='video' && <video src={post.post}></video>
+                                post.type==='reel' && <video src={post.url}></video>
                             }
                             {
-                                post.type==='image' &&  <img src={post.post} alt="post" />
+                                post.type==='post' &&  <img src={post.url} alt="post" />
                             }
                             <input type="text" id="" placeholder='Write alt text' />
                         </div>

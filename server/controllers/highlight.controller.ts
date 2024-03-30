@@ -212,7 +212,7 @@ const getHighlightById=asyncHandler(async(req:AuthenticatedRequest,res:Response)
     if(!highlight){
         throw new ApiError(404,"Highlight not found")
     }
-    const highlightUser=await User.findById(highlight.userId).select({profilePic:1,_id:1,username:1})
+    const highlightUser=await User.findById(highlight.userId).select({_id:1,username:1})
     const isUserFollowRequestUser=await Follow.findOne({userId:highlightUser._id,follower:user._id,isRequestAccepted:true})
     if(highlightUser.isPrivate && !isUserFollowRequestUser){
         throw new ApiError(401,"Access to highlight denied")
@@ -237,6 +237,7 @@ const getHighlightById=asyncHandler(async(req:AuthenticatedRequest,res:Response)
                         $project:{
                             content:1,
                             caption:1,
+                            updatedAt:1
                         }
                     }
                 ]
@@ -250,20 +251,23 @@ const getHighlightById=asyncHandler(async(req:AuthenticatedRequest,res:Response)
         {
             $group:{
                 _id:"$_id",
-                stories:{$push:"$story"}
+                stories:{$push:"$story"},
+                coverPic:{$first:"$coverPic"},
+                caption:{$first:"$caption"},
+                updatedAt:{$first:"$updatedAt"},
             }
         }
     ])
     const mergedData={
-        highlightData:highlightData[0],
-        highlightUser
+        ...highlightData[0],
+        user:highlightUser
     }
     res.status(200).json(
         new ApiResponse(200,mergedData,"Highlight fetch request successful")
     )
 })
 
-const getPublicUserHighlightsCoverPics=asyncHandler(async(req:Request,res:Response)=>{
+const getUserHighlightsCoverPics=asyncHandler(async(req:Request|AuthenticatedRequest,res:Response)=>{
     const {username}=req.params
     if(!username){
         throw new ApiError(400,"Username is required")
@@ -271,11 +275,16 @@ const getPublicUserHighlightsCoverPics=asyncHandler(async(req:Request,res:Respon
     const page=Number(req.query.page || 1)
     const limit=Number(req.query.limit || 9)
     const skip=(page-1)*limit
+    const currentUser=(req as AuthenticatedRequest).user
     const requestedUser=await User.findOne({username})
     if(!requestedUser){
         throw new ApiError(404,"User not found")
     }
-    if(requestedUser.isPrivate){
+    let isFollow
+    if(currentUser){
+        isFollow=await Follow.find({userId:requestedUser._id,follower:currentUser._id,isRequestAccepted:true})
+    }
+    if(requestedUser.isPrivate && !isFollow && currentUser && currentUser._id.toString()!==requestedUser._id.toString()){
         throw new ApiError(401,"User account is private")
     }
     const highlights=await Highlight.aggregate([
@@ -294,7 +303,30 @@ const getPublicUserHighlightsCoverPics=asyncHandler(async(req:Request,res:Respon
             $project:{
                 coverPic:1,
                 caption:1,
-                _id:1
+                _id:1,
+                firstStory:{$arrayElemAt:["$stories",0]}
+            }
+        },
+        {
+            $lookup:{
+                from:"stories",
+                localField:"firstStory",
+                foreignField:"_id",
+                as:"firstStory",
+                pipeline:[
+                    {
+                        $project:{
+                            content:1,
+                            updatedAt:1,
+                            caption:1,
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields:{
+                firstStory:{$arrayElemAt:["$firstStory",0]}
             }
         }
     ])
@@ -308,54 +340,5 @@ const getPublicUserHighlightsCoverPics=asyncHandler(async(req:Request,res:Respon
     )
 })  
 
-const getPrivateUserHighlightsCoverPic=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
-    const {username}=req.params
-    if(!username){
-        throw new ApiError(400,"Username is required")
-    }
-    const user=req.user
-    if(!user){
-        throw new ApiError(401,"User not logged in")
-    }
-    const page=Number(req.query.page || 1)
-    const limit=Number(req.query.limit || 9)
-    const skip=(page-1)*limit
-    const requestedUser=await User.findOne({username})
-    if(!requestedUser){
-        throw new ApiError(404,"User not found")
-    }
-    const isFollow=await Follow.find({userId:requestedUser._id,follower:user._id,isRequestAccepted:true})
-    if(requestedUser.isPrivate && !isFollow){
-        throw new ApiError(401,"User account is private")
-    }
-    const highlights=await Highlight.aggregate([
-        {
-            $match:{
-                userId:requestedUser._id
-            }
-        },
-        {
-            $skip:skip
-        },
-        {
-            $limit:limit
-        },
-        {
-            $project:{
-                coverPic:1,
-                caption:1,
-                _id:1
-            }
-        }
-    ])
-    if(highlights.length < 1){
-        return res.status(204).json(
-            new ApiResponse(204,{},"No highlights for user")
-        )
-    }
-    res.status(200).json(
-        new ApiResponse(200,highlights,"Highlights fetched successfully")
-    )
-})  
 
-export {createHighlight,deleteHighlight,addStoryToHighlight,removeStoryFromHighlight,getHighlightById,getPrivateUserHighlightsCoverPic,getPublicUserHighlightsCoverPics,updateHighlight}
+export {createHighlight,deleteHighlight,addStoryToHighlight,removeStoryFromHighlight,getHighlightById,getUserHighlightsCoverPics,updateHighlight}

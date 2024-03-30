@@ -59,7 +59,7 @@ const ManagePostsModal:React.FC = () => {
           {
             posts.map((post,index)=>(
               <div className={`${styles.managePostsPostItem} ${activeIndex===index && styles.managePostsPostItemActive}`} key={index} onClick={()=>handlePostClick(index)}>
-              {post.type==='video'? <video src={post.post} ></video>:<img src={post.post} alt='post' />}
+              {post.type==='reel'? <video src={post.url} ></video>:<img src={post.url} alt='post' />}
                 <IoMdClose onClick={(e)=>handleDeletePost(e,post.id)}/>
               </div>
             ))

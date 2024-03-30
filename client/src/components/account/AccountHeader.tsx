@@ -1,42 +1,32 @@
 import React from 'react';
-import { accountData } from '../../data/sampleAccount';
 import styles from "../../styles/account/accountHeader.module.css"
 import { IoIosArrowDown } from "react-icons/io";
-import { IoPersonAdd } from "react-icons/io5";
 import { LuMoreHorizontal } from "react-icons/lu";
 import { BsThreads } from 'react-icons/bs';
 import { GoPersonAdd } from 'react-icons/go';
 import { PiLinkSimpleLight } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
+import { FollowDoc } from '../../pages/AccountDetail';
+import { UserType } from '../../app/features/appSlice';
 
 
-interface HeaderData {
-  profilePic: string;
-  username: string;
-  noOfPosts: number;
-  noOfFollowers: number;
-  noOfFollowing: number;
-  name: string;
-  description: string;
-  link: string;
-}
-
-// Type assertion
-const accountHeaderData = accountData as HeaderData;
-
-const AccountHeader: React.FC = () => {
+const AccountHeader: React.FC<{user:UserType,isFollow:FollowDoc}> = ({user,isFollow}) => {
   return (
     <div className={styles.accountHeaderContainer}>
     <div className={styles.accountHeaderImageContainer}>
-      <img src={accountHeaderData.profilePic} alt="Profile Picture" />
+      <img src={user?.profilePic} alt="Profile Picture" />
     </div>
     <div className={styles.accountHeaderContent}>
 
       <div className={styles.accountHeaderContentTitle}>
-        <p className={styles.accountHeaderContentUsername}>{accountHeaderData.username}</p>
-        <button className={styles.accountHeaderContentBtn}>
-          <p>Following</p>
+        <p className={styles.accountHeaderContentUsername}>{user?.username}</p>
+        <button className={`${styles.accountHeaderContentBtn} ${!isFollow?._id && styles.accountHeaderFollowBtn}`}>
+          {isFollow?._id ?
+          <>
+          {isFollow?.isRequestAccepted ?<p>Following</p>:<p>Requested</p>}
           <IoIosArrowDown/>
+          </>
+          :<p>Follow</p>}
         </button>
         <button  className={styles.accountHeaderContentBtn}>
           Message
@@ -49,34 +39,34 @@ const AccountHeader: React.FC = () => {
 
       <div className={styles.accountHeaderContentAnalytics}>
             <div className={styles.accountHeaderContentAnalyticsBox}>
-              <p>{accountHeaderData.noOfPosts}</p>
+              <p>{user?.noOfPosts}</p>
               <p>posts</p>
             </div>
             <div className={styles.accountHeaderContentAnalyticsBox}>
-              <p>{accountHeaderData.noOfFollowers}</p>
+              <p>{user?.noOfFollowers}</p>
               <p>followers</p>
             </div>
             <div className={styles.accountHeaderContentAnalyticsBox}>
-              <p>{accountHeaderData.noOfFollowing}</p>
+              <p>{user?.noOfFollowing}</p>
               <p>following</p>
             </div>
        </div>
 
       <div className={styles.accountHeaderContentDescription}>
-          <p className={styles.accountHeaderContentDescriptionName}>{accountHeaderData.name}</p>
+          <p className={styles.accountHeaderContentDescriptionName}>{user?.name}</p>
           <div className={styles.accountHeaderContentDescriptionThreads}>
             <BsThreads/>
-            <p>{accountHeaderData.username}</p>
+            <p>{user?.username}</p>
           </div>
           <div className={styles.accountHeaderContentDescriptionInfo}>
-          {accountHeaderData.description.split('\n').map((line, index) => (
+          {user?.bio?.split('\n').map((line, index) => (
             <p key={index}>{line}</p>
             ))}     
             </div>
-      <Link to={`${accountHeaderData?.link}`} className={styles.accountHeaderLink}>
-        <PiLinkSimpleLight/>
-        <p>{accountHeaderData?.link}</p>
-      </Link>     
+          {user?.website &&<Link to={`${user?.website}`} className={styles.accountHeaderLink}>
+            <PiLinkSimpleLight/>
+            <p>{user?.website}</p>
+          </Link>     }
       </div>
     </div>
     </div>

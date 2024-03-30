@@ -1,50 +1,44 @@
 import React, { useState } from 'react';
 import styles from '../../../styles/home/homePost.module.css';
-import { postData } from '../../../data/samplePost';
 import { IoIosMore } from 'react-icons/io';
 import Carousel from '../../miscellaneous/Carousel';
 import { HiOutlineEmojiHappy } from "react-icons/hi";import { BsDot } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { closeProfileModal, openProfileModal, selectIsProfileModalOpen } from '../../../app/features/appSlice';
+import { closeProfileModal, openProfileModal, selectIsProfileModalOpen, setProfileModalData } from '../../../app/features/appSlice';
 import ProfileModal from '../../miscellaneous/ProfileModal';
 import { useNavigate } from 'react-router-dom';
 import Interactions from '../../miscellaneous/Interactions';
-import { selectCarouselData } from '../../../app/features/carouselSlice';
+import { HomePostData } from '../HomePosts';
+import { getUserInfo } from '../../../app/features/accountSlice';
 
-interface Post {
-    posts: Array<any>,
-    username: string,
-    profilePic: string,
-    caption: string,
-    noOfLikes: number,
-    noOfComments: number,
-}
 
-const postDataTyped = postData as Post;
-
-const HomePost: React.FC = () => {
+const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
+    const [isHovered,setIsHovered]=useState<boolean>(false)
     const navigate=useNavigate()
     const dispatch=useAppDispatch()
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     }
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = async() => {
+        const result=await dispatch(getUserInfo(data?.userInfo?.username))
+        dispatch(setProfileModalData(result?.payload?.data))
         dispatch(openProfileModal());
+        setIsHovered(true)
     };
 
     const handleMouseLeave = () => {              
         dispatch(closeProfileModal())
+        setIsHovered(false)
     };
     const isProfileModalOpen=useAppSelector(selectIsProfileModalOpen)    
     const navigateToProfile=()=>{
-        navigate(`/${postDataTyped.username}`)
+        navigate(`/${data?.userInfo?.username}`)
     }   
-    const posts=useAppSelector(selectCarouselData)
     return (
         <div className={styles.homePost}>
             <div className={styles.homePostHeader} onMouseLeave={handleMouseLeave}>
                 <div className={styles.homePostProflePic}>
-                    <img src={postDataTyped.profilePic} alt="profile pic" onClick={navigateToProfile}/>
+                    <img src={data.userInfo?.profilePic} alt="profile pic" onClick={navigateToProfile}/>
                 </div>
                 <div className={styles.homePostHeaderInfo}>
                     <div className={styles.homePostHeaderDetail} >
@@ -52,7 +46,7 @@ const HomePost: React.FC = () => {
                               onMouseEnter={handleMouseEnter}
                               onClick={navigateToProfile}
                         >
-                            {postDataTyped.username}
+                            {data?.userInfo?.username}
                         </p>
                         <BsDot/>
                         <p>16h</p>
@@ -64,21 +58,21 @@ const HomePost: React.FC = () => {
                 </div>
             </div>
             <div className={styles.homePostCarousel}>
-                <Carousel posts={posts}/>
+                <Carousel posts={data?.posts}/>
             </div>
-            <Interactions noOfLikes={postDataTyped.noOfLikes}/>
+            <Interactions noOfLikes={data?.noOfLikes}/>
             <div className={styles.homePostCaption}>
-                <p onClick={navigateToProfile}>{postDataTyped.username}</p>
-                <p>{postDataTyped.caption}</p>
+                <p onClick={navigateToProfile}>{data?.userInfo?.username}</p>
+                <p>{data?.caption}</p>
             </div>
             <div className={styles.homePostCardComments}>
-                <p>View all {postDataTyped.noOfComments} comments</p>
+                <p>View all {data?.noOfComments} comments</p>
                 <div className={styles.homePostCardAddComment}>
                     <input type="text" placeholder='Add a comment' className={styles.homePostCardAddCommentInput} onChange={handleCommentChange}/>
                     <HiOutlineEmojiHappy/>
                 </div>
             </div>
-                {isProfileModalOpen && 
+                {isProfileModalOpen && isHovered &&
                 <ProfileModal 
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}

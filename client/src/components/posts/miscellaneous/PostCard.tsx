@@ -1,64 +1,165 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../../../styles/posts/postCard.module.css'
 import Carousel from '../../miscellaneous/Carousel'
 import { IoIosMore } from 'react-icons/io';
-import { postData } from '../../../data/samplePost';
-import PostComment from './PostComment';
 import Interactions from '../../miscellaneous/Interactions';
 import { BsEmojiSmile } from 'react-icons/bs';
-import { useAppSelector } from '../../../app/hooks';
-import { selectCarouselData } from '../../../app/features/carouselSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectCurrentUser } from '../../../app/features/authSlice';
+import { getPostByIdWhenLoggedIn, getPostByIdWhenNotLoggedIn, getPostCommentsWhenLoggedIn, getPostCommentsWhenNotLoggedIn, postComment, selectToReplyComment, setToReplyComment } from '../../../app/features/viewPostSlice';
+import PostCommentCard from './PostCommentCard';
+import { useNavigate } from 'react-router-dom';
 
+interface ReceivedPostItem{
+  content:{
+    type:string;
+    url:string
+  }
+}
+interface Post{
+  userInfo:{
+    _id:string;
+    username:string;
+    profilePic:string
+  };
+  updatedAt:string;
+  caption:string;
+  noOfLikes:number;
+  _id:string;
+}
+interface CarouselPostsType{
+  type:string;
+  url:string
+}
 const PostCard:React.FC = () => {
+  const currentUser=useAppSelector(selectCurrentUser)
+  const replyComment=useAppSelector(selectToReplyComment)  
+  const navigate=useNavigate()
+  const dispatch=useAppDispatch()
   const [comment,setComment]=useState<string>("")
+  const [postComments,setPostComments]=useState([])
+  const [commentsPage,setCommentsPage]=useState<number>(1)
   const handleInputChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
     setComment(e.target.value)
   }
-  const posts=useAppSelector(selectCarouselData)
+  const [filteredPost,setFilteredPost]=useState<CarouselPostsType[]>([])
+  const postId=window.location.pathname.slice(3)
+  const [post,setPost]=useState<Post>({_id:'',caption:'',userInfo:{_id:'',profilePic:'',username:''},updatedAt:'',noOfLikes:-1})
+  useEffect(()=>{ 
+    if(postId){
+      const fetchPosts=async()=>{
+        if(currentUser?._id){
+          const response=await dispatch(getPostByIdWhenLoggedIn(postId))
+          setPost(response?.payload?.data);
+          const filteredPosts=await response?.payload?.data?.posts?.map((item:ReceivedPostItem)=>{              
+              return {
+                type:item?.content?.type,
+                url:item?.content?.url
+              }
+          })
+          setFilteredPost(filteredPosts)//temporary
+        }else{
+          const response=await dispatch(getPostByIdWhenNotLoggedIn(postId))
+          setPost(response?.payload?.data);
+          const filteredPosts=await response?.payload?.data?.posts?.map((item:ReceivedPostItem)=>{
+            return {
+              type:item?.content?.type,
+              url:item?.content?.url
+            }
+        })
+          setFilteredPost(filteredPosts)
+        }
+      }
+      fetchPosts()
+    }
+  },[postId])
+  
+  useEffect(()=>{
+    if(postId){
+      const fetchComments=async()=>{
+        if(currentUser?._id){
+          const results=await dispatch(getPostCommentsWhenLoggedIn({postId,page:commentsPage}))
+          setPostComments(results?.payload?.data);
+        }else{
+          const results=await dispatch(getPostCommentsWhenNotLoggedIn({postId,page:commentsPage}))
+          setPostComments(results?.payload?.data);
+        }
+      }
+      fetchComments()
+    }
+  },[postId])
 
+  const handlePostComment=async()=>{
+    if(!currentUser._id){
+      navigate("/accounts/login")
+      return;
+    }
+    if(comment.trim()){
+      if(replyComment?.commentId){
+        await dispatch(postComment({postId,text:comment,toReplyCommentId:replyComment?.commentId}))
+        setComment("")
+        dispatch(setToReplyComment({username:'',commentId:''}))
+      }else{
+        await dispatch(postComment({postId,text:comment}))
+        setComment("")
+      }
+    }
+  }
   return (
     <div className={styles.postCardContainer}>
       <div className={styles.postCardWrapper}>
         <div className={styles.postCardImage}>
-          <Carousel posts={posts}/>
+          <Carousel posts={filteredPost}/>
         </div>
         <div className={styles.postCardContentContainer}>
           <div className={styles.postCardContentHeader}>
             <div className={styles.postCardContentInnerHeader}>
-              <img src={postData.profilePic} alt="" />
-              <p>{postData.username}</p>
+              <img src={post?.userInfo?.profilePic} alt="" />
+              <p>{post?.userInfo?.username}</p>
             </div>
             <IoIosMore/>
           </div>
           <div className={styles.postCardContent}>
             <div className={styles.postCardCaption}>
-              <img src={postData.profilePic} alt="" />
+              <img src={post?.userInfo?.profilePic} alt="" />
               <div className={styles.postCardCaptionContent}>
                 <div className={styles.postCardCaptionInnerContent}>
-                  <p>{postData.username}</p>
-                  <p className={styles.postCardCaptionInnerContentCaption}>{postData.caption}</p>
+                  <p>{post?.userInfo?.username}</p>
+                  <p className={styles.postCardCaptionInnerContentCaption}>{post?.caption}</p>
                 </div>
                 <p className={styles.postCardCaptionContentDate}>2w</p>
               </div>
             </div>
             <div className={styles.postCardCommentsContainer}>
-              {
-                postData.comments.map((comment,index)=>(
-                  <PostComment  key={index}/>
+              { postComments && postComments?.length >=1 &&
+                postComments?.map((comment,index)=>(
+                  <PostCommentCard comment={comment} key={index}/> 
                 ))
+              }
+              {
+                postComments?.length < 1 &&
+                <p>This post has no comments yet</p>
               }
             </div>
           </div>
           <div className={styles.postCardInteractionSection}>
             <div className={styles.postCardInteractionSectionIcons}>
-              <Interactions noOfLikes={postData.noOfLikes}/>
+              <Interactions noOfLikes={post?.noOfLikes}/>
               <p className={styles.postCardInteractionSectionIconsDate}>February 8</p>
             </div>
             <div className={styles.postCardAddCommentSection}>
               <BsEmojiSmile />
-              <input type="text" placeholder='Add a comment...' value={comment}onChange={handleInputChange} />
+              {
+                replyComment && replyComment?.commentId && <p>{`@${replyComment?.username}`}</p>
+              }
+              {
+                replyComment ? <input type="text" placeholder='' value={comment}onChange={handleInputChange} />
+                            : <input type="text" placeholder='Add a comment...' value={comment}onChange={handleInputChange} />
+
+              }
               <button
-                disabled={comment==='' ? true:false} 
+                disabled={! comment.trim() ? true:false} 
+                onClick={handlePostComment}
               >
                 Post
               </button>

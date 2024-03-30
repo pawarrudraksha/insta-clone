@@ -6,66 +6,76 @@ import { IoMdClose } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { 
-  selectActiveIndex,
-  selectActiveStoriesSet, 
-  selectActiveStoryNo, 
-  selectInactiveStoriesSet, 
-  setActiveIndex, 
-  setActiveStoriesSet, 
-  setActiveStory, 
-  setActiveStoryNo, 
-  setInactiveStoriesSet 
+  getStoryById,
+  selectActiveIndexOfHomeStories,
+  selectActiveStoriesSetOfHomeStories,
+  selectActiveStoryNoOfHomeStories,
+  selectInactiveStoriesSetOfHomeStories,
+  selectStories,
+  setActiveIndexOfHomeStories,
+  setActiveStoriesSetOfHomeStories,
+  setActiveStoryOfHomeStories,
+  setActiveStoryNoOfHomeStories,
+  setInactiveStoriesSetOfHomeStories,
+  getUserActiveStories
+
 } from '../app/features/storySlice';
-import { accountData } from '../data/sampleAccount';
 import InactiveStoryCard from '../components/story/InactiveStoryCard';
 
+
+
 const Story: React.FC = () => {
+  
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const activeStoryNo = useAppSelector(selectActiveStoryNo);
-  const activeStoriesSet = useAppSelector(selectActiveStoriesSet);
-  const inactiveStoriesSet = useAppSelector(selectInactiveStoriesSet);
-  const activeIndex=useAppSelector(selectActiveIndex)
+  const activeStoryNo = useAppSelector(selectActiveStoryNoOfHomeStories);
+  const activeStoriesSet = useAppSelector(selectActiveStoriesSetOfHomeStories);
+  const inactiveStoriesSet = useAppSelector(selectInactiveStoriesSetOfHomeStories);
+  const allStories=useAppSelector(selectStories)
+  const activeIndex=useAppSelector(selectActiveIndexOfHomeStories)
   const [arrowHover, setArrowHover] = useState<boolean>(false);
   const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
     navigate(-1);
   };
-  const noOfStories = activeStoriesSet?.stories.length;
-  const handleNavigation = (no: number) => {
+  const noOfStories = activeStoriesSet?.activeStories?.length;
+  console.log(allStories);
+  
+  const handleNavigation = async(no: number) => {
     if (activeStoryNo === 0 && no === -1) {
-      const index = accountData.highlights.findIndex(item => item.id === activeStoriesSet.id);
+      const index = allStories?.findIndex(item => item._id === activeStoriesSet?.userInfo?._id);
       if (!(index === 0)) {
         const newIndex = index - 1;
-        dispatch(setActiveIndex(newIndex))
-        dispatch(setActiveStoryNo(0));
-        dispatch(setActiveStoriesSet(accountData.highlights[newIndex]));
-        dispatch(setActiveStory(accountData.highlights[newIndex].stories[0]));        
-        dispatch(setInactiveStoriesSet(accountData.highlights.filter((item) => item.id !== accountData.highlights[newIndex].id)));
+        dispatch(setActiveIndexOfHomeStories(newIndex));
+        dispatch(setActiveStoryNoOfHomeStories(0));
+        const newStories=await dispatch(getUserActiveStories(allStories[newIndex]?._id))
+        dispatch(setActiveStoriesSetOfHomeStories(newStories?.payload?.data));
+        dispatch(setActiveStoryOfHomeStories(newStories?.payload?.data?.activeStories[0]));        
+        dispatch(setInactiveStoriesSetOfHomeStories(allStories.filter((item) => item._id !== allStories[newIndex]?._id)));
+
       }
       return;
     }
     if (activeStoryNo === noOfStories - 1 && no === 1) {
-      const index = accountData.highlights.findIndex(item => item.id === activeStoriesSet.id);
-      if (!(index === accountData.highlights.length - 1)) {
+      const index = allStories.findIndex(item => item._id === activeStoriesSet?.userInfo?._id);
+      if (!(index === allStories.length - 1)) {
         const newIndex = index + 1;
-        dispatch(setActiveIndex(newIndex))
-        dispatch(setActiveStoryNo(0));
-        dispatch(setActiveStoriesSet(accountData.highlights[newIndex]));
-        dispatch(setActiveStory(accountData.highlights[newIndex].stories[0]));          
-        dispatch(setInactiveStoriesSet(accountData.highlights.filter((item) => item.id !== accountData.highlights[newIndex].id)));
+        dispatch(setActiveIndexOfHomeStories(newIndex));
+        dispatch(setActiveStoryNoOfHomeStories(0));
+        const newStories=await dispatch(getUserActiveStories(allStories[newIndex]?._id))        
+        dispatch(setActiveStoriesSetOfHomeStories(newStories?.payload?.data));
+        dispatch(setActiveStoryOfHomeStories(newStories?.payload?.data?.activeStories[0]));        
+        dispatch(setInactiveStoriesSetOfHomeStories(allStories.filter((item) => item._id !== allStories[newIndex]?._id)))
       }
       return;
     }
 
     if (noOfStories > 1) {
       const newActiveStoryNo = activeStoryNo + no;
-
-      dispatch(setActiveStoryNo(newActiveStoryNo));
-      dispatch(setActiveStory(activeStoriesSet.stories[newActiveStoryNo]));
+      dispatch(setActiveStoryNoOfHomeStories(newActiveStoryNo));
+      dispatch(setActiveStoryOfHomeStories(activeStoriesSet?.activeStories[newActiveStoryNo]));
     }
-  };    
-  
+  };
   return (
     <div className={styles.storyOverlay}>
       <Link to={"/"}>Instagram</Link>
@@ -74,14 +84,14 @@ const Story: React.FC = () => {
       </div>
       <div className={styles.storiesContainer}>
         <div className={styles.inactiveBox1Container}>
-          {activeIndex>0 && inactiveStoriesSet.slice(activeIndex-2, activeIndex).map((story, index) => (
+          {activeIndex>1 && inactiveStoriesSet.slice(activeIndex-2, activeIndex).map((story, index) => (
             <div className={styles.inactiveStoryCard} key={index}>
-              <InactiveStoryCard story={story} />
+              <InactiveStoryCard isStory story={story} />
             </div>
           ))}
           {(activeIndex>0 && activeIndex===1)&&inactiveStoriesSet.slice(0, 1).map((story, index) => (
             <div className={styles.inactiveStoryCard} key={index}>
-              <InactiveStoryCard story={story} />
+              <InactiveStoryCard isStory story={story} />
             </div>
           ))}
         </div>
@@ -98,14 +108,14 @@ const Story: React.FC = () => {
               onMouseLeave={() => setArrowHover(false)}
               onClick={() => handleNavigation(1)}
             >
-             {!(activeIndex===accountData.highlights.length -1 && activeStoryNo===activeStoriesSet.stories.length-1) && <GoChevronRight />}
+             {!(activeIndex===allStories?.length -1 && activeStoryNo===activeStoriesSet?.activeStories?.length-1) && <GoChevronRight />}
             </div>
-          <ActiveStoryCard />
+          <ActiveStoryCard isStory/>
         </div>
         <div className={styles.inactiveBox2Container}>
-          {inactiveStoriesSet.slice(activeIndex, activeIndex+2).map((story, index) => (
+          {inactiveStoriesSet?.slice(activeIndex, activeIndex+2).map((story, index) => (
             <div className={styles.inactiveStoryCard} key={index}>
-              <InactiveStoryCard story={story} />
+              <InactiveStoryCard isStory story={story} />
             </div>
           ))}
         </div>

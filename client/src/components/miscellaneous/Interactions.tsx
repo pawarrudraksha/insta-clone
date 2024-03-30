@@ -19,7 +19,7 @@ const Interactions:React.FC <InteractionsProps>= ({noOfLikes}) => {
           <FaRegBookmark />
         </div>
       </div>
-      <p>{noOfLikes} likes</p>
+      {noOfLikes && noOfLikes>1 ?<p>{noOfLikes} likes</p> :<p>{noOfLikes} like</p> }
     </div>
   )
 }

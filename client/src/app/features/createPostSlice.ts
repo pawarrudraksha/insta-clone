@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 // Define a type for the slice state
 interface Post {
-  post: string;
+  url: string;
   type: string;
   id:string;
 }
@@ -63,7 +63,7 @@ export const uploadFiles = createAsyncThunk(
         const storageRef = ref(storage, `posts/${id}`);
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
-        uploadedPosts.push({ type, post: downloadURL ,id});
+        uploadedPosts.push({ type, url: downloadURL ,id});
       }
     }
     return uploadedPosts;
