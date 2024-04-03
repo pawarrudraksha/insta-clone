@@ -4,6 +4,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectCurrentUser } from '../../../app/features/authSlice';
 import { getCommentReplies, selectToReplyComment, setToReplyComment } from '../../../app/features/viewPostSlice';
+import { defaultProfilePic } from '../../../data/common';
 
 interface PostCommentCardProps{
   _id:string;
@@ -41,7 +42,7 @@ const PostCommentCard: React.FC<Props> = ({comment}) => {
     <div className={styles.postCommentCardContainer}>
       <div className={styles.postCommentCardContentsContainer}>
         <div className={styles.postCommentCardProfilePic}>
-          <img src={comment?.userInfo?.profilePic} alt="" />
+          <img src={comment?.userInfo?.profilePic ?comment?.userInfo?.profilePic :defaultProfilePic} alt="" />
         </div>
         <div className={styles.postCommentCardContentAndCommentWrapper}>
           <div className={styles.postCommentCardContentWrapper}>

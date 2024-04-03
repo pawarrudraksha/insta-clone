@@ -4,18 +4,21 @@ import { FaFacebookSquare } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { BiCheckCircle } from 'react-icons/bi'
+import { useAppDispatch } from '../../app/hooks'
+import { setCreateUser, toggleBirthdayForm, toggleSignupForm } from '../../app/features/authSlice'
 
 interface formDataProps{
     name:string;
     username:string;
-    mobileOrEmail:string;
+    email:string;
     password:string;
 }
 const SignupForm :React.FC= () => {
+  const dispatch=useAppDispatch()
   const [showPassword,setShowPassword]=useState<boolean>(false)
   const [isNotValidated,setIsNotValidated]=useState<string>("")
   const [isValidated,setIsValidated]=useState<string[]>([]) 
-  const [formData,setFormData]=useState<formDataProps>({name:"",username:"",password:"",mobileOrEmail:""}) 
+  const [formData,setFormData]=useState<formDataProps>({name:"",username:"",password:"",email:""}) 
   
   const handleFormDataChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
     e.preventDefault()
@@ -25,18 +28,18 @@ const SignupForm :React.FC= () => {
         [e.target.name]:e.target.value
     })
   }    
-  const isFormFilled: boolean = Boolean(formData.mobileOrEmail) && Boolean(formData.name) && Boolean(formData.username) && Boolean(formData.password);
+  const isFormFilled: boolean = Boolean(formData.email) && Boolean(formData.name) && Boolean(formData.username) && Boolean(formData.password);
   
   const handleSignUp=()=>{
     setIsNotValidated("")
-    if (!formData.mobileOrEmail.includes("@")  && !((/^\d/.test(formData.mobileOrEmail)) && formData.mobileOrEmail.length===10)) {
-        if(isValidated.includes("mobileOrEmail")){
-            setIsValidated((prevData)=>prevData.filter((item)=>item!=='mobileOrEmail'))
+    if (!formData.email.includes("@")  && !((/^\d/.test(formData.email)) && formData.email.length===10)) {
+        if(isValidated.includes("email")){
+            setIsValidated((prevData)=>prevData.filter((item)=>item!=='email'))
         }
-        setIsNotValidated("mobileOrEmail")
+        setIsNotValidated("email")
         return;
     }else{
-        setIsValidated(prevState => [...prevState, "mobileOrEmail"])
+        setIsValidated(prevState => [...prevState, "email"])
     }
     if(formData.name.length<4){
         if(isValidated.includes("name")){
@@ -67,9 +70,17 @@ const SignupForm :React.FC= () => {
     }else{
         setIsValidated(prevState => [...prevState, "password"])
     }
-
-   
-    }
+    dispatch(setCreateUser(
+        {
+            email:formData.email,
+            password:formData.password,
+            username:formData.username,
+            name:formData.name
+        }
+    )) 
+    dispatch(toggleSignupForm())
+    dispatch(toggleBirthdayForm())
+  }
   return (
     <div className={styles.signupFormContainer}>
         <p className={styles.signupFormTitle}>
@@ -90,17 +101,17 @@ const SignupForm :React.FC= () => {
         </div>
         </div>
         <div className={styles.signupFormInputs}>
-            <div className={`${styles.signupFormInput} ${formData.mobileOrEmail.length >0&& styles.signupFormInputAlignEnd}`}>
+            <div className={`${styles.signupFormInput} ${formData.email.length >0&& styles.signupFormInputAlignEnd}`}>
                 <input 
                     type={"email" ||"text"} 
-                    placeholder='Mobile Number or Email'
-                    value={formData.mobileOrEmail}
+                    placeholder='Email'
+                    value={formData.email}
                     onChange={handleFormDataChange}
-                    name='mobileOrEmail'
+                    name='email'
                 />
-                {isNotValidated==='mobileOrEmail' && <IoCloseCircleOutline className={styles.signupFormCloseIcon} />}
-                {isValidated.includes('mobileOrEmail') && <BiCheckCircle className={styles.signupFormCheckIcon} />}
-                {formData.mobileOrEmail.length >0&&<p className={styles.signupInputName}>Mobile Number or Email</p>}
+                {isNotValidated==='email' && <IoCloseCircleOutline className={styles.signupFormCloseIcon} />}
+                {isValidated.includes('email') && <BiCheckCircle className={styles.signupFormCheckIcon} />}
+                {formData.email.length >0&&<p className={styles.signupInputName}> Email</p>}
             </div>
             <div className={`${styles.signupFormInput} ${formData.name.length >0 && styles.signupFormInputAlignEnd}`}>
                 <input 

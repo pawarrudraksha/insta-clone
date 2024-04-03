@@ -108,7 +108,7 @@ const sendOtp = asyncHandler(async (req: Request, res: Response) => {
         const isMailSent = await sendMail(otp, email);
         if (isMailSent) {
             await User.create({ email, otp });
-            res.status(201).json(new ApiResponse(201, otp,"Mail sent successfully"));
+            res.status(201).json(new ApiResponse(201, {},"Mail sent successfully"));
         } else {
             throw new ApiError(500, "Unable to send email");
         }

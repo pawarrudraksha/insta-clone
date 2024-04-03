@@ -5,5 +5,5 @@ import { selectCurrentUser } from '../../app/features/authSlice'
 
 export default function PrivateRoute() {
     const currentUser=useAppSelector(selectCurrentUser)
-    return currentUser._id ? <Outlet/> : <Navigate to={"/accounts/login"}/>
+    return currentUser?._id ? <Outlet/> : <Navigate to={"/accounts/login"}/>
 }

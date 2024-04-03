@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../../styles/messages/chat.module.css'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectIsChatDetailsOpen, selectIsReplyMsg, selectReplyMsg, toggleChatDetails, toggleIsReplyMsg } from '../../app/features/messagesSlice'
+import { getChatInfo, selectCurrentChatInfo, selectIsChatDetailsOpen, selectIsReplyMsg, selectReplyMsg, sendTextMessage, setCurrentChatInfo, setReplyMsg, toggleChatDetails, toggleIsReplyMsg } from '../../app/features/messagesSlice'
 import ChatDetails from './ChatDetails'
-import { accountData } from '../../data/sampleAccount'
 import { IoCallOutline, IoInformationCircleOutline, IoInformationCircleSharp } from 'react-icons/io5'
 import { CiImageOn, CiVideoOn } from 'react-icons/ci'
 import { BsEmojiSmile } from 'react-icons/bs'
@@ -11,8 +10,15 @@ import { FaRegHeart } from 'react-icons/fa'
 import { AiTwotoneAudio } from 'react-icons/ai'
 import Messages from './chat/Messages'
 import { IoMdClose } from 'react-icons/io'
+import { useParams } from 'react-router-dom'
+import { selectCurrentUser } from '../../app/features/authSlice'
+import { defaultProfilePic } from '../../data/common'
+
 
 const Chat:React.FC = () => {
+  const currentUser=useAppSelector(selectCurrentUser)
+  const {chatId}=useParams()
+  const chatInfo=useAppSelector(selectCurrentChatInfo)
   const dispatch=useAppDispatch()
   const isChatDetailsOpen=useAppSelector(selectIsChatDetailsOpen)
   const [message,setMessage]=useState<string>("")
@@ -20,16 +26,65 @@ const Chat:React.FC = () => {
     setMessage(e.target.value)
   }
   const isReplyMsg=useAppSelector(selectIsReplyMsg)
-  const replyMsg=useAppSelector(selectReplyMsg)
-  console.log(replyMsg);
-  
+  const replyMsg=useAppSelector(selectReplyMsg)  
+  useEffect(()=>{
+    if(chatId){
+      const fetchChatInfo=async()=>{
+        const results=await dispatch(getChatInfo(chatId))
+        dispatch(setCurrentChatInfo(results?.payload?.data))
+      }
+      fetchChatInfo()
+    }
+  },[chatId])
+  const handleCloseReply=()=>{
+    dispatch(toggleIsReplyMsg())
+    dispatch(setReplyMsg({
+      type:'',
+      msg:'',
+      username:'',
+      _id:'',
+    }))
+  }
+  const handleSendMessage=async(e:React.KeyboardEvent<HTMLInputElement>)=>{
+    if(e.key==='Enter' && message.trim() &&chatId){
+      const values={
+        toReplyMessage:replyMsg?._id,
+        message:{
+          type:"text",
+          content:message
+        },
+        chatId
+      }
+      const result=await dispatch(sendTextMessage(values))      
+      if(result?.payload?.statusCode===201){
+        if(isReplyMsg){
+          dispatch(toggleIsReplyMsg())
+          dispatch(setReplyMsg({
+            type:'',
+            msg:'',
+            username:'',
+            _id:'',
+          }))
+        }
+        setMessage("")
+      }
+    }    
+  }
   return (
     <div className={styles.chatWrapper}>
         <div className={styles.chatContainer}>
           <div className={styles.chatHeader}>
-            <img src={accountData.profilePic} alt="" />
+            {
+            chatInfo?.users?.length > 2 ? "To do"
+            : <img src={(chatInfo?.users.find(item => item._id !== currentUser?._id)?.profilePic) || defaultProfilePic} alt="" />
+            }
             <div className={styles.chatHeaderInfo}>
-              <p>{accountData.name}</p>
+            {chatInfo?.users?.length > 2 ? 
+            "To do"
+            : <p>
+              {(chatInfo?.users.find(item => item._id !== currentUser?._id)?.name)}
+            </p>
+            }
               <div className={styles.chatHeaderInfoBtns}>
               <IoCallOutline/>
               <CiVideoOn/>
@@ -45,15 +100,15 @@ const Chat:React.FC = () => {
             {
             isReplyMsg && <div className={styles.replyMsgContainer}>
               <div className={styles.replyMsgUserInfo}>
-                <p>Replying to {replyMsg.user ? replyMsg.user : "yourself"} </p>
-                <IoMdClose onClick={()=>dispatch(toggleIsReplyMsg())} className={styles.replyMsgClose}/>
+                <p>Replying to {replyMsg?.username ? replyMsg?.username : "yourself"} </p>
+                <IoMdClose onClick={handleCloseReply} className={styles.replyMsgClose}/>
               </div>
                <p className={styles.replyMsg}>{replyMsg.type==='text'?replyMsg.msg:"Attachment"}</p>
             </div>
             }
           <div className={styles.chatInputContainer}>
             <BsEmojiSmile/>
-            <input type="text" placeholder='Message...' onChange={handleMessage} value={message} />
+            <input type="text" placeholder='Message...' onChange={handleMessage} value={message} onKeyDown={handleSendMessage}/>
             <AiTwotoneAudio />
             <CiImageOn/>
             <FaRegHeart/>

@@ -130,7 +130,7 @@ const Sidebar = () => {
     }
   ];
   const location=useLocation()
-  const isMessages=location.pathname==='/direct/inbox'
+  const isMessages=location.pathname==='/direct/inbox' || location.pathname.includes("/direct/t")
   const hideSidebar=isMessages || isSearchModalOpen || isNotificationModalOpen || isNotificationRequestsModal 
 
   return (

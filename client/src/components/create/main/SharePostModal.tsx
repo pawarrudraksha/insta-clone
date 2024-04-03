@@ -3,8 +3,7 @@ import styles from '../../../styles/create/sharePostModal.module.css'
 import { MdOutlineKeyboardBackspace } from 'react-icons/md'
 import Carousel from '../../miscellaneous/Carousel'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { selectIsShareModalAccessibilitySettingsOpen, selectIsShareModalAdvancedSettingsOpen, selectPosts, toggleIsEditPostsModalOpen, toggleIsShareModalAccessibilitySettingsOpen, toggleIsShareModalAdvancedSettingsOpen, toggleIsSharePostModalOpen, toggleIsSuccessModalOpen } from '../../../app/features/createPostSlice'
-import { accountData } from '../../../data/sampleAccount'
+import { createPost, selectCurrentAspectRatio, selectIsCommentsOff, selectIsHideLikesAndViews, selectIsShareModalAccessibilitySettingsOpen, selectIsShareModalAdvancedSettingsOpen, selectPosts, toggleIsEditPostsModalOpen, toggleIsShareModalAccessibilitySettingsOpen, toggleIsShareModalAdvancedSettingsOpen, toggleIsSharePostModalOpen, toggleIsSuccessModalOpen } from '../../../app/features/createPostSlice'
 import { BsEmojiSmile } from 'react-icons/bs'
 import { selectCarouselActiveType } from '../../../app/features/carouselSlice'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
@@ -12,11 +11,17 @@ import { GoLocation } from 'react-icons/go'
 import { IoMdClose } from 'react-icons/io'
 import CreatePostAdvancedSettings from '../miscellaneous/Share/CreatePostAdvancedSettings'
 import CreatePostAcessibility from '../miscellaneous/Share/CreatePostAcessibility'
+import { selectCurrentUser } from '../../../app/features/authSlice'
+import { defaultProfilePic } from '../../../data/common'
 
 const SharePostModal:React.FC = () => {
+    const currentUser=useAppSelector(selectCurrentUser)
     const dispatch=useAppDispatch()
     const posts=useAppSelector(selectPosts)
     const isAdvancedSettingOpen=useAppSelector(selectIsShareModalAdvancedSettingsOpen)
+    const isHideLikesAndViews=useAppSelector(selectIsHideLikesAndViews)
+    const aspectRatio=useAppSelector(selectCurrentAspectRatio)
+    const isCommentsOff=useAppSelector(selectIsCommentsOff)
     const [caption,setCaption]=useState("")
     const isAccessibiltySettingOpen=useAppSelector(selectIsShareModalAccessibilitySettingsOpen)
     const [hideLocationIcon,setHideLocationIcon]=useState<boolean>(false)
@@ -28,19 +33,22 @@ const SharePostModal:React.FC = () => {
     const type=useAppSelector(selectCarouselActiveType)
     const handleLocation=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setLocation(e.target.value)
-    }
+    }    
     const handleCaption=(e:React.ChangeEvent<HTMLTextAreaElement>)=>{
         setCaption(e.target.value)
     }
-    const handleShare=()=>{
+    const handleShare=async()=>{
         if(isAccessibiltySettingOpen){
             dispatch(toggleIsShareModalAccessibilitySettingsOpen())
         }
         if(isAdvancedSettingOpen){
             dispatch(toggleIsShareModalAdvancedSettingsOpen())
         }
-        dispatch(toggleIsSharePostModalOpen())
-        dispatch(toggleIsSuccessModalOpen())
+        const response=await dispatch(createPost({caption,isCommentsOff,isHideLikesAndViews,aspectRatio,posts}))
+        if(response?.payload?.statusCode===201){
+            dispatch(toggleIsSharePostModalOpen())
+            dispatch(toggleIsSuccessModalOpen())
+        }
     }
     return (
         <div className={styles.sharePostModalContainer}>
@@ -48,7 +56,7 @@ const SharePostModal:React.FC = () => {
                 <MdOutlineKeyboardBackspace onClick={handleBack}/>
                 <p className={styles.shareTitle}>
                     {
-                        type==='image'?"Create new post":"New reel"
+                        type==='post'?"Create new post":"New reel"
                     }
                 </p>
                 <button className={styles.sharePostBtn} onClick={handleShare}>Share</button>
@@ -59,8 +67,8 @@ const SharePostModal:React.FC = () => {
                 </div>
                 <div className={styles.sharePostContent}>
                     <div className={styles.sharePostProfile}>
-                        <img src={accountData.profilePic} alt="" />
-                        <p>{accountData.username}</p>
+                        <img src={currentUser?.profilePic ? currentUser?.profilePic : defaultProfilePic} alt="" />
+                        <p>{currentUser?.username}</p>
                     </div>
                     <div className={styles.sharePostCaption}>
                         <textarea placeholder='Write a caption' value={caption} onChange={handleCaption} maxLength={2200}/>

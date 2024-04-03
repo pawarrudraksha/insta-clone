@@ -22,7 +22,8 @@ export interface HomePostData{
     username:string;
     profilePic?:string;
   };
-  _id:string
+  _id:string;
+  isPostLiked:boolean;
 }
 const HomePosts:React.FC = () => {
   const dispatch=useAppDispatch()

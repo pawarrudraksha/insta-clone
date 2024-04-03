@@ -14,7 +14,7 @@ import StoryPage from '../pages/StoryPage';
 import HighlightPage from '../pages/HighlightPage';
 import ReelsPage from '../pages/ReelsPage';
 import ExplorePage from '../pages/ExplorePage';
-import { selectIsCreatePostModalOpen } from '../app/features/createPostSlice';
+import { selectIsCreatePostModalOpen, toggleCreatePostModalOpen } from '../app/features/createPostSlice';
 import CreatePostOverlay from '../components/create/CreatePostOverlay';
 import SignUp from '../pages/SignUp';
 import MessagesPage from '../pages/MessagesPage';
@@ -51,7 +51,6 @@ function AppRouter() {
       dispatch(toggleNotificationModal())
       dispatch(setSidebarActiveTab(""))
     }
-    
   }
   const location=useLocation()
   const hideSidebar=location.pathname.includes("signup")|| location.pathname.includes("login") || !currentUser?._id
@@ -70,12 +69,13 @@ function AppRouter() {
         <Route path='/:username' element={<AccountDetail />}/>
         <Route path='/explore/' element={<ExplorePage />}/>
         <Route path='/p/:postId' element={<PostPage />}/>
-        <Route path='/reels/:id' element={<ReelsPage />}/>
         <Route element={<PrivateRoute/>}>
           <Route path="/" element={<Home/>} />
+          <Route path='/reels/:id' element={<ReelsPage />}/>
           <Route path='/stories/:username/:storyId' element={<StoryPage />}/>
           <Route path='/stories/highlights/:highlightId' element={<HighlightPage />}/>
           <Route path='/direct/inbox' element={<MessagesPage />}/>
+          <Route path='/direct/t/:chatId' element={<MessagesPage />}/>
         </Route>
         <Route path='*' element={<Error />} />
         </Routes>

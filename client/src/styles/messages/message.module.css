@@ -235,3 +235,9 @@
     align-items: center;
     justify-content: flex-end;
 }
+
+.noAccessMessage{
+    margin: 0px;
+    font-size: var(--font-size-medium);
+    padding: 10px;
+}

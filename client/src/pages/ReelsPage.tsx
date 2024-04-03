@@ -1,11 +1,40 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styles from '../styles/reels/reelPage.module.css';
-import { reelData } from '../data/reelData';
 import ReelCard from '../components/reel/ReelCard';
+import { useAppDispatch } from '../app/hooks';
+import { getAllReels } from '../app/features/viewPostSlice';
 
+export interface Reel{
+  _id:string;
+  isHideLikesAndViews:boolean;
+  isCommentsOff:boolean;
+  taggedUsers:string[];
+  noOfLikes:number;
+  noOfComments:number;
+  userInfo:{
+    _id:string;
+    username:string;
+    profilePic:string
+  },
+  posts:{
+    content:{
+      type:string;
+      url:string;
+    },
+    audioTrack:{
+      track:string;
+      coverPic:string;
+      author:string;
+    },
+    updatedAt:string
+  },
+  caption:string
+}
 const ReelsPage: React.FC = () => {
   const reelsPageContainerRef = useRef<HTMLDivElement>(null);
-  
+  const dispatch=useAppDispatch()
+  const [page,setPage]=useState<number>(1)
+  const [reels,setReels]=useState<Reel[]>([])
   useEffect(() => {
     const handleScroll = () => {
       const container = reelsPageContainerRef.current;
@@ -41,12 +70,18 @@ const ReelsPage: React.FC = () => {
       }
     };
   }, []);
- 
+  useEffect(()=>{
+    const fetchReels=async()=>{
+      const results=await dispatch(getAllReels(page))
+      setReels(results?.payload?.data);
+    }
+    fetchReels()
+  },[page])  
   return (
     <div ref={reelsPageContainerRef} className={styles.reelsPageContainer}>
       <div className={styles.reelsWrapper}>
-        {reelData.map((reel, index) => (
-          <div key={index} className={styles.reelCardWrapper} data-reel-id={reel.id}>
+        {reels && reels?.length>0 && reels?.map((reel, index) => (
+          <div key={index} className={styles.reelCardWrapper} data-reel-id={reel?._id}>
             <ReelCard reel={reel} />
           </div>
         ))}

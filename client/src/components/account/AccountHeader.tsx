@@ -5,16 +5,34 @@ import { LuMoreHorizontal } from "react-icons/lu";
 import { BsThreads } from 'react-icons/bs';
 import { GoPersonAdd } from 'react-icons/go';
 import { PiLinkSimpleLight } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FollowDoc } from '../../pages/AccountDetail';
 import { UserType } from '../../app/features/appSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { createChat, findChat } from '../../app/features/messagesSlice';
+import { defaultProfilePic } from '../../data/common';
 
 
-const AccountHeader: React.FC<{user:UserType,isFollow:FollowDoc}> = ({user,isFollow}) => {
+const AccountHeader: React.FC<{user:UserType,isFollow:FollowDoc}> = ({user,isFollow}) => {  
+  const dispatch=useAppDispatch()
+  const navigate=useNavigate()
+  const handleCreateChat=async()=>{
+    const item=[user?._id]
+    const chat=await dispatch(findChat(user?._id))
+    
+    if(chat?.payload?.data?._id){
+      navigate(`/direct/t/${chat?.payload?.data?._id}`)
+    }else{
+      const result=await dispatch(createChat(item))
+      if(result?.payload?.data?._id){
+          navigate(`/direct/t/${result?.payload?.data?._id}`)
+        }
+    }
+  }
   return (
     <div className={styles.accountHeaderContainer}>
     <div className={styles.accountHeaderImageContainer}>
-      <img src={user?.profilePic} alt="Profile Picture" />
+      <img src={user?.profilePic ? user?.profilePic : defaultProfilePic} alt="Profile Picture" />
     </div>
     <div className={styles.accountHeaderContent}>
 
@@ -28,7 +46,7 @@ const AccountHeader: React.FC<{user:UserType,isFollow:FollowDoc}> = ({user,isFol
           </>
           :<p>Follow</p>}
         </button>
-        <button  className={styles.accountHeaderContentBtn}>
+        <button  className={styles.accountHeaderContentBtn} onClick={handleCreateChat}>
           Message
         </button>
         <div className={styles.accountHeaderContentSimilarAccountsBtn}>
@@ -63,7 +81,7 @@ const AccountHeader: React.FC<{user:UserType,isFollow:FollowDoc}> = ({user,isFol
             <p key={index}>{line}</p>
             ))}     
             </div>
-          {user?.website &&<Link to={`${user?.website}`} className={styles.accountHeaderLink}>
+          {user?.website &&<Link to={`https://${user?.website}`} target='_blank' className={styles.accountHeaderLink}>
             <PiLinkSimpleLight/>
             <p>{user?.website}</p>
           </Link>     }

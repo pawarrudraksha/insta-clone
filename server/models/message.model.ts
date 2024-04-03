@@ -3,7 +3,8 @@ import mongoose, { Schema,Document } from "mongoose"
 interface IMessage extends Document{
     message:{
         type:"text"|"reel"|"post",
-        content:string
+        content:string;
+        _id?:Schema.Types.ObjectId
     };
     chatId:Schema.Types.ObjectId;
     senderId:Schema.Types.ObjectId;
@@ -21,6 +22,10 @@ const messageSchema=new Schema<IMessage>({
         content:{
             type:String,
             required:true
+        },
+        _id:{
+            type:Schema.Types.ObjectId,
+            ref:"Post"
         }
     },
     chatId:{

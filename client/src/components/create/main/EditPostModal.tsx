@@ -44,7 +44,7 @@ const EditPostModal:React.FC = () => {
         <div className={styles.editPostCarousel}>
           <Carousel posts={posts} isCreatePost/>
         </div>
-       {type==='image'&& <div className={styles.editPostTabsContainer}>
+       {type==='post'&& <div className={styles.editPostTabsContainer}>
           <div className={styles.editPostTabs}>
             <button 
             onClick={handleFilters} 
@@ -61,7 +61,7 @@ const EditPostModal:React.FC = () => {
             
           </div>
         </div>}
-       {type==='video'&& <div className={styles.editPostVideoContainer}>
+       {type==='reel'&& <div className={styles.editPostVideoContainer}>
            <EditVideo/>
         </div>
         }

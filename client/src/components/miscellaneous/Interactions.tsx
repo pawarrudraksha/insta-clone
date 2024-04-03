@@ -1,17 +1,22 @@
 import React from 'react';
 import styles from '../../styles/miscellaneous/interactions.module.css';
-import { FaRegBookmark, FaRegComment, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegBookmark, FaRegComment, FaRegHeart } from 'react-icons/fa';
 import { FiSend } from 'react-icons/fi';
 
 interface InteractionsProps{
-  noOfLikes:number
+  noOfLikes:number;
+  isPostLiked:boolean
 }
-const Interactions:React.FC <InteractionsProps>= ({noOfLikes}) => {
+interface Props{
+  data:InteractionsProps
+}
+const Interactions:React.FC <Props>= ({data}) => {
   return (
     <div className={styles.interactions}>
       <div className={styles.interactionsIcons}>
         <div className={styles.interactionsIconsReact}>
-          <FaRegHeart />
+          {!data?.isPostLiked && <FaRegHeart />}
+          {data?.isPostLiked && <FaHeart className={styles.likedPostIcon}/>}
           <FaRegComment/>
           <FiSend/>
         </div>
@@ -19,7 +24,7 @@ const Interactions:React.FC <InteractionsProps>= ({noOfLikes}) => {
           <FaRegBookmark />
         </div>
       </div>
-      {noOfLikes && noOfLikes>1 ?<p>{noOfLikes} likes</p> :<p>{noOfLikes} like</p> }
+      {data?.noOfLikes && data?.noOfLikes>1 ?<p>{data?.noOfLikes} likes</p> :<p>{data?.noOfLikes} like</p> }
     </div>
   )
 }

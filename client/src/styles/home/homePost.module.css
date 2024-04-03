@@ -76,6 +76,16 @@
     gap: 10px;
     font-size: var(--font-size-medium);
 }
+.homePostCardComments button{
+    color: var(--secondary-font-color);
+    font-size: var(--font-size-medium);
+    background: transparent;
+    outline: none;
+    border: none;
+    align-self: flex-start;
+    cursor: pointer;
+    padding: 0px;
+}
 .homePostCardAddComment{
     display: flex;
     align-items: center;

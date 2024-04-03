@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { selectCurrentUser } from '../../app/features/authSlice';
 import { getHighlightById, getUserHighlightsWhenLoggedIn, getUserHighlightsWhenNotLoggedIn, setHighlights } from '../../app/features/accountSlice';
 import { getAllActiveStories, getUserActiveStories, setActiveIndexOfHomeStories, setActiveStoriesSetOfHomeStories, setActiveStoryOfHomeStories, setInactiveStoriesSetOfHomeStories, setStoriesOfHomeStories } from '../../app/features/storySlice';
+import { defaultProfilePic } from '../../data/common';
 
 interface Highlight {
   caption: string;
@@ -135,7 +136,7 @@ const AccountHighlight: React.FC<HighlightProps> = ({isStory}) => {
         {
           isStory && storyData?.map((item,index)=>(
             <div className={styles.accountHighlight} key={index} onClick={()=>handleStoryClick(item._id)} >
-              <img src={item?.profilePic} alt="item" className={`${isStory ? styles.accountStory : styles.accountHighlightCover}`}/>
+              <img src={item?.profilePic ? item?.profilePic:defaultProfilePic} alt="item" className={`${isStory ? styles.accountStory : styles.accountHighlightCover}`}/>
               <p>{item?.username}</p>
             </div>
           ))

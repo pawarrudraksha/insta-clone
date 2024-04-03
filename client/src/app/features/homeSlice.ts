@@ -24,8 +24,12 @@ export const fetchFollowerDoc=createAsyncThunk("home/followerDoc",async(requeste
     return response.data
 })
 export const fetchFollowingDoc=createAsyncThunk("home/followingDoc",async(requestedUserId:string)=>{
-    const response=await axios.get(`/follow/check-following/${requestedUserId}`)
-    return response.data
+    try {  
+      const response=await axios.get(`/follow/check-following/${requestedUserId}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
 })
 
 export const homeSlice = createSlice({

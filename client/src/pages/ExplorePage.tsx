@@ -1,13 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from '../styles/explore/explorePage.module.css';
-import { accountData } from '../data/sampleAccount';
 import PostItem from '../components/miscellaneous/PostItem';
 import Footer from '../components/miscellaneous/Footer';
+import { useAppDispatch } from '../app/hooks';
+import { getAllPublicPosts } from '../app/features/viewPostSlice';
 
+interface ExploreItem{
+  isCommentsOff:boolean; 
+  isHideLikesAndViews:boolean;
+  isStandAlone:boolean;
+  noOfComments:number;
+  noOfLikes:number;
+  post: {type: string, url: string};
+  _id:string
+}
 const ExplorePage: React.FC = () => {
   const [hideSpacer, setHideSpacer] = useState(false); 
+  const dispatch=useAppDispatch()
   const containerRef = useRef<HTMLDivElement>(null);
-
+  const [page,setPage]=useState<number>(1)
+  const [posts,setPosts]=useState<ExploreItem[]>([])
   useEffect(() => {
     const handleScroll = () => {
       if (containerRef.current && containerRef.current.scrollTop > 0) {
@@ -26,27 +38,34 @@ const ExplorePage: React.FC = () => {
       }
     };
   }, []);
+  useEffect(()=>{
+    const fetchPosts=async()=>{
+      const results=await dispatch(getAllPublicPosts({page,limit:10}))
+      setPosts(results?.payload?.data)
+    }
+    fetchPosts()
+  },[page])  
   return (
     <div className={styles.explorePageContainer} >
         {!hideSpacer && <div className={styles.explorePageSpacer}></div>}
         <div className={styles.explorePageWrapper} ref={containerRef} >
           <div className={styles.explorePageBox}>
-            {accountData.mixed.slice(0, 5).map((data, index) => (
+            {posts && posts?.length>0 && posts?.slice(0, 5).map((data, index) => (
               <div
                 className={`${index === 2 ? styles.explorePagePostBiggerItem1 : styles.explorePagePostItem}`}
                 key={index}
               >
-                {/* <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} /> */}
+                <PostItem item={data} showReelIcon />
               </div>
             ))}
           </div>
           <div className={styles.explorePageBox}>
-            {accountData.mixed.slice(0, 5).map((data, index) => (
+            {posts && posts?.length>5 && posts?.slice(5, 10).map((data, index) => (
               <div
-                className={`${index === 0 ? styles.explorePagePostBiggerItem2 : styles.explorePagePostItem}`}
+                className={`${index === 8 ? styles.explorePagePostBiggerItem2 : styles.explorePagePostItem}`}
                 key={index}
               >
-                {/* <PostItem item={{ type: `${data.isPost === true ? 'image' : 'video'}`, showReelIcon: true, ...data }} /> */}
+                <PostItem item={data} showReelIcon />
               </div>
             ))}
           </div>

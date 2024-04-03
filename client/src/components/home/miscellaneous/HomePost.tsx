@@ -10,9 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import Interactions from '../../miscellaneous/Interactions';
 import { HomePostData } from '../HomePosts';
 import { getUserInfo } from '../../../app/features/accountSlice';
+import { actionOnPost, openPostModal } from '../../../app/features/viewPostSlice';
+import { defaultProfilePic } from '../../../data/common';
 
 
-const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
+const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {    
     const [isHovered,setIsHovered]=useState<boolean>(false)
     const navigate=useNavigate()
     const dispatch=useAppDispatch()
@@ -34,11 +36,22 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
     const navigateToProfile=()=>{
         navigate(`/${data?.userInfo?.username}`)
     }   
+    const handleViewAllComments=()=>{
+        dispatch(openPostModal())
+        window.history.pushState(null, '', `/p/${data?._id}`);   
+    }
+    const handleLikePost=async()=>{
+        if(data?.isPostLiked){
+            dispatch(actionOnPost({targetId:data?._id,targetType:"post",action:"unlike"}))
+        }else{
+            dispatch(actionOnPost({targetId:data?._id,targetType:"post",action:"like"}))  
+        }
+    }
     return (
         <div className={styles.homePost}>
             <div className={styles.homePostHeader} onMouseLeave={handleMouseLeave}>
                 <div className={styles.homePostProflePic}>
-                    <img src={data.userInfo?.profilePic} alt="profile pic" onClick={navigateToProfile}/>
+                    <img src={data?.userInfo?.profilePic ? data?.userInfo?.profilePic :defaultProfilePic} alt="profile pic" onClick={navigateToProfile}/>
                 </div>
                 <div className={styles.homePostHeaderInfo}>
                     <div className={styles.homePostHeaderDetail} >
@@ -57,21 +70,21 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
                 <IoIosMore />
                 </div>
             </div>
-            <div className={styles.homePostCarousel}>
+            <div className={styles.homePostCarousel} onDoubleClick={handleLikePost}>
                 <Carousel posts={data?.posts}/>
             </div>
-            <Interactions noOfLikes={data?.noOfLikes}/>
+            <Interactions data={{ noOfLikes: data?.noOfLikes, isPostLiked: data?.isPostLiked }} />
             <div className={styles.homePostCaption}>
                 <p onClick={navigateToProfile}>{data?.userInfo?.username}</p>
                 <p>{data?.caption}</p>
             </div>
-            <div className={styles.homePostCardComments}>
-                <p>View all {data?.noOfComments} comments</p>
+           {!data?.isCommentsOff && <div className={styles.homePostCardComments}>
+                <button onClick={handleViewAllComments}>View all {data?.noOfComments} comments</button>
                 <div className={styles.homePostCardAddComment}>
                     <input type="text" placeholder='Add a comment' className={styles.homePostCardAddCommentInput} onChange={handleCommentChange}/>
                     <HiOutlineEmojiHappy/>
                 </div>
-            </div>
+            </div>}
                 {isProfileModalOpen && isHovered &&
                 <ProfileModal 
                     onMouseEnter={handleMouseEnter}

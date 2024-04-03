@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../../styles/miscellaneous/profileModal.module.css'
-import { accountData } from '../../data/sampleAccount'
 import { FiSend } from 'react-icons/fi'
-import { openProfileModal, selectProfileModalData } from '../../app/features/appSlice'
+import { selectProfileModalData } from '../../app/features/appSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { getUserPostsWhenLoggedIn } from '../../app/features/accountSlice'
 

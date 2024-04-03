@@ -3,6 +3,7 @@ import { RootState } from '../store';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase';
 import { v4 as uuid } from 'uuid';
+import axios from 'axios';
 
 // Define a type for the slice state
 interface Post {
@@ -56,7 +57,12 @@ export const uploadFiles = createAsyncThunk(
   async (files: FileList) => {
     const uploadedPosts: Post[] = [];
     for (let i = 0; i < files.length; i++) {
-      const type = files[i].type.split('/')[0];
+      let type = files[i].type.split('/')[0];
+      if(type==='image'){
+        type='post'
+      }else{
+        type='reel'
+      }
       const id = uuid();
       const file = files[i];
       if (file) {
@@ -69,6 +75,7 @@ export const uploadFiles = createAsyncThunk(
     return uploadedPosts;
   }
 );
+
 export const deleteFile = createAsyncThunk(
   'createPost/deleteFile',
   async (id: string ) => {
@@ -77,6 +84,34 @@ export const deleteFile = createAsyncThunk(
     
   }
 );
+
+export const createPost=createAsyncThunk('post/create',
+  async({posts,aspectRatio,caption,isCommentsOff,isHideLikesAndViews}:{posts:{type:string,url:string}[],aspectRatio:string,caption:string,isCommentsOff:boolean,isHideLikesAndViews:boolean})=>{
+    try {
+      const isStandAlone=Boolean(posts?.length)
+      const updatedPosts=posts?.map((post)=>{
+        return {
+          content:{
+            type:post?.type,
+            url:post?.url
+          }
+        }
+      })
+      const body={
+        posts:updatedPosts,
+        aspectRatio,
+        caption,
+        isCommentsOff,
+        isHideLikesAndViews,
+        isStandAlone
+      }
+      const response=await axios.post('/posts/create',body)
+      return response.data
+    } catch (error) {
+      
+    }
+  }
+)
 
 export const createPostSlice = createSlice({
   name: 'createPost',

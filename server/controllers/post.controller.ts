@@ -12,8 +12,8 @@ interface AuthenticatedRequest extends Request {
 }
 
 const createPost=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
-    const {posts,aspectRatio,caption,isCommentsOff,isHideLikesAndViews,isStandAlone,taggedUsers}=req.body
-    if(posts.length<1 || !aspectRatio || !caption  ){
+    const {posts,aspectRatio,caption,isCommentsOff,isHideLikesAndViews,isStandAlone,taggedUsers}=req.body    
+    if(posts.length<1 || !aspectRatio){
         throw new ApiError(400,"All fields are mandatory")
     }
     const user=req.user 
@@ -461,21 +461,6 @@ const getAllPublicPosts=asyncHandler(async(req:AuthenticatedRequest,res:Response
             }
         },
         {
-            $skip:skip
-        },
-        {
-            $limit:limit
-        },
-        {
-            $project:{
-                isStandAlone:1,
-                userId:1,
-                posts:{$arrayElemAt: ["$posts.content", 0] },
-                _id:1,
-               aspectRatio:1
-            }
-        },
-        {
             $lookup:{
                 from:"users",
                 localField:"userId",
@@ -488,6 +473,18 @@ const getAllPublicPosts=asyncHandler(async(req:AuthenticatedRequest,res:Response
                         }
                     }
                 ]
+            }
+        },
+        {
+            $project:{
+                isStandAlone:1,
+                userId:1,
+                posts:{$arrayElemAt: ["$posts.content", 0] },
+                _id:1,
+                aspectRatio:1,
+                userInfo:{$arrayElemAt:["$userInfo",0]},
+                isCommentsOff:1,
+                isHideLikesAndViews:1
             }
         },
         {
@@ -525,11 +522,19 @@ const getAllPublicPosts=asyncHandler(async(req:AuthenticatedRequest,res:Response
             $project:{
                 noOfComments:1,
                 noOfLikes:1,
-                "post":"$posts.content",
-                isStandAlone:1
+                post:"$posts",
+                isStandAlone:1,
+                isCommentsOff:1,
+                isHideLikesAndViews:1
             }
         },
-
+        {
+            $skip:skip
+        },
+        {
+            $limit:limit
+        },
+      
     ])
     if(!posts || posts.length < 1){
         return  res.status(204).json(
@@ -711,6 +716,17 @@ const getUserFeed=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
             }
         },
         {
+            $addFields: {
+                isPostLiked: {
+                    $cond: {
+                        if: { $in: [user?._id, "$likes.userId"] },
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },        
+        {
             $lookup:{
                 from:"comments",
                 localField:"posts._id",
@@ -752,7 +768,8 @@ const getUserFeed=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
                 noOfComments: "$noOfComments",
                 noOfLikes: "$noOfLikes",
                 userInfo:{$arrayElemAt:["$userInfo",0]},
-                _id:"$posts._id"
+                _id:"$posts._id",
+                isPostLiked:1,
             }
         }
     ])
@@ -870,9 +887,9 @@ const getAllPublicReels = asyncHandler(async (req: AuthenticatedRequest, res: Re
                 pipeline:[
                     {
                         $project:{
-                            "isPrivate":1,
-                            "username":1,
-                            "profilePic":1
+                            isPrivate:1,
+                            username:1,
+                            profilePic:1
                         }
                     }
                 ]
@@ -923,7 +940,9 @@ const getAllPublicReels = asyncHandler(async (req: AuthenticatedRequest, res: Re
                 noOfLikes:1,
                 noOfComments:1,
                 userInfo:{$arrayElemAt:["$userInfo",0]},
-                aspectRatio:1   
+                aspectRatio:1, 
+                posts:1,
+                caption:1
             }
         },
         {

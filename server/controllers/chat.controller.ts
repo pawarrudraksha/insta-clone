@@ -20,19 +20,22 @@ const createChat=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     if(!user){
         throw new ApiError(401,"User must be logged in")
     }
-    const groupIconPath=req.file.path
-    if(!groupIconPath){
-        throw new ApiError(400,"group icon path required")
+    if(users.length===1){
+        const isChat = await Chat.findOne({
+            users: { 
+              $all: [user?._id, users[0]],
+              $size: 2,
+            },
+            isGroupChat:false
+        }).select("_id");
+        
+        if(isChat?._id){
+            throw new ApiError(400,"chat already existts")
+        }
     }
-    const response=await uploadOnCloudinary(groupIconPath)
-    if(!response){
-        throw new ApiError(500,"group icon upload failed")
-    }
-    
     const data:any={
         users:[...users,user._id],
         isGroupChat,
-        groupIcon:response.url,
         admin:[],
         chatName:"Users"
     }
@@ -239,9 +242,24 @@ const getChatInfo=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
                 "userInfo":{$arrayElemAt:["$userInfo",0]},
                 "updatedAt":1,
                 "isGroupChat":1,
-                "groupIcon":1,
                 "admin":1,
                 "chatName":1,
+                "latestMessage":1
+            }
+        },
+        {
+            $lookup:{
+                from:"messages",
+                localField:"latestMessage",
+                foreignField:"_id",
+                as:"latestMessage",
+                pipeline:[
+                    {
+                        $project:{
+                            message:1
+                        }
+                    }
+                ]
             }
         },
         {
@@ -250,9 +268,9 @@ const getChatInfo=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
                 users:{$push:"$userInfo"},
                 updatedAt: { $first: "$updatedAt" },
                 isGroupChat: { $first: "$isGroupChat" },
-                groupIcon: { $first: "$groupIcon" },
                 chatName: { $first: "$chatName" },
-                admin: { $first: "$admin" } 
+                admin: { $first: "$admin" },
+                latestMessage: { $first: {$arrayElemAt:["$latestMessage",0] }} 
             }
         }
       
@@ -261,48 +279,133 @@ const getChatInfo=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
         throw new ApiError(500,"Failed to fetch chat info")
     }
     res.status(200).json(
-        new ApiResponse(200,chatInfo,"Chat info fetched successfully")
+        new ApiResponse(200,chatInfo[0],"Chat info fetched successfully")
     )
 })
 
-const updateGroupIcon=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
-    const {chatId}=req.params
+const getUserChats=asyncHandler(async (req:AuthenticatedRequest,res:Response)=>{
     const user=req.user
     if(!user){
-        throw new ApiError(401,"User must be logged in")
+        throw new ApiError(401,"User not logged in")
     }
-    const chat=await Chat.findById(chatId)
-    if(!chat){
-        throw new ApiError(404,"Chat not found")
-    }
-    if(!chat.admin.includes(user._id)){
-        throw new ApiError(401,"Unauthorized request")
-    }
-    const groupIconPath=req.file.path
-    if(!groupIconPath){
-        throw new ApiError(400,"group icon path required")
-    }
-    const response=await uploadOnCloudinary(groupIconPath)
-    if(!response){
-        throw new ApiError(500,"Image upload failed")
-    }
-    const updatedChat=await Chat.findByIdAndUpdate(
-        chat._id,
+    const chats=await Chat.aggregate([
         {
-            $set:{
-                groupIcon:response.url
+            $unwind:"$users"
+        },
+        {
+            $match:{
+                users:user._id
             }
         },
         {
-            new:true
+            $group:{
+                _id:"$_id"
+            }
+        },
+        {
+            $lookup:{
+                from:"chats",
+                localField:"_id",
+                foreignField:"_id",
+                as:"chatInfo",
+                pipeline:[
+                    {
+                        $lookup:{
+                            from:"users",
+                            localField:"users",
+                            foreignField:"_id",
+                            as:"userInfo",
+                            pipeline:[
+                                {
+                                    $project:{
+                                        _id:1,
+                                        profilePic:1,
+                                        username:1,
+                                    }
+                                },
+                                {
+                                    $limit:2
+                                },
+                            ]
+                        }
+                    },
+                    
+                ]
+            }
+        },
+        {
+            $project:{
+                chatInfo:{$arrayElemAt:["$chatInfo",0]},
+                _id:0
+            }
+        },
+        {
+            $project:{
+                userInfo:{
+                    $filter: { input: "$chatInfo.userInfo", cond: { $ne: ["$$this._id", user?._id] } }  
+                },
+                updatedAt:"$chatInfo.updatedAt",
+                latestMessage:"$chatInfo.latestMessage",
+                isGroupChat:"$chatInfo.isGroupChat",
+                chatName:"$chatInfo.chatName",
+                _id:"$chatInfo._id"
+            }
+        },
+        {
+            $lookup:{
+                from:"messages",
+                localField:"latestMessage",
+                foreignField:"_id",
+                as:"latestMessage",
+                pipeline:[
+                    {
+                        $project:{
+                            message:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project:{
+                userInfo:1,
+                updatedAt:1,
+                latestMessage:{$arrayElemAt:["$latestMessage",0]},
+                isGroupChat:1,
+                chatName:1,
+            }
         }
-    )
-    if(updatedChat.groupIcon!==response.url){
-        throw new ApiError(500,"Group icon update request failed")
-    }
+    ])
     res.status(200).json(
-        new ApiResponse(200,{},"group icon updated successfullly")
+        new ApiResponse(200,chats,"Chats fetched successfully")
     )
 })
 
-export {createChat,addUserToChat,removeUserFromChat,exitGroup,deleteChat,updateGroupIcon,getChatInfo}
+const findChat=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const requestedUserId=req.params.requestedUserId
+    if(!requestedUserId){
+        throw new ApiError(400,"Other user id needed")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"user not logged in")
+    }
+    const chat = await Chat.findOne({
+        users: { 
+          $all: [user?._id, requestedUserId],
+          $size: 2,
+        },
+        isGroupChat:false
+    }).select("_id");
+    if(!chat){
+        return res.status(204).json(
+            new ApiResponse(204,{},"No chat found")
+        )
+    }
+    res.status(200).json(
+        new ApiResponse(200,chat,"Chat fetched successfully")
+    )
+})
+    
+
+export {createChat,addUserToChat,removeUserFromChat,exitGroup,deleteChat,getChatInfo,getUserChats,findChat}

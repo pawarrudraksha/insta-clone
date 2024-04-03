@@ -6,22 +6,12 @@ import styles from '../../styles/reels/reelCard.module.css';
 import { PiSpeakerSimpleSlashFill } from 'react-icons/pi';
 import { HiMiniSpeakerWave } from 'react-icons/hi2';
 import { BsDot } from 'react-icons/bs';
+import { Reel } from '../../pages/ReelsPage';
+import { defaultProfilePic } from '../../data/common';
 
-interface ReelCardProps {
-  video: string;
-  noOfLikes: number;
-  noOfComments: number;
-  username: string;
-  music: string;
-  caption: string;
-  id: number;
-  tagged: number;
-  musicPic: string;
-  profilePic: string;
-}
 
 interface Props {
-  reel: ReelCardProps;
+  reel: Reel;
 }
 
 const ReelCard: React.FC<Props> = ({ reel }) => {
@@ -37,14 +27,19 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
   const togglePlayPause = () => {
     const video = videoRef.current;
     if (video) {
-      if (isPlaying) {
-        video.pause();
-      } else {
-        video.play();
+      try {
+        if (isPlaying) {
+          video.pause();
+        } else {
+          video.play();
+        }
+        setIsPlaying(!isPlaying);
+      } catch (error) {
+        console.error("Error occurred while toggling play/pause:", error);
       }
-      setIsPlaying(!isPlaying);
     }
   };
+  
 
   useEffect(() => {
     const options = {
@@ -90,13 +85,13 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
         <div className={styles.reelVideoContainer}>
           <video
             ref={videoRef}
-            id={`video-${reel.id}`}
+            id={`video-${reel?._id}`}
             loop
             muted={isMuted}
             controls={false}
             onClick={togglePlayPause}
           >
-            <source src={reel.video} type="video/mp4" />
+            <source src={reel?.posts?.content?.url} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -114,9 +109,9 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
         </button>
         <div className={styles.reelCardContent}>
           <div className={styles.reelCardContentHeader}>
-            <img src={reel.profilePic} alt="" />
+            <img src={reel?.userInfo?.profilePic ? reel?.userInfo?.profilePic :defaultProfilePic} alt="" />
             <div className={styles.reelCardContentHeaderInfo}>
-              <p>{reel.username}</p>
+              <p>{reel?.userInfo?.username}</p>
               <BsDot />
               <button>Follow</button>
             </div>
@@ -140,11 +135,11 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
           <div className={styles.reelCardMusicAndTagged}>
             <FaMusic />
             <div className={styles.reelCardScrollingMusicContainer}>
-              <p className={styles.reelCardScrollingMusic}>{reel.music}</p>
+              <p className={styles.reelCardScrollingMusic}>{reel?.posts?.audioTrack?.track}</p>
             </div>
             <div className={styles.reelCardTagged}>
               <FaUser />
-              <p>{reel.tagged} people</p>
+              <p>{reel?.taggedUsers?.length} people</p>
             </div>
           </div>
         </div>
@@ -152,17 +147,17 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
       <div className={styles.reelCardInteractions}>
         <div className={styles.reelCardInteraction}>
           <FaRegHeart />
-          <p>{reel.noOfLikes}</p>
+          <p>{reel?.noOfLikes}</p>
         </div>
         <div className={styles.reelCardInteraction}>
           <FaRegComment />
-          <p>{reel.noOfComments}</p>
+          <p>{reel?.noOfComments}</p>
         </div>
         <FiSend />
         <FaRegBookmark />
         <IoIosMore />
         <div className={styles.reelCardInteractionsMusic}>
-          <img src={reel.musicPic} alt="" />
+          <img src={reel?.posts?.audioTrack?.coverPic} alt="" />
         </div>
       </div>
     </div>

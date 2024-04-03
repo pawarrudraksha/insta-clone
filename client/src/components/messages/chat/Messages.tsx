@@ -1,36 +1,115 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import MessagesHeader from './MessagesHeader'
 import Message from './Message'
 import styles from '../../../styles/messages/messages.module.css'
-import { reelData } from '../../../data/reelData'
-import { postData } from '../../../data/samplePost'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { selectCurrentUser } from '../../../app/features/authSlice'
+import { getMessages } from '../../../app/features/messagesSlice'
+import { useParams } from 'react-router-dom'
+import { getPostByIdWhenLoggedIn } from '../../../app/features/viewPostSlice'
+import { getUserInfo } from '../../../app/features/accountSlice'
+import { fetchFollowingDoc } from '../../../app/features/homeSlice'
+
+export interface MessageType{
+  _id:string;
+  message?:{
+    type:string;
+    content:string;
+    _id?:string
+  };
+  updatedAt:string;
+  caption?:string;
+  hasAccess?:boolean;
+  postUserInfo?:{
+    _id:string;
+    username:string;
+    profilePic:string;
+  }
+  senderInfo:{
+    _id:string;
+    username:string;
+    profilePic:string
+  };
+  toReplyMessage?:{
+    _id:string;
+    message:{
+      type:string;
+      content:string
+    }
+  }
+}
 
 const Messages:React.FC= () => {
+  const dispatch=useAppDispatch()
+  const currentUser=useAppSelector(selectCurrentUser)
+  const [page,setPage]=useState<number>(1)
+  const [messages,setMessages]=useState<MessageType[]>([])
+  const {chatId}=useParams()    
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        if (currentUser?._id && chatId) {
+          const messagesResult = await dispatch(getMessages({chatId,page}));          
+          if(messagesResult?.payload?.data?.length>0){
+
+            const updatedResult = await Promise.all(messagesResult?.payload?.data?.map(async (msg:MessageType) => {
+              if (msg?.message?._id && msg?.message?.type!=='text') {
+                const post = await dispatch(getPostByIdWhenLoggedIn(msg?.message?._id));
+                
+                const postOwner = await (await dispatch(getUserInfo(post?.payload?.data?.userInfo?.username)))?.payload?.data              
+                const isFollow = await (await dispatch(fetchFollowingDoc(postOwner?._id)))?.payload?.data; 
+                             
+                if (!isFollow?._id && postOwner?.isPrivate) {
+                  return {
+                    hasAccess: false,
+                    _id: msg?.message?._id,
+                    senderInfo: msg?.senderInfo,
+                    postUserInfo:post?.payload?.data?.userInfo,
+                    message:{
+                      type:msg?.message?.type
+                    }
+                  };
+                } else {
+                  return {
+                    hasAccess:true,
+                    ...msg,
+                    postUserInfo: post?.payload?.data?.userInfo,
+                    caption: post?.payload?.data?.caption
+                  };
+                }
+            }
+            return msg;
+          }));
+          setMessages(updatedResult);
+        }else{
+          setMessages([])
+        }
+        }
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+      }
+    };
+  
+    fetchChats();
+  }, [chatId]);
+  const messageRef=useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (messageRef.current) {
+      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+    }
+  }, [messages, chatId]);
   return (
-    <div className={styles.messagesContainer}>
+    <div className={styles.messagesContainer} ref={messageRef}> 
         <div className={styles.messagesHeaderWrapper}>
           <MessagesHeader/>
         </div>
         <div className={styles.messages}>
-          
-          <Message msg="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit expedita repellat perspiciatis eligendi, illo neque atque assumenda cum? Aut qui asperiores et nulla alias molestias quia perspiciatis, quisquam esse itaque ab porro provident velit officiis enim sint a error earum reiciendis non magnam animi, fugiat repellendus odio! Quidem labore in minus doloribus. Cumque, doloremque provident sit consequatur soluta blanditiis commodi aliquid alias repellat rem sunt, doloribus sapiente ipsa iusto aperiam tempore voluptatem excepturi, in ea nihil. Ipsum, assumenda! Reiciendis soluta fugiat, animi totam hic accusamus. Vero, illum laudantium perferendis id distinctio sit porro doloribus aperiam commodi molestias placeat nam assumenda." type="text" isSelf/>
-          <Message msg="dmdlfe" type="text" />
-          <Message msg="dmdlfe" type="text" isSelf/>
-          <Message msg={reelData[0].video} type="reel" />
-          <Message msg={postData.posts[0].url} type="post" isSelf />
-          <Message msg="dmdlfe" type="text" isSelf/>
-          <Message msg="dmdlfe" type="text" isReply msgWhichIsReplied={{
-            type:"reel",
-            msg:"https://firebasestorage.googleapis.com/v0/b/letschat-mern-6572c.appspot.com/o/145320%20(360p).mp4?alt=media&token=57ef3006-975b-4346-a2c4-0f183b038e17"
-          }}/>
-          <Message msg="dmdlfe" type="text" isSelf isReply msgWhichIsReplied={{
-            type:"reel",
-            msg:"https://firebasestorage.googleapis.com/v0/b/letschat-mern-6572c.appspot.com/o/145320%20(360p).mp4?alt=media&token=57ef3006-975b-4346-a2c4-0f183b038e17"
-          }}/>
-          <Message msg="dmdlfe" type="text" isReply msgWhichIsReplied={{
-            type:"text",
-            msg:"oifnewr["
-          }}/>
+          {
+            messages && messages?.length>0 &&
+            messages.map((msg,index)=>(
+               <Message message={msg} key={index} />
+            ))
+          }
         </div>
     </div>
   )

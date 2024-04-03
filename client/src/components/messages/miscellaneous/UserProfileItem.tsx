@@ -1,22 +1,28 @@
 import React from 'react'
-import { accountData } from '../../../data/sampleAccount'
 import styles from '../../../styles//messages/chatDetailsMemberItem.module.css'
 import SelectCheckbox from '../../miscellaneous/SelectCheckbox';
+import { defaultProfilePic } from '../../../data/common';
 
 interface UserProfileItemProps{
   isCheckbox?:boolean;
+  userInfo:{
+    username:string;
+    name:string;
+    profilePic:string;
+    _id:string
+  }
 }
-const UserProfileItem:React.FC<UserProfileItemProps>= ({isCheckbox}) => {
+const UserProfileItem:React.FC<UserProfileItemProps>= ({isCheckbox,userInfo}) => {
   return (
     <div className={styles.chatDetailsMemberItemContainer}>
         <div className={styles.chatDetailsMemberItemContainerImg}>
-          <img src={accountData.profilePic} alt="" />
+          <img src={userInfo?.profilePic ? userInfo?.profilePic :defaultProfilePic} alt="" />
         </div>
         <div className={styles.chatDetailsMemberItemInfo}>
-            <p>{accountData.username}</p>
-            <p>{accountData.name}</p>
+            <p>{userInfo?.username}</p>
+            <p>{userInfo?.name}</p>
         </div>
-        <SelectCheckbox/>
+        {isCheckbox && <SelectCheckbox username={userInfo.username} _id={userInfo._id} />}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from '../../../styles/posts/postCard.module.css'
 import Carousel from '../../miscellaneous/Carousel'
 import { IoIosMore } from 'react-icons/io';
@@ -9,6 +9,7 @@ import { selectCurrentUser } from '../../../app/features/authSlice';
 import { getPostByIdWhenLoggedIn, getPostByIdWhenNotLoggedIn, getPostCommentsWhenLoggedIn, getPostCommentsWhenNotLoggedIn, postComment, selectToReplyComment, setToReplyComment } from '../../../app/features/viewPostSlice';
 import PostCommentCard from './PostCommentCard';
 import { useNavigate } from 'react-router-dom';
+import { defaultProfilePic } from '../../../data/common';
 
 interface ReceivedPostItem{
   content:{
@@ -26,6 +27,7 @@ interface Post{
   caption:string;
   noOfLikes:number;
   _id:string;
+  isPostLiked:boolean
 }
 interface CarouselPostsType{
   type:string;
@@ -44,7 +46,8 @@ const PostCard:React.FC = () => {
   }
   const [filteredPost,setFilteredPost]=useState<CarouselPostsType[]>([])
   const postId=window.location.pathname.slice(3)
-  const [post,setPost]=useState<Post>({_id:'',caption:'',userInfo:{_id:'',profilePic:'',username:''},updatedAt:'',noOfLikes:-1})
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [post,setPost]=useState<Post>({_id:'',caption:'',userInfo:{_id:'',profilePic:'',username:''},updatedAt:'',noOfLikes:-1,isPostLiked:false})
   useEffect(()=>{ 
     if(postId){
       const fetchPosts=async()=>{
@@ -89,6 +92,9 @@ const PostCard:React.FC = () => {
     }
   },[postId])
 
+  useEffect(()=>{
+    dispatch(setToReplyComment({username:'',commentId:''}))
+  },[postId])
   const handlePostComment=async()=>{
     if(!currentUser._id){
       navigate("/accounts/login")
@@ -105,6 +111,11 @@ const PostCard:React.FC = () => {
       }
     }
   }
+  const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && replyComment?.commentId &&(!comment.trim() ||inputRef.current?.selectionStart===0)) {
+      dispatch(setToReplyComment({username:'',commentId:''}))
+    }
+  };  
   return (
     <div className={styles.postCardContainer}>
       <div className={styles.postCardWrapper}>
@@ -114,14 +125,14 @@ const PostCard:React.FC = () => {
         <div className={styles.postCardContentContainer}>
           <div className={styles.postCardContentHeader}>
             <div className={styles.postCardContentInnerHeader}>
-              <img src={post?.userInfo?.profilePic} alt="" />
+              <img src={post?.userInfo?.profilePic ? post?.userInfo?.profilePic :defaultProfilePic} alt="" />
               <p>{post?.userInfo?.username}</p>
             </div>
             <IoIosMore/>
           </div>
           <div className={styles.postCardContent}>
             <div className={styles.postCardCaption}>
-              <img src={post?.userInfo?.profilePic} alt="" />
+              <img src={post?.userInfo?.profilePic ?post?.userInfo?.profilePic :defaultProfilePic} alt="" />
               <div className={styles.postCardCaptionContent}>
                 <div className={styles.postCardCaptionInnerContent}>
                   <p>{post?.userInfo?.username}</p>
@@ -144,7 +155,7 @@ const PostCard:React.FC = () => {
           </div>
           <div className={styles.postCardInteractionSection}>
             <div className={styles.postCardInteractionSectionIcons}>
-              <Interactions noOfLikes={post?.noOfLikes}/>
+              <Interactions data={{isPostLiked:post?.isPostLiked,noOfLikes:post?.noOfLikes}} />
               <p className={styles.postCardInteractionSectionIconsDate}>February 8</p>
             </div>
             <div className={styles.postCardAddCommentSection}>
@@ -153,7 +164,7 @@ const PostCard:React.FC = () => {
                 replyComment && replyComment?.commentId && <p>{`@${replyComment?.username}`}</p>
               }
               {
-                replyComment ? <input type="text" placeholder='' value={comment}onChange={handleInputChange} />
+                replyComment ? <input type="text" placeholder='' value={comment} ref={inputRef} onChange={handleInputChange} onKeyDown={handleBackspace} />
                             : <input type="text" placeholder='Add a comment...' value={comment}onChange={handleInputChange} />
 
               }

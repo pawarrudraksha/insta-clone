@@ -91,6 +91,39 @@ export const postComment=createAsyncThunk('comment/post',
     }
   }
 )
+
+export const getAllReels=createAsyncThunk('post/get-all-reels',
+  async(page:number)=>{
+    try {
+      const response=await axios.get(`/posts/get-all-reels?limit=4&page=${page}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
+export const getAllPublicPosts=createAsyncThunk('explore/get-all-posts',
+  async ({limit,page}:{limit:number,page:number})=>{
+    try {  
+      const response=await axios.get(`/posts/get-all-public-posts?page=${page}&limit=${limit}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
+export const actionOnPost=createAsyncThunk('post/action',
+  async({targetType,targetId,action}:{targetType:string;targetId:string;action:string})=>{
+    try {
+      const response=await axios.post('/likes/item',{targetType,targetId,action})
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
 export const postSlice = createSlice({
   name: 'post',
   initialState,

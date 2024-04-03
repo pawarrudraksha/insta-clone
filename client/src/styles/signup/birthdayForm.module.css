@@ -1,0 +1,82 @@
+.birthdayFormContainer{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 20px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border: var(--card-border);
+}
+
+.birthdayFormContainer p{
+    margin: 0px;
+}
+
+.birthdayFormContainer>p{
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+}
+
+.birthdayFormSelect{
+    padding: 6px;
+    margin: 0px 5px;
+    color: var(--sign-up-secondary-font);
+}
+.birthdayBtns{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+.birthdayBtns button{
+    background-color: var(--btn-color);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    color: var(--font-color);
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.birthdayBtns button:nth-child(2){
+    background-color: transparent;
+    color: var(--btn-color);
+}
+
+.whyBirthdayContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+}
+
+.whyBirthdayLink{
+    display: inline;   
+    text-decoration: none   ;
+    color: var(--btn-color);
+    font-size: var(--font-size-medium);
+}
+
+.inputContainer p{
+    font-size: var(--font-size-small);
+    color: var(--sign-up-secondary-font);
+}
+.whyBirthdayContainer p:first-child{
+    font-size: var(--font-size-medium);
+}

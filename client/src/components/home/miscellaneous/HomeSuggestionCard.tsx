@@ -7,6 +7,7 @@ import { SuggestionUser } from './HomeSuggestions'
 import { getUserInfo } from '../../../app/features/accountSlice'
 import { setProfileModalData } from '../../../app/features/appSlice'
 import { selectCurrentUser } from '../../../app/features/authSlice'
+import { defaultProfilePic } from '../../../data/common'
 
 interface Props{
   isSelf?:boolean;
@@ -35,7 +36,7 @@ const HomeSuggestionCard :React.FC<Props>= ({isSelf,user}) => {
   return (
     <div className={styles.homeSuggestionCard} onMouseLeave={handleMouseLeave}>
         <div className={styles.homeSuggestionCardImg}>
-          <img src={user?.profilePic} alt="" />
+          <img src={user?.profilePic ? user?.profilePic:defaultProfilePic} alt="" />
         </div>
         <div className={styles.homeSuggestionCardContent} >
           <p className={styles.homeSuggestionCardInfoName}

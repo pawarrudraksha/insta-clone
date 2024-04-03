@@ -1,4 +1,4 @@
-import { IUser } from "../models/user.model";
+import { IUser, User } from "../models/user.model";
 import { asyncHandler } from "../utils/asyncHandler";
 import { Request,Response } from "express";
 import { ApiError } from "../utils/ApiError";
@@ -7,17 +7,17 @@ import { Message } from "../models/message.model";
 import { ApiResponse } from "../utils/ApiResponse";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 import mongoose from "mongoose";
+import { Post } from "../models/post.model";
+import { Follow } from "../models/follow.model";
 
 interface AuthenticatedRequest extends Request{
     user:IUser
 }
 const sendTextMessage=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
-    const {message,toReplyMessage,chatId}=req.body
-    console.log(req.file);
-    
+    const {message,toReplyMessage,chatId}=req.body    
     if(!message.type || !message.content || !chatId){
         throw new ApiError(400,"All fields are required")
-    }
+    }    
     const user=req.user
     if(!user){
         throw new ApiError(401,"user must be logged in")
@@ -109,6 +109,48 @@ const sendPost=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
     }
     res.status(201).json(
         new ApiResponse(201,{},"Msg sent successfully")
+    )
+})
+
+const sharePostOrReel=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const {postId,chatId}=req.body
+    if(!postId  ||!chatId){
+        throw new ApiError(400,"all fields required")
+    }
+    const user=req.user
+    if(!user){
+        throw new ApiError(401,"User not logged in")
+    }
+   
+    const isPost=await Post.findById(postId)
+    if(!isPost){
+        throw new ApiError(404,"post not found")
+    }
+    const postOwner=await User.findById(isPost?.userId)
+    if(postOwner?.isPrivate && user?._id.toString()!==postOwner._id.toString()){
+        const isFollow=await Follow.findOne({userId:postOwner?._id,follower:user?._id})   
+        if(!isFollow){
+            throw new ApiError(401,"Unauthorized request")
+        }
+    }
+    const isChat=await Chat.findById(chatId)
+    if(!isChat){
+        throw new ApiError(404,"Chat does not exist")
+    }
+    const message=await Message.create({
+        message:{
+            type:isPost?.posts[0]?.content?.type,
+            content:isPost?.posts[0]?.content?.url,
+            _id:isPost?._id
+        },
+        chatId:chatId,
+        senderId:user?._id,
+    })
+    if(!message){
+        throw new ApiError(500,"Failed to share post")
+    }
+    res.status(201).json(
+        new ApiResponse(201,{},"message sent successfully")
     )
 })
 
@@ -218,7 +260,7 @@ const getChatMessages=asyncHandler(async(req:AuthenticatedRequest,res:Response)=
         },
         {
             $sort:{
-                updatedAt:-1
+                updatedAt:1
             }
         },
         {
@@ -244,16 +286,34 @@ const getChatMessages=asyncHandler(async(req:AuthenticatedRequest,res:Response)=
             }
         },
         {
+            $lookup:{
+                from:"messages",
+                localField:"toReplyMessage",
+                foreignField:"_id",
+                as:"toReplyMessage",
+                pipeline:[
+                    {
+                        $project:{
+                            message:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
             $project:{
                 message:1,
                 "senderInfo":{$arrayElemAt:["$senderInfo",0]},
-                updatedAt:1
+                updatedAt:1,
+                toReplyMessage:{$arrayElemAt:["$toReplyMessage",0]},
             }
         }
         
     ])
     if(messages.length<1){
-        throw new ApiResponse(404,"Chat does not have any messages")
+        return res.status(204).json(
+            new ApiResponse(204,{},"No messages for chat")
+        )
     }
     res.status(200).json(
         new ApiResponse(200,messages,"Messages fetched successfully")
@@ -276,13 +336,44 @@ const getMessageById=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>
     if(!chat.users.includes(user._id)){
         throw new ApiError(401,"User not part of chat")
     }
-    const message=await Message.findById(messageId)
+    const message = await Message.aggregate([
+        {
+            $match: {
+                _id:new  mongoose.Types.ObjectId(messageId.toString())
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "senderId",
+                foreignField: "_id",
+                as: "senderInfo",
+                pipeline:[
+                    {
+                        $project:{
+                            _id:1,
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project:{
+                senderInfo:{$arrayElemAt:["$senderInfo",0]}
+            }
+        }
+    ]);
+    
     if(!message){
         throw new ApiError(404,"Message not found")
     }
     res.status(200).json(
-        new ApiResponse(200,message,"Message fetched successfully")
+        new ApiResponse(200,message[0],"Message fetched successfully")
     )
 })
 
-export {sendTextMessage,sendPost,editMessage,deleteMessage,getChatMessages,getMessageById}
+// const getRequestedChats=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+//     const user=req.user
+// })
+export {sendTextMessage,sendPost,editMessage,deleteMessage,getChatMessages,getMessageById,sharePostOrReel}

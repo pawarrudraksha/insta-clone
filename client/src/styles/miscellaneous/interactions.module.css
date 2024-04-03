@@ -22,3 +22,7 @@
     display: flex;
     gap: 21px;
 }
+
+.likedPostIcon{
+    color:rgb(255, 48, 64)
+}

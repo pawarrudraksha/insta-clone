@@ -1,0 +1,59 @@
+.otpFormContainer{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 20px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border: var(--card-border);
+}
+.otpFormTitle{
+    font-family: "Lobster Two", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0%;
+    font-size: var(--main-logo-font-size-large);
+    align-self: center;
+}
+
+.otpFormContent{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.otpFormContent p{
+    font-size: var(--font-size-large);
+    text-align:center;
+    margin: 0px;
+}
+
+.otpFormContent button{
+    background-color: var(--btn-color);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    color: var(--font-color);
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.otpFormContent input{
+    width: 100%;
+    padding:10px;
+    margin:  0px;
+    box-sizing: border-box;
+    border: var(--card-border);
+    outline: none;
+    font-size: var(--font-size-small);
+}

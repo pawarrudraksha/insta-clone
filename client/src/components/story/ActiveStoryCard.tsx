@@ -9,6 +9,8 @@ import { BiMoviePlay } from 'react-icons/bi'
 import { GoChevronRight } from 'react-icons/go'
 import { FiSend } from 'react-icons/fi'
 import { ActiveStoriesSetType, selectActiveStoriesSetOfHomeStories, selectActiveStoryOfHomeStories } from '../../app/features/storySlice'
+import { HiSpeakerWave } from 'react-icons/hi2'
+import { defaultProfilePic } from '../../data/common'
 
 interface Story{
   _id:string;
@@ -18,10 +20,20 @@ interface Story{
   }
 }
 const ActiveStoryCard: React.FC<{ isStory?: boolean }> = ({ isStory }) => {
-  const [isStoryPause,setIsStoryPause]=useState(false)
-  const handleStoryPlay=()=>{    
-    setIsStoryPause(!isStoryPause)
+  const [isStoryPause,setIsStoryPause]=useState<boolean>(false)
+  const [isStoryMute,setIsStoryMute]=useState<boolean>(false)
+  const handleStoryPlay = () => { 
+    const video = document.getElementById(`video`) as HTMLVideoElement;    
+    if (video) {
+      if (!isStoryPause) {
+        video.pause();
+      } else {
+        video.play();
+      }
+      setIsStoryPause(!isStoryPause);
+    }
   }
+  
   let selectedStoriesSet:HighlightType | ActiveStoriesSetType;
   let story:Story;
   let selectedIndex:number;
@@ -29,6 +41,7 @@ const ActiveStoryCard: React.FC<{ isStory?: boolean }> = ({ isStory }) => {
   const activeStoryOfHighlights = useAppSelector(selectActiveStoryOfHighlights);
   const activeStoriesSetOfHomeStories = useAppSelector(selectActiveStoriesSetOfHomeStories) as ActiveStoriesSetType;
   const activeStoryOfHomeStories = useAppSelector(selectActiveStoryOfHomeStories);
+ 
   if (isStory) {
     selectedStoriesSet = activeStoriesSetOfHomeStories;
     story = activeStoryOfHomeStories;
@@ -56,27 +69,28 @@ const ActiveStoryCard: React.FC<{ isStory?: boolean }> = ({ isStory }) => {
         <div className={styles.storyCardHeaderContentWrapper}>
           <div className={styles.storyCardHeaderContent}>
             <div className={styles.storyCardHeaderPic}>
-              <img src={isStory?(selectedStoriesSet as ActiveStoriesSetType)?.userInfo?.profilePic :(selectedStoriesSet as HighlightType)?.coverPic} alt="" />
+              <img src={isStory?((selectedStoriesSet as ActiveStoriesSetType)?.userInfo?.profilePic || defaultProfilePic):(selectedStoriesSet as HighlightType)?.coverPic} alt="" />
             </div>
             <div className={styles.storyCardHeaderProfileInfo}>
               <div className={styles.storyCardHeaderUsernameAndTime}>
                 <p className={styles.storyCardHeaderUsername}>{isStory?(selectedStoriesSet as ActiveStoriesSetType)?.userInfo?.username :(selectedStoriesSet as HighlightType)?.caption}</p>
                 <p className={styles.storyCardHeaderTime}>21h</p>
               </div>
-              { story?.content?.type==='reel' &&
+              {/* { story?.content?.type==='reel' &&
               <div className={styles.storyCardHeaderWatchReel}>
                 <BiMoviePlay/>
                 <p> Watch full reel</p>
                 <GoChevronRight/>
               </div>
-              }
+              } */}
               </div>
             </div>
             <div className={styles.storyCardIcons}>
-              {story?.content?.type==='reel' && <IoVolumeMuteSharp className={styles.storyCardPlayIcon}/>}
-              {isStoryPause?
+              {story?.content?.type==='reel' &&(
+                !isStoryMute? <HiSpeakerWave className={styles.storyCardPlayIcon} onClick={()=>setIsStoryMute(true)} /> : <IoVolumeMuteSharp className={styles.storyCardPlayIcon} onClick={()=>setIsStoryMute(false)}/>)}
+              {story?.content?.type==='reel' &&(isStoryPause?
               <FaPlay className={styles.storyCardPlayIcon} onClick={handleStoryPlay}/> 
-              :<FaPause className={styles.storyCardPlayIcon} onClick={handleStoryPlay}/>}
+              :<FaPause className={styles.storyCardPlayIcon} onClick={handleStoryPlay}/>)}
               <IoIosMore className={styles.storyCardMoreIcon}/>
             </div>
         </div>
@@ -86,7 +100,7 @@ const ActiveStoryCard: React.FC<{ isStory?: boolean }> = ({ isStory }) => {
           <img src={story?.content?.url} alt="story"  />}
           {
             story?.content?.type==='reel' &&
-            <video src={story?.content?.url}></video>
+            <video src={story?.content?.url} muted={isStoryMute} id='video'></video>
           }
       </div>
       <div className={styles.storyCardInteractionContainer}>

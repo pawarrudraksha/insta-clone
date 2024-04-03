@@ -4,6 +4,7 @@ import { setActiveIndexOfHighlights, setActiveStoriesSetOfHighlights, setActiveS
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getHighlightById, selectHighlights } from '../../app/features/accountSlice';
 import { getUserActiveStories, selectStories, setActiveIndexOfHomeStories, setActiveStoriesSetOfHomeStories, setActiveStoryNoOfHomeStories, setActiveStoryOfHomeStories, setInactiveStoriesSetOfHomeStories } from '../../app/features/storySlice';
+import { defaultProfilePic } from '../../data/common';
 
 
 export interface Story {
@@ -62,7 +63,7 @@ const InactiveStoryCard:React.FC<Props>= ({story,isStory}) => {
   return (
     <div className={styles.inactiveStoryCardContainer} onClick={handleInactiveStoryClick}>
       <div className={styles.inactiveStoryProfile}>
-        <img src={story?.coverPic ? story?.coverPic : story?.profilePic} alt="" />
+        <img src={story?.coverPic ? story?.coverPic : (story?.profilePic ? story?.profilePic :defaultProfilePic)} alt="" />
         <div className={styles.inactiveStoryProfileInfo}>
           <p >{story?.caption ? story?.caption : story?.username}</p>
           <p className={styles.inactiveStoryProfileTime}>18h</p>

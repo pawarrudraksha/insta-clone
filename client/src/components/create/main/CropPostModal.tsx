@@ -24,6 +24,8 @@ const CropPostModal:React.FC = () => {
         dispatch(toggleIsAspectRatioModalOpen())
     }
     const posts=useAppSelector(selectPosts)
+    console.log(posts);
+    
     const handleBack=()=>{        
         dispatch(toggleCropPostModalOpen())
         dispatch(toggleUploadPostModal())
@@ -35,7 +37,7 @@ const CropPostModal:React.FC = () => {
         }
         dispatch(setCreatePosts([]))
     }
-
+    
     const handleMultiplePosts=()=>{
         if(isAspectRatioModalOpen){
             dispatch(toggleIsAspectRatioModalOpen())
@@ -55,7 +57,6 @@ const CropPostModal:React.FC = () => {
         dispatch(toggleIsEditPostsModalOpen())
         dispatch(toggleIsFiltersTabOpen())
     }
-    const type=useAppSelector(selectCarouselActiveType)    
     return (
         <div className={styles.cropPostModalContainer}>
             <div className={styles.cropPostHeader}>

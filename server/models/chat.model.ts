@@ -6,7 +6,6 @@ interface IChat extends Document{
     admin:[Schema.Types.ObjectId];
     users:[Schema.Types.ObjectId];
     latestMessage:Schema.Types.ObjectId;
-    groupIcon:string
 }
 
 const chatSchema=new Schema<IChat>({
@@ -26,10 +25,7 @@ const chatSchema=new Schema<IChat>({
     admin:{
         type:[Schema.Types.ObjectId],
         ref:"User"
-    },
-    groupIcon:{
-        type:String
-    },
+    },   
     latestMessage:{
         type:Schema.Types.ObjectId,
         ref:"Message"

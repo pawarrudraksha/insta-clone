@@ -1,7 +1,7 @@
 import React from 'react'
 import {useAppDispatch} from '../../../app/hooks'
 import { toggleNewMessageModal } from '../../../app/features/messagesSlice'
-import styles from '../../styles/messages/initialChat.module.css'
+import styles from '../../../styles/messages/initialChat.module.css'
 
 const InitialChat:React.FC = () => {
     const dispatch=useAppDispatch()
