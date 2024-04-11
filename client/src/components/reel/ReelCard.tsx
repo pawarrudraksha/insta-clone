@@ -1,14 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { FaRegComment, FaMusic, FaPlay, FaRegBookmark, FaRegHeart, FaUser } from 'react-icons/fa';
-import { FiSend } from 'react-icons/fi';
-import { IoIosMore } from 'react-icons/io';
-import styles from '../../styles/reels/reelCard.module.css';
-import { PiSpeakerSimpleSlashFill } from 'react-icons/pi';
-import { HiMiniSpeakerWave } from 'react-icons/hi2';
-import { BsDot } from 'react-icons/bs';
-import { Reel } from '../../pages/ReelsPage';
-import { defaultProfilePic } from '../../data/common';
-
+import React, { useEffect, useState, useRef } from "react";
+import {
+  FaRegComment,
+  FaMusic,
+  FaPlay,
+  FaRegBookmark,
+  FaRegHeart,
+  FaUser,
+} from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
+import { IoIosMore } from "react-icons/io";
+import styles from "../../styles/reels/reelCard.module.css";
+import { PiSpeakerSimpleSlashFill } from "react-icons/pi";
+import { HiMiniSpeakerWave } from "react-icons/hi2";
+import { BsDot } from "react-icons/bs";
+import { Reel } from "../../pages/ReelsPage";
+import { defaultProfilePic } from "../../data/common";
 
 interface Props {
   reel: Reel;
@@ -39,45 +45,45 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
       }
     }
   };
-  
 
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '0px',
-      threshold: .5, 
+      rootMargin: "0px",
+      threshold: 0.5,
     };
-  
+
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        // If the video is fully in view, play it
-        setIsPlaying(true);
-        const video = videoRef.current;
-        if (video) {
-          video.play();
+      try {
+        if (entry.isIntersecting) {
+          setIsPlaying(true);
+          const video = videoRef.current;
+          if (video) {
+            video.play();
+          }
+        } else {
+          setIsPlaying(false);
+          const video = videoRef.current;
+          if (video) {
+            video.pause();
+          }
         }
-      } else {
-        // If the video is not fully in view, pause it
-        setIsPlaying(false);
-        const video = videoRef.current;
-        if (video) {
-          video.pause();
-        }
+      } catch (error) {
+        console.log("Error playing/pausing video:", error);
       }
     }, options);
-  
+
     const video = videoRef.current;
     if (video) {
       observer.observe(video);
     }
-  
+
     return () => {
       if (video) {
         observer.unobserve(video);
       }
     };
   }, []);
-  
 
   return (
     <div className={styles.reelWrapper}>
@@ -109,7 +115,14 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
         </button>
         <div className={styles.reelCardContent}>
           <div className={styles.reelCardContentHeader}>
-            <img src={reel?.userInfo?.profilePic ? reel?.userInfo?.profilePic :defaultProfilePic} alt="" />
+            <img
+              src={
+                reel?.userInfo?.profilePic
+                  ? reel?.userInfo?.profilePic
+                  : defaultProfilePic
+              }
+              alt=""
+            />
             <div className={styles.reelCardContentHeaderInfo}>
               <p>{reel?.userInfo?.username}</p>
               <BsDot />
@@ -135,7 +148,9 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
           <div className={styles.reelCardMusicAndTagged}>
             <FaMusic />
             <div className={styles.reelCardScrollingMusicContainer}>
-              <p className={styles.reelCardScrollingMusic}>{reel?.posts?.audioTrack?.track}</p>
+              <p className={styles.reelCardScrollingMusic}>
+                {reel?.posts?.audioTrack?.track}
+              </p>
             </div>
             <div className={styles.reelCardTagged}>
               <FaUser />

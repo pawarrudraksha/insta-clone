@@ -10,6 +10,8 @@ import { getPostByIdWhenLoggedIn, getPostByIdWhenNotLoggedIn, getPostCommentsWhe
 import PostCommentCard from './PostCommentCard';
 import { useNavigate } from 'react-router-dom';
 import { defaultProfilePic } from '../../../data/common';
+import { getTimeSinceUpdate } from '../../../utils/getTimeSinceUpdate';
+import { getTDateSinceUpdate } from '../../../utils/getDateSinceUpdate';
 
 interface ReceivedPostItem{
   content:{
@@ -116,6 +118,8 @@ const PostCard:React.FC = () => {
       dispatch(setToReplyComment({username:'',commentId:''}))
     }
   };  
+  const postUpdatedTime=getTimeSinceUpdate(post?.updatedAt)
+  const postUpdatedDate=getTDateSinceUpdate(post?.updatedAt)
   return (
     <div className={styles.postCardContainer}>
       <div className={styles.postCardWrapper}>
@@ -138,7 +142,7 @@ const PostCard:React.FC = () => {
                   <p>{post?.userInfo?.username}</p>
                   <p className={styles.postCardCaptionInnerContentCaption}>{post?.caption}</p>
                 </div>
-                <p className={styles.postCardCaptionContentDate}>2w</p>
+                <p className={styles.postCardCaptionContentDate}>{postUpdatedTime}</p>
               </div>
             </div>
             <div className={styles.postCardCommentsContainer}>
@@ -156,7 +160,12 @@ const PostCard:React.FC = () => {
           <div className={styles.postCardInteractionSection}>
             <div className={styles.postCardInteractionSectionIcons}>
               <Interactions data={{isPostLiked:post?.isPostLiked,noOfLikes:post?.noOfLikes}} />
-              <p className={styles.postCardInteractionSectionIconsDate}>February 8</p>
+              <p className={styles.postCardInteractionSectionIconsDate}>
+                {postUpdatedDate?.year > (new Date().getFullYear()) 
+                ? `${postUpdatedDate?.date} ${postUpdatedDate?.month} ${postUpdatedDate?.year}`
+                :` ${postUpdatedDate?.month} ${postUpdatedDate?.date} `
+                }
+              </p>
             </div>
             <div className={styles.postCardAddCommentSection}>
               <BsEmojiSmile />

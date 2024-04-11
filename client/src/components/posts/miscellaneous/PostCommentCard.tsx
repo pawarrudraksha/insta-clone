@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectCurrentUser } from '../../../app/features/authSlice';
 import { getCommentReplies, selectToReplyComment, setToReplyComment } from '../../../app/features/viewPostSlice';
 import { defaultProfilePic } from '../../../data/common';
+import { getTimeSinceUpdate } from '../../../utils/getTimeSinceUpdate';
 
 interface PostCommentCardProps{
   _id:string;
@@ -38,6 +39,7 @@ const PostCommentCard: React.FC<Props> = ({comment}) => {
   const handleReplyToComment=()=>{
     dispatch(setToReplyComment({username:currentUser?.username,commentId:comment?._id}))
   }
+  const timeSinceUpdate=getTimeSinceUpdate(comment?.updatedAt)
   return (
     <div className={styles.postCommentCardContainer}>
       <div className={styles.postCommentCardContentsContainer}>
@@ -51,7 +53,7 @@ const PostCommentCard: React.FC<Props> = ({comment}) => {
               <p className={styles.postCommentCardContentComment}>{comment?.text}</p>
             </div>
             <div className={styles.postCommentCardInfo}>
-              <p>2d</p>
+              <p>{timeSinceUpdate}</p>
               <p>{comment?.noOfLikes} {comment?.noOfLikes > 1? "likes":"like"}</p>
               <button onClick={handleReplyToComment}>Reply</button>
             </div>

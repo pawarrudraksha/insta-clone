@@ -4,6 +4,7 @@ import styles from '../../../styles/messages/sidebarChatItem.module.css'
 import { UserChatType } from '../ChatsSidebar'
 import { useNavigate } from 'react-router-dom'
 import { defaultProfilePic } from '../../../data/common'
+import { getTimeSinceUpdate } from '../../../utils/getTimeSinceUpdate'
 
 interface SidebarChatItemProps {
   chatInfo: UserChatType;
@@ -18,7 +19,7 @@ const SidebarChatItem:React.FC<SidebarChatItemProps>= ({chatInfo}) => {
     navigate(`/direct/t/${chatInfo?._id}`)
   }
   const activeChatId=(window.location.pathname.slice(10));
-  
+  const messageUpdatedDate=getTimeSinceUpdate(chatInfo?.updatedAt)
   return (
     <div className={`${styles.sidebarChatItemContainer} ${activeChatId && activeChatId===chatInfo?._id && styles.selectedChatItem}`} onClick={handleChatClick}>
         <div className={styles.sidebarChatItemProfilePic}>
@@ -34,7 +35,7 @@ const SidebarChatItem:React.FC<SidebarChatItemProps>= ({chatInfo}) => {
             {chatInfo?.latestMessage?.message?.type==='text' && <p>{chatInfo?.latestMessage?.message?.content}</p>}
             {chatInfo?.latestMessage?.message?.type===('post'||'reel')&& <p>Attachment sent</p>}
             <BsDot/>
-            <p>16h</p>
+            <p>{messageUpdatedDate}</p>
           </div>}
         </div>
     </div>

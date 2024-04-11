@@ -1,0 +1,67 @@
+.createHighlightSelectStoriesModalContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--modal-color);
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
+}
+.selectStoriesModalStories {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 200px;
+  gap: 2px;
+}
+.selectStoriesModalStory img {
+  width: 100%;
+  height: 100%;
+}
+.selectStoriesModalStory video {
+  width: 100%;
+  height: 100%;
+}
+.selectStoriesModalStory {
+  position: relative;
+}
+.selectStoriesModalStoryCheckboxWrapper {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.selectStoriesModalHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: var(--divider-border-1);
+}
+
+.selectStoriesModalHeader svg {
+  font-size: var(--font-size-xxxlarge);
+  cursor: pointer;
+}
+
+.selectStoriesModalNextBtn {
+  width: 100%;
+  height: 7%;
+  background-color: transparent;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  color: var(--secondary-font-color);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-large);
+  border-top: var(--divider-border-1);
+}
+
+.selectStoriesModalActiveNextBtn {
+  color: var(--btn-color);
+}

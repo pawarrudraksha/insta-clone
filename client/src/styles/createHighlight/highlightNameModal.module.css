@@ -1,0 +1,62 @@
+.highlightNameModalContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--modal-color);
+  position: relative;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.highlightNameModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: var(--divider-border-1);
+}
+.highlightNameModalHeader p {
+  font-weight: var(--font-weight-bold);
+}
+.highlightNameModalHeader svg {
+  font-size: var(--font-size-xxlarge);
+  cursor: pointer;
+}
+
+.highlightNameModalInputContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7%;
+  box-sizing: border-box;
+  border-bottom: var(--divider-border-1);
+}
+
+.highlightNameModalInputContainer input {
+  width: 100%;
+  padding: 3%;
+  background: var(--modal-color-2);
+  outline: none;
+  border: none;
+  color: var(--font-color);
+}
+
+.highlightNameModalNextBtn {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+  color: var(--secondary-font-color);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-large);
+}
+
+.highlightNameModalNextActiveBtn {
+  color: var(--btn-color);
+}

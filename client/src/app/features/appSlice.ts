@@ -19,8 +19,6 @@ interface AppState {
   isSearchModalOpen: boolean;
   isProfileModalOpen: boolean
   isMoreModalOpen:boolean;
-  isNotificationModalOpen:boolean;
-  isNotificationRequestsModalOpen:boolean;
   profileModalData:UserType;
   sidebarActiveTab:string
 }
@@ -36,8 +34,6 @@ const initialState: AppState = {
   isSearchModalOpen: false,
   isProfileModalOpen:false,
   isMoreModalOpen:false,
-  isNotificationModalOpen:false,
-  isNotificationRequestsModalOpen:false,
   profileModalData:{
     _id:'',
     name:'',
@@ -53,6 +49,43 @@ export const searchUsers=createAsyncThunk('app/searchUsers',
     return response.data
 })
 
+export const getFollowRequests=createAsyncThunk('app/get-follow-requests',
+  async ({page,limit}:{page:number,limit?:number})=>{
+    try {
+      if(limit){
+        const response=await axios.get(`/follow/get-follow-requests?page=${page}&limit=${limit}`)
+        return response.data
+      }else{
+        const response=await axios.get(`/follow/get-follow-requests?page=${page}`)
+        return response.data
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
+export const acceptFollowRequest=createAsyncThunk('app/accept-follow-request',
+  async (followDocId:string)=>{
+    try {
+      const response=await axios.post(`/follow/accept-follow-request/${followDocId}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
+export const deleteFollowRequest=createAsyncThunk('app/delete-follow-request',
+  async (followDocId:string)=>{
+    try {
+      const response=await axios.delete(`/follow/delete-follow-request/${followDocId}`)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
 
 export const appSlice = createSlice({
   name: 'app',
@@ -64,12 +97,7 @@ export const appSlice = createSlice({
     toggleMoreModal:(state)=>{
       state.isMoreModalOpen= !state.isMoreModalOpen
     },
-    toggleNotificationModal:(state)=>{
-      state.isNotificationModalOpen= !state.isNotificationModalOpen
-    },
-    toggleNotificationRequestsModal:(state)=>{
-      state.isNotificationRequestsModalOpen= !state.isNotificationRequestsModalOpen
-    },
+    
     openProfileModal:(state)=>{
       state.isProfileModalOpen= true
     },
@@ -84,14 +112,12 @@ export const appSlice = createSlice({
     }
 }});
 
-export const { toggleSearchModal ,openProfileModal,closeProfileModal,toggleMoreModal,toggleNotificationModal,toggleNotificationRequestsModal,setProfileModalData,setSidebarActiveTab} = appSlice.actions; 
+export const { toggleSearchModal ,openProfileModal,closeProfileModal,toggleMoreModal,setProfileModalData,setSidebarActiveTab} = appSlice.actions; 
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectIsSearchModalOpen = (state: RootState): boolean =>state.app.isSearchModalOpen;
 export const selectIsProfileModalOpen = (state: RootState): boolean =>state.app.isProfileModalOpen;
 export const selectIsMoreModalOpen = (state: RootState): boolean =>state.app.isMoreModalOpen;
-export const selectIsNotificationModalOpen = (state: RootState): boolean =>state.app.isNotificationModalOpen;
-export const selectIsNotificationRequestsModalOpen = (state: RootState): boolean =>state.app.isNotificationRequestsModalOpen;
 export const selectProfileModalData = (state: RootState): UserType =>state.app.profileModalData;
 export const selectSidebarActiveTab = (state: RootState): string =>state.app.sidebarActiveTab;
 

@@ -1,0 +1,61 @@
+.createStoryCaptionContainer{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: var(--overlay);
+    z-index: 999;
+    top: 0px;
+    justify-content: space-between;
+    padding-right: 10px;
+    box-sizing: border-box;
+
+}
+
+.createStoryColors{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top: 10px;
+}
+
+.createStoryCaptionColorBtn{
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.createStoryColorsDoneBtn{
+    border: none;
+    background: transparent;
+    color: var(--font-color);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+}
+.createStoryInput{
+    display:flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.createStoryInput textarea{
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: var(--font-size-xxlarge);
+    color: var(--font-color);
+    position: relative;
+    top: 10%;
+    width: 70%;
+    height: 100%;
+    resize: none;    
+
+}
+.createStoryInput textarea::placeholder{
+    color: var(--font-color);
+}

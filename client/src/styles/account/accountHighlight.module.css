@@ -48,14 +48,68 @@
   cursor: pointer;
 }
 
-.accountHighlight{
+.accountHighlight {
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 10px;
   font-size: var(--font-size-medium);
 }
-
+.accountCreateStory {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--font-size-medium);
+}
+.accountCreateStory p {
+  margin: 0px;
+}
+.accountCreateStoryLabel {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: var(--profile-highlight-padding);
+  border: 1px solid var(--story-viewed-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.accountCreateStoryLabel svg {
+  font-size: var(--font-size-xlarge);
+}
+.accountCreateStory input {
+  display: none;
+}
 .accountHighlight p {
-margin: 0px;
+  margin: 0px;
+}
+
+.accountCreateHighlight {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.accountCreateHighlightBtn {
+  width: 77px;
+  height: 77px;
+  border-radius: 50%;
+  border: 1px solid var(--story-viewed-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+.accountCreateHighlightBtn svg {
+  font-size: var(--font-size-xlarge);
+  color: var(--font-color);
+}
+.accountCreateHighlight p {
+  margin: 0px;
+  font-size: var(--font-size-medium);
 }

@@ -10,7 +10,7 @@ interface AuthenticatedRequest extends Request{
     user:IUser
 }
 
-const createNotification=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+const createNotification=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{ 
     const {type,receiverId,postId,comment}=req.body
     if(!type || !receiverId){
         throw new ApiError(400,"All fields are required")
@@ -91,7 +91,7 @@ const getReceivedNotifications=asyncHandler(async(req:AuthenticatedRequest,res:R
         },
         {
             $addFields:{
-                "senderInfo":{$arrayElemAt:["$senderInfo",0]},
+                senderInfo:{$arrayElemAt:["$senderInfo",0]},
             }
         },
         {

@@ -11,6 +11,7 @@ import accountReducer from './features/accountSlice';
 import {persistReducer,persistStore} from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import highlightReducer from './features/highlightSlice';
+import notificationReducer from './features/notificationSlice';
 // ...
 
 const rootReducer=combineReducers({
@@ -24,6 +25,7 @@ const rootReducer=combineReducers({
   auth:authReducer,
   account:accountReducer,
   highlight:highlightReducer,
+  notification:notificationReducer,
 },)
 const persistConfig={
   key:'root',

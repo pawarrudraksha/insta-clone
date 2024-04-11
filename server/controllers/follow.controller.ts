@@ -45,6 +45,9 @@ const followUser=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
 })
 
 const getFollowRequests=asyncHandler(async(req:AuthenticatedRequest,res:Response)=>{
+    const page=Number(req.query.page) || 1
+    const limit=Number(req.query.limit) || 8
+    const skip=(page-1)*limit
     const user=req.user
     if(!user){
         throw new ApiResponse(401,"User not logged in")
@@ -54,6 +57,42 @@ const getFollowRequests=asyncHandler(async(req:AuthenticatedRequest,res:Response
             $match:{
                 userId:user._id,
                 isRequestAccepted:false
+            }
+        },
+        {
+            $sort:{
+                updatedAt:-1
+            }
+        },
+        {
+            $skip:skip
+        },
+        {
+            $limit:limit
+        },
+        {
+            $lookup:{
+                from:"users",
+                localField:"follower",
+                foreignField:"_id",
+                as:"follower",
+                pipeline:[
+                    {
+                        $project:{
+                            _id:1,
+                            name:1,
+                            username:1,
+                            profilePic:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project:{
+                follower:{$arrayElemAt:["$follower",0]},
+                _id:1,
+                updatedAt:1,
             }
         }
     ])

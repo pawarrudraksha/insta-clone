@@ -114,6 +114,7 @@ export const getAllPublicPosts=createAsyncThunk('explore/get-all-posts',
   }
 )
 
+
 export const actionOnPost=createAsyncThunk('post/action',
   async({targetType,targetId,action}:{targetType:string;targetId:string;action:string})=>{
     try {

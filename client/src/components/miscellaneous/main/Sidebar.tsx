@@ -8,7 +8,7 @@ import { RxAvatar } from "react-icons/rx";
 import { BsFillSendFill, BsSend, BsThreads } from "react-icons/bs";
 import {  GrMenu } from "react-icons/gr";
 import {  useLocation, useNavigate } from 'react-router-dom';
-import { selectIsNotificationModalOpen, selectIsNotificationRequestsModalOpen, selectIsSearchModalOpen, selectSidebarActiveTab, setSidebarActiveTab, toggleMoreModal, toggleNotificationModal, toggleSearchModal } from '../../../app/features/appSlice';
+import {   selectIsSearchModalOpen, selectSidebarActiveTab, setSidebarActiveTab, toggleMoreModal, toggleSearchModal } from '../../../app/features/appSlice';
 import { BiMoviePlay, BiSolidMoviePlay } from 'react-icons/bi';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { toggleCreatePostModalOpen, toggleUploadPostModal } from '../../../app/features/createPostSlice';
@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { PiHouseLight } from 'react-icons/pi';
 import { selectCurrentUser } from '../../../app/features/authSlice';
+import { selectIsNotificationModalOpen, selectIsNotificationRequestsModalOpen, toggleNotificationModal } from '../../../app/features/notificationSlice';
 
 const Sidebar = () => {
   const dispatch =useAppDispatch() 

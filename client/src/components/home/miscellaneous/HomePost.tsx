@@ -12,6 +12,7 @@ import { HomePostData } from '../HomePosts';
 import { getUserInfo } from '../../../app/features/accountSlice';
 import { actionOnPost, openPostModal } from '../../../app/features/viewPostSlice';
 import { defaultProfilePic } from '../../../data/common';
+import { getTimeSinceUpdate } from '../../../utils/getTimeSinceUpdate';
 
 
 const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {    
@@ -47,6 +48,7 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
             dispatch(actionOnPost({targetId:data?._id,targetType:"post",action:"like"}))  
         }
     }
+    const postUpdatedTiime=getTimeSinceUpdate(data?.updatedAt)
     return (
         <div className={styles.homePost}>
             <div className={styles.homePostHeader} onMouseLeave={handleMouseLeave}>
@@ -62,7 +64,7 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
                             {data?.userInfo?.username}
                         </p>
                         <BsDot/>
-                        <p>16h</p>
+                        <p>{postUpdatedTiime}</p>
                     </div>
                     {/* <p>Original audio</p> */}
                 </div>
