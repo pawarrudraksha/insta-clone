@@ -1,28 +1,35 @@
-.interactions{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.interactions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.interactions p{
-    font-size: var(--font-size-medium);
+.interactions button {
+  font-size: var(--font-size-medium);
+  background: transparent;
+  color: var(--font-color);
+  width: fit-content;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0px;
 }
-.interactionsIcons{
-    display: flex;
-    justify-content:space-between ;
-}
-
-.interactionsIcons svg{
-    font-size: var(--font-size-xxlarge);
-    cursor: pointer;
-}
-.interactionsIcons svg:hover{
-    color: var(--secondary-font-color);
-}
-.interactionsIconsReact{
-    display: flex;
-    gap: 21px;
+.interactionsIcons {
+  display: flex;
+  justify-content: space-between;
 }
 
-.likedPostIcon{
-    color:rgb(255, 48, 64)
+.interactionsIcons svg {
+  font-size: var(--font-size-xxlarge);
+  cursor: pointer;
+}
+.interactionsIcons svg:hover {
+  color: var(--secondary-font-color);
+}
+.interactionsIconsReact {
+  display: flex;
+  gap: 21px;
+}
+
+.likedPostIcon {
+  color: rgb(255, 48, 64);
 }

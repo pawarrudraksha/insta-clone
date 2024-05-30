@@ -1,112 +1,130 @@
-.homePost{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-bottom: 10px;
-    border-bottom: var(--divider-border);
-    position: relative;
+.homePost {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: var(--divider-border);
+  position: relative;
 }
-.homePost p{
-    margin: 0px;
+.homePost p {
+  margin: 0px;
 }
-.homePostHeader{
-    display: flex;
-    width: 100% !important;
-    /* justify-content: space-between; */
-    align-items: center;
-    gap:15px;
-}
-
-.homePostProflePic img{
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-.homePostHeaderMore{
-    justify-self: flex-end !important;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-.homePostHeaderInfo{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-}
-.homePostHeader svg{
-    font-size: var(--font-size-xxlarge);
-    justify-self: flex-end !important;
-    width: var(--font-size-xxlarge);
-
-}
-.homePostHeaderDetail{
-    color: var(--secondary-font-color);
-    display: flex;
-    align-items: center;
-    font-size: 17px;
-}
-.homePostHeaderDetailUsername{
-    color: var(--font-color);
-    font-weight: var(--font-weight-bold);
-    cursor: pointer;
-    /* font-size: var(--font-size-large); */
-}
-.homePostHeaderDetail svg{
-    font-size: var(--font-size-xlarge);
-    width: 15px;
+.homePostHeader {
+  display: flex;
+  width: 100% !important;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 15px;
 }
 
-.homePostCarousel{
-    height: 500px;
-    width: 500px;
+.homePostProflePic img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.homePostHeaderMore {
+  justify-self: flex-end !important;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.homePostHeaderInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.homePostHeader svg {
+  font-size: var(--font-size-xxlarge);
+  justify-self: flex-end !important;
+  width: var(--font-size-xxlarge);
+}
+.homePostHeaderDetail {
+  color: var(--secondary-font-color);
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+}
+.homePostHeaderDetailUsername {
+  color: var(--font-color);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  /* font-size: var(--font-size-large); */
+}
+.homePostHeaderDetail svg {
+  font-size: var(--font-size-xlarge);
+  width: 15px;
 }
 
-.homePostCaption{
-    display: flex;
-    gap: 10px;
-    font-size: var(--font-size-medium);
+.homePostCarousel {
+  height: 500px;
+  width: 500px;
 }
 
-.homePostCardComments{
-    color: var(--secondary-font-color);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    font-size: var(--font-size-medium);
+.homePostCaption {
+  display: flex;
+  gap: 10px;
+  font-size: var(--font-size-medium);
 }
-.homePostCardComments button{
-    color: var(--secondary-font-color);
-    font-size: var(--font-size-medium);
-    background: transparent;
-    outline: none;
-    border: none;
-    align-self: flex-start;
-    cursor: pointer;
+
+.homePostCardComments {
+  color: var(--secondary-font-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--font-size-medium);
+}
+.homePostCardComments button {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-medium);
+  background: transparent;
+  outline: none;
+  border: none;
+  align-self: flex-start;
+  cursor: pointer;
+  padding: 0px;
+}
+.homePostCardAddComment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.homePostCardAddCommentInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--font-size-medium);
+  color: var(--secondary-font-color);
+  width: 100%;
+}
+.homePostCardAddComment svg {
+  cursor: pointer;
+}
+
+.homePostProfileModalContainer {
+  position: absolute;
+  top: 5%;
+  left: 14%;
+}
+
+@media screen and (max-width: 768px) {
+  .homePost {
     padding: 0px;
-}
-.homePostCardAddComment{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-   
-}
-
-.homePostCardAddCommentInput{
-    border: none;
-    background: transparent;
-    outline: none;
-    font-size: var(--font-size-medium);
-    color: var(--secondary-font-color);
-    width: 100%;
-}
-.homePostCardAddComment svg{
-    cursor: pointer;
-}
-
-.homePostProfileModalContainer{
-    position: absolute;
-    top: 5%;
-    left: 14%;
+    width: 320px;
+  }
+  .homePostHeader,
+  .homeInteractionsWrapper,
+  .homePostCaption,
+  .homePostCardComments {
+    width: 320px !important;
+  }
+  .homePostCaption {
+    padding-bottom: 6px;
+  }
+  .homePostCarousel {
+    height: 431px;
+    width: 320px;
+  }
 }

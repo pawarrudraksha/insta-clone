@@ -1,104 +1,111 @@
-.notificationModalWrapper{
-    position: absolute;
-    top: 0px;
-    left: 80px;
-    z-index: 1000;
-    /* width: 26%; */
-    width: 399px;
-    height: 100%;
-    background-color: var(--primary-color);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-right: var(--divider-border);
-    border-radius: 10px;
-    border-top-left-radius: 0px;
-    padding: 20px 0px;
-    border-left: var(--divider-border);
-    box-sizing: border-box;
-    overflow-y: scroll;
+.notificationModalWrapper {
+  position: absolute;
+  top: 0px;
+  left: 80px;
+  z-index: 1000;
+  /* width: 26%; */
+  width: 399px;
+  height: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-right: var(--divider-border);
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  padding: 20px 0px;
+  border-left: var(--divider-border);
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 
-.notificationModalWrapper p{
-    margin: 0px;
+.notificationModalWrapper p {
+  margin: 0px;
 }
-.notificationModalTitle{
-    font-size: var(--font-size-modal-title);
-    font-weight: var(--font-weight-bold);
-    opacity: .9;
-    padding: 10px 15px;
+.notificationModalTitle {
+  font-size: var(--font-size-modal-title);
+  font-weight: var(--font-weight-bold);
+  opacity: 0.9;
+  padding: 10px 15px;
 }
-.notificationFollowRequests{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding: 10px 15px;
-    padding-right: 5px;
-    box-sizing: border-box;
+.notificationFollowRequests {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 15px;
+  padding-right: 5px;
+  box-sizing: border-box;
 }
-.notificationFollowReqContent{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90%;
+.notificationFollowReqContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
 }
-.notificationFollowReqInfo{
-    display: flex;
-    flex-direction: column;
-}
-
-.notificationFollowReqInfo p:first-child{
-    font-size: var(--font-size-medium);
-    font-weight: var(--font-weight-bold);
+.notificationFollowReqInfo {
+  display: flex;
+  flex-direction: column;
 }
 
-.notificationFollowReqInfo :nth-child(2){
-    font-size: var(--font-size-medium);
-    color: var(--secondary-font-color);
+.notificationFollowReqInfo p:first-child {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
 }
 
-.notificationSvgs{
-    display: flex;
-    align-items: center;
-    padding: 0px 15px;
-    gap: 5px;
+.notificationFollowReqInfo :nth-child(2) {
+  font-size: var(--font-size-medium);
+  color: var(--secondary-font-color);
 }
 
-.notificationDotSvg{
-    font-size: var(--font-size-xlarge);
-    color: var(--btn-color);
+.notificationSvgs {
+  display: flex;
+  align-items: center;
+  padding: 0px 15px;
+  gap: 5px;
 }
 
-.notificationRightSvg{
-    font-size: var(--font-size-xxlarge);
-    color: var(--secondary-font-color);
-    opacity: .8;
-    cursor: pointer;
+.notificationDotSvg {
+  font-size: var(--font-size-xlarge);
+  color: var(--btn-color);
 }
 
-.notificationFollowRequests img{
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+.notificationRightSvg {
+  font-size: var(--font-size-xxlarge);
+  color: var(--secondary-font-color);
+  opacity: 0.8;
+  cursor: pointer;
 }
 
-.notificationsWrapper{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.notificationFollowRequests img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
 }
 
-.notificationItemWrapper{
-    display: flex;
-    flex-direction: column;
-    padding: 15px 15px;
-    box-sizing: border-box;
-    gap: 10px;
-    border-top: var(--divider-border);
+.notificationsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.notificationTitle{
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-bold);
+.notificationItemWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px;
+  box-sizing: border-box;
+  gap: 10px;
+  border-top: var(--divider-border);
+}
+
+.notificationTitle {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+}
+
+@media screen and (max-width: 768px) {
+  .notificationModalWrapper {
+    left: 0px;
+    height: 94%;
+  }
 }

@@ -6,10 +6,7 @@ import {
   addToCheckUsers,
   selectCheckedUsers,
 } from "../../app/features/messagesSlice";
-import {
-  addToCreateHighlightStories,
-  selectCreateHighlightStories,
-} from "../../app/features/highlightSlice";
+import { addToCreateHighlightStories } from "../../app/features/highlightSlice";
 
 interface User {
   _id: string;
@@ -17,9 +14,11 @@ interface User {
   type: "user" | "story";
 }
 const SelectCheckbox: React.FC<User> = (item) => {
-  const checkedStories = useAppSelector(selectCreateHighlightStories);
   const [val, setVal] = useState<boolean>(false);
-  const checkedUsers = useAppSelector(selectCheckedUsers);
+  const checkedUsers: { _id: string; username: string }[] =
+    useAppSelector(selectCheckedUsers);
+  console.log(checkedUsers);
+
   const dispatch = useAppDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVal(e.target.checked);

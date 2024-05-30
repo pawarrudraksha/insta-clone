@@ -49,8 +49,11 @@ const NewMessageModal: React.FC = () => {
       return item._id;
     });
     const response = await dispatch(createChat(filteredItems));
-    navigate(`/direct/t/${response?.payload?.data?._id}`);
-    dispatch(toggleNewMessageModal());
+    if (response?.payload?.statusCode === 201) {
+      navigate(`/direct/t/${response?.payload?.data?._id}`);
+      dispatch(toggleNewMessageModal());
+      dispatch(resetCheckedUsers());
+    }
   };
   return (
     <div className={styles.newMessageOverlay} onClick={handleModalClose}>

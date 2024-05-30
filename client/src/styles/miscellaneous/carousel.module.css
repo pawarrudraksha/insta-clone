@@ -1,143 +1,142 @@
-.carousel{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden !important;
-    position: relative;
-    background-color: var(--hover-color-1) !important;    
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden !important;
+  position: relative;
+  background-color: var(--hover-color-1) !important;
 }
 
-.carouselArrows{
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    z-index:999;
+.carouselArrows {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 999;
 }
 
-.carouselLeftArrow{
-    position: absolute;
-    left: 0px;
+.carouselLeftArrow {
+  position: absolute;
+  left: 0px;
 }
-.carouselRightArrow{
-    position: absolute;
-    right: 0px;
+.carouselRightArrow {
+  position: absolute;
+  right: 0px;
 }
-.carouselArrows svg{
-    font-size: 30px;
-    cursor: pointer;
-    opacity: .8;
-    background-color:rgb(0, 0, 9,0.2);
-    border-radius: 50%;
-}
-
-.carouselHiddenImage{
-    display: none !important;
+.carouselArrows svg {
+  font-size: 30px;
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: rgb(0, 0, 9, 0.2);
+  border-radius: 50%;
 }
 
-.carouselVideoContainer{
-    height: 100%;
+.carouselHiddenImage {
+  display: none !important;
+}
+
+.carouselVideoContainer {
+  height: 100%;
 }
 .carouselHiddenVideo {
-    display: none;
+  display: none;
 }
 
-
-.playButton{
-    display: block;
-    position: absolute;
-    z-index: 999;
-    align-self: center;
-    top: 50%;
-    right: 50%;
-    background-color: transparent;
-    border: none;
-    color:var(--font-color);
-    font-size: 40px;
-    cursor: pointer;
+.playButton {
+  display: block;
+  position: absolute;
+  z-index: 999;
+  align-self: center;
+  top: 50%;
+  right: 50%;
+  background-color: transparent;
+  border: none;
+  color: var(--font-color);
+  font-size: 40px;
+  cursor: pointer;
 }
-.hidePlayButton{
-    display: none ;
-}
-
-.isMutedHidden{
-    display: none;
+.hidePlayButton {
+  display: none;
 }
 
-.isMuted{
-    display: block;
-    background: none;
-    position: absolute;
-    bottom: 1%;
-    color: var(--font-color);
-    border: none;
-    font-size: 20px;
-    right: 3%;
-    padding: 5px
+.isMutedHidden {
+  display: none;
 }
 
-.carouselDots{
-    position: absolute;
-    display: flex;
-    bottom: 0;
-    flex-direction: row;
-    align-items: center;
-    z-index: 999;
-}
-.dot{
-    color: gray;
-}
-.activeDot{
-    color: var(--font-color)smoke;
+.isMuted {
+  display: block;
+  background: none;
+  position: absolute;
+  bottom: 1%;
+  color: var(--font-color);
+  border: none;
+  font-size: 20px;
+  right: 3%;
+  padding: 5px;
 }
 
-.cropPostOriginal{
-    display: block !important;
-    height: 100%;
-    width: 100%;
+.carouselDots {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  flex-direction: row;
+  align-items: center;
+  z-index: 999;
 }
-.cropPost1to1{
-    display: block !important;
-    width: 100%;
-    aspect-ratio: 1;   
-    object-fit: cover;
-    /* height: 100%; */
+.dot {
+  color: gray;
 }
-
-.cropPost4to5{
-    display: block !important;
-    height: 100%;
-    width: auto;
-    aspect-ratio: 4/5;   
-    object-fit: cover;
-}
-.cropPost16to9{
-    display: block !important;
-    width: 100%;
-    aspect-ratio: 16/9;   
-    max-height: 100%;
-    object-fit: cover;
+.activeDot {
+  color: var(--font-color) smoke;
 }
 
-.postContainer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.cropPostOriginal {
+  display: block !important;
+  height: 100%;
+  width: 100%;
+}
+.cropPost1to1 {
+  display: block !important;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  /* height: 100%; */
 }
 
-.cropPostImage16to9{
-    display: block !important;
-    width: 100%;
-    aspect-ratio: 16/9;   
-    height:auto;
-    object-fit: cover;
+.cropPost4to5 {
+  display: block !important;
+  height: 100%;
+  width: auto;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+}
+.cropPost16to9 {
+  display: block !important;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 100%;
+  object-fit: cover;
 }
 
-.cropPostImageOriginal{
-    display: block !important;
-    width: 100%;
-    aspect-ratio: 1;   
-    object-fit: cover;
-    /* height: 100%; */
+.postContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.cropPostImage16to9 {
+  display: block !important;
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  object-fit: cover;
+}
+
+.cropPostImageOriginal {
+  display: block !important;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  /* height: 100%; */
 }

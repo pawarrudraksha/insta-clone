@@ -1,13 +1,22 @@
-.home{
-    flex: 6;
-    overflow: scroll;
-    display: grid;
-    grid-template-columns: 2fr 1.2fr;
-    margin: 0px;
-    border-left:var(--divider-border) ;
+.home {
+  flex: 6;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  margin: 0px;
+  border-left: var(--divider-border);
 }
 
-.homeFeed{
-    display: flex;
-    flex-direction: column;
+.homeFeed {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+  .home {
+    grid-template-columns: unset;
+  }
+  .homeProfileAndSuggestionsWrapper {
+    display: none;
+  }
 }

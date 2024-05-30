@@ -1,26 +1,32 @@
-
-.accountPostsContent{
-    display: grid;
-    gap: 4px;
-    grid-template-columns: repeat(3,1fr);
-    width: 100%;
+.accountPostsContent {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
 }
 
-.accountPost{
-    width: 100%;
-    height: 350px;
+.accountPost {
+  width: 100%;
+  height: 350px;
 }
 
-.accountTaggedContent{
-    display: grid;
-    gap: 4px;
-    grid-template-columns: repeat(3,1fr);
+.accountTaggedContent {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(3, 1fr);
 }
 
-
-.accountReelsContent{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 4px;
+.accountReelsContent {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
 }
 
+@media screen and (max-width: 768px) {
+  .accountPost {
+    height: 250px;
+  }
+  .accountReelsContent {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

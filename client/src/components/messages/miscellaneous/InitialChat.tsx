@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import {
-  setCheckedUsers,
+  resetCheckedUsers,
   toggleNewMessageModal,
 } from "../../../app/features/messagesSlice";
 import styles from "../../../styles/messages/initialChat.module.css";
@@ -10,7 +10,7 @@ const InitialChat: React.FC = () => {
   const dispatch = useAppDispatch();
   const handleSendMessage = () => {
     dispatch(toggleNewMessageModal());
-    dispatch(setCheckedUsers({}));
+    dispatch(resetCheckedUsers());
   };
   return (
     <div className={styles.initialChatContainer}>

@@ -1,48 +1,73 @@
-.createPostOverlay{
-    position: absolute;
-    background-color: var(--overlay);
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5); 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+.createPostOverlay {
+  position: absolute;
+  background-color: var(--overlay);
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
-.createPostOverlayCloseIcon{
-    position: absolute;
-    top: 3%;
-    right: 2%;
-}
-
-.createPostOverlayCloseIcon svg{
-    font-size: var(--font-size-xxxlarge);
-    cursor: pointer;
+.createPostOverlayCloseIcon {
+  position: absolute;
+  top: 3%;
+  right: 2%;
 }
 
-.uploadPostModalContainer{
+.createPostOverlayCloseIcon svg {
+  font-size: var(--font-size-xxxlarge);
+  cursor: pointer;
+}
+
+.uploadPostModalContainer {
+  height: 75%;
+  width: 520px;
+}
+
+.cropPostModalContainer {
+  height: 75%;
+  width: 500px;
+}
+
+.editPostModalContainer {
+  height: 75%;
+  width: 800px;
+}
+.sharePostModalContainer {
+  height: 75%;
+  width: 800px;
+}
+
+.successPostModalContainer {
+  height: 75%;
+  width: 500px;
+}
+
+@media screen and (max-width: 768px) {
+  .uploadPostModalContainer {
+    height: 60%;
+    width: 320px;
+  }
+
+  .cropPostModalContainer {
+    height: 70%;
+    width: 320px;
+  }
+
+  .editPostModalContainer {
     height: 75%;
-    width: 520px;
-}
-
-.cropPostModalContainer{
+    width: 350px;
+  }
+  .sharePostModalContainer {
     height: 75%;
-    width: 500px;
-}
+    width: 350px;
+  }
 
-.editPostModalContainer{
-    height: 75%;
-    width: 800px;
-}
-.sharePostModalContainer{
-    height: 75%;
-    width: 800px;
-}
-
-
-.successPostModalContainer{
-    height: 75%;
-    width: 500px;
+  .successPostModalContainer {
+    height: 60%;
+    width: 320px;
+  }
 }

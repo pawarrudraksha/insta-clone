@@ -1,132 +1,179 @@
-.accountHeaderContainer{
-    display: flex;
-    font-size: 12px;
-    gap: 50px;
-    align-items: center;
-    padding: 0px 7%;
+.accountHeaderContainer {
+  display: flex;
+  font-size: 12px;
+  gap: 50px;
+  align-items: center;
+  padding: 0px 7%;
 }
 
-.accountHeaderContainer p{
-    margin: 0px;
+.accountHeaderContainer p {
+  margin: 0px;
 }
 
-.accountHeaderImageContainer{
-    flex: 1;
+.accountHeaderImageContainer {
+  flex: 1;
 }
 
-.accountHeaderImageContainer img{
-    width: 135px;
-    height: 135px;
-    border-radius: 50%;
-    padding: var(--profile-story-padding);
-    border: 1px solid var(--story-viewed-color);
+.accountHeaderImageContainer img {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  padding: var(--profile-story-padding);
+  border: 1px solid var(--story-viewed-color);
 }
 
-.accountHeaderContent{
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 23px;
+.accountHeaderContent {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
 }
 
-.accountHeaderContentTitle{
-    display: flex;
-    align-items: center;
-    gap:8px;
+.accountHeaderContentTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.accountHeaderContentTitle svg{
-    font-size: 18px;
-    cursor: pointer;
+.accountHeaderContentTitle svg {
+  font-size: 18px;
+  cursor: pointer;
 }
-.accountHeaderContentSimilarAccountsBtn svg{
-    background-color: var(--btn-bg-color) ; 
-    padding: 6px;
-    font-size: 15px;
-    color: var(--font-color);
-    border-radius: 7px;
-    transition: background-color 0.3s ease; 
-}
-
-.accountHeaderContentUsername{
-    font-size: var(--font-size-xlarge);
-    margin-right:10px !important ;
+.accountHeaderContentSimilarAccountsBtn svg {
+  background-color: var(--btn-bg-color);
+  padding: 6px;
+  font-size: 15px;
+  color: var(--font-color);
+  border-radius: 7px;
+  transition: background-color 0.3s ease;
 }
 
-.accountHeaderContentBtn{
-    display: flex;
-    align-items: center;
-    background-color: var(--btn-bg-color); 
-    color: var(--font-color);
-    padding: 5px 10px;
-    border-radius: 7px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease; 
+.accountHeaderContentUsername {
+  font-size: var(--font-size-xlarge);
+  margin-right: 10px !important ;
 }
-.accountHeaderFollowBtn{
-    background-color: var(--btn-color); 
-    color: var(--font-color); 
+
+.accountHeaderContentBtn {
+  display: flex;
+  align-items: center;
+  background-color: var(--btn-bg-color);
+  color: var(--font-color);
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.accountHeaderFollowBtn {
+  background-color: var(--btn-color);
+  color: var(--font-color);
 }
 .accountHeaderContentBtn:hover,
-.accountHeaderContentSimilarAccountsBtn svg:hover{
-    background-color: var(--hover-color-2); 
+.accountHeaderContentSimilarAccountsBtn svg:hover {
+  background-color: var(--hover-color-2);
 }
-.accountHeaderFollowBtn:hover{
-    background-color: var(--btn-hover-color); 
-    color: var(--font-color); 
+.accountHeaderFollowBtn:hover {
+  background-color: var(--btn-hover-color);
+  color: var(--font-color);
 }
-.accountHeaderContentAnalytics{
-    display: flex;
-    align-items: center;
-    gap: 30px;
+.accountHeaderContentAnalytics {
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
-
-
-.accountHeaderContentAnalyticsBox{
-    display: flex;
-    gap: 3px;
-    font-size: 14px;
+.accountHeaderContentAnalyticsBox {
+  display: flex;
+  gap: 3px;
+  font-size: 14px;
 }
-.accountHeaderContentAnalyticsBox p:first-child{
-    font-weight: var(--font-weight-bold);
+.accountHeaderContentAnalyticsBox p:first-child {
+  font-weight: var(--font-weight-bold);
 }
-.accountHeaderContentDescription{
-    display: flex;
+.accountHeaderContentDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.accountHeaderContentDescriptionName {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+}
+.accountHeaderContentDescriptionThreads {
+  display: flex;
+  background-color: var(--btn-bg-color);
+  width: fit-content;
+  gap: 5px;
+  margin-bottom: 7px;
+  margin-top: 2px;
+  font-size: var(--font-size-small);
+  padding: 5px;
+  border-radius: 10px;
+}
+.accountHeaderContentDescriptionInfo {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-medium);
+  gap: 3px;
+}
+.accountHeaderContentDescriptionThreads svg {
+  font-size: var(--font-size-medium);
+}
+
+.accountHeaderLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--link-color);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: var(--font-size-medium);
+}
+
+.accountHeaderContentDescriptionMobile {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .accountHeaderContainer {
+    gap: 15px;
+    width: 100%;
+  }
+  .accountHeaderContainer p {
+    margin: 0px;
+  }
+  .accountHeaderImageContainer img {
+    width: 75px;
+    height: 75px;
+  }
+  .accountHeaderContentDescription {
+    display: none;
+  }
+  .accountHeaderContentDescriptionMobile {
+    display: flex !important;
     flex-direction: column;
     gap: 2px;
-}
-.accountHeaderContentDescriptionName{
-    font-size: var(--font-size-medium);
-    font-weight: var(--font-weight-bold);
-}
-.accountHeaderContentDescriptionThreads{
+    width: 100%;
+  }
+  .accountHeaderContentDescriptionMobile p {
+    margin: 2px;
+  }
+  .mobileAccountHeaderWrapper {
     display: flex;
-    background-color: var(--btn-bg-color);
-    width: fit-content;
-    gap: 5px;
-    margin-bottom: 7px;
-    margin-top: 2px;
-    font-size: var(--font-size-small);
-    padding: 5px;
-    border-radius: 10px;
-}
-.accountHeaderContentDescriptionInfo{
-    display: flex;
-    flex-direction: column;
-    font-size: var(--font-size-medium);
-    gap: 3px;
-}
-.accountHeaderContentDescriptionThreads svg{
-    font-size: var(--font-size-medium);
-}
-
-.accountHeaderLink{
-    display: flex;
+    gap: 12px;
     align-items: center;
-    gap: 6px;
-    color: var(--link-color);
-    cursor: pointer;
-    text-decoration: none;
-    font-size: var(--font-size-medium); 
+    padding: 0px 15px;
+    flex-direction: column;
+  }
+  .accountHeaderContent {
+    gap: 10px;
+  }
+  .accountHeaderContentUsername {
+    font-size: var(--font-size-xlarge) !important;
+    margin-right: 4px !important ;
+  }
+  .accountHeaderContentBtn {
+    padding: 5px;
+  }
+  .accountHeaderContentTitle {
+    gap: 4px;
+  }
 }

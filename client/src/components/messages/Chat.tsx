@@ -25,12 +25,14 @@ import { FaRegHeart } from "react-icons/fa";
 import { AiTwotoneAudio } from "react-icons/ai";
 import Messages from "./chat/Messages";
 import { IoMdClose } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { selectCurrentUser } from "../../app/features/authSlice";
 import { defaultProfilePic } from "../../data/common";
 import { io } from "socket.io-client";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 const Chat: React.FC = () => {
+  const navigate = useNavigate();
   const currentUser = useAppSelector(selectCurrentUser);
   const { chatId } = useParams();
   const chatInfo = useAppSelector(selectCurrentChatInfo);
@@ -111,10 +113,14 @@ const Chat: React.FC = () => {
       }
     }
   };
+  const isMobile = window.innerWidth < 768;
   return (
     <div className={styles.chatWrapper}>
       <div className={styles.chatContainer}>
         <div className={styles.chatHeader}>
+          {isMobile && (
+            <MdOutlineKeyboardBackspace onClick={() => navigate(-1)} />
+          )}
           {chatInfo?.users?.length > 2 ? (
             "To do"
           ) : (

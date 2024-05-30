@@ -5,9 +5,11 @@ import Home from "../pages/Home";
 import "../App.css";
 import Sidebar from "../components/miscellaneous/main/Sidebar";
 import {
+  selectIsLikesModalOpen,
   selectIsMoreModalOpen,
   selectIsSearchModalOpen,
   setSidebarActiveTab,
+  toggleLikesModal,
   toggleMoreModal,
   toggleSearchModal,
 } from "../app/features/appSlice";
@@ -43,6 +45,7 @@ import {
 import CreateStoryPage from "../pages/CreateStoryPage";
 import { selectIsCreateHighlightOpen } from "../app/features/highlightSlice";
 import HighlightOverlay from "../components/createHighlight/HighlightOverlay";
+import LikeModal from "../components/miscellaneous/LikeModal";
 
 function AppRouter() {
   const dispatch = useAppDispatch();
@@ -54,6 +57,7 @@ function AppRouter() {
   const isNewMessageModalOpen = useAppSelector(selectIsNewMessageModalOpen);
   const isMoreModalOpen = useAppSelector(selectIsMoreModalOpen);
   const isNotificationModalOpen = useAppSelector(selectIsNotificationModalOpen);
+  const isLikesModalOpen = useAppSelector(selectIsLikesModalOpen);
   const toggleNotificationRequestsModal = useAppSelector(
     selectIsNotificationRequestsModalOpen
   );
@@ -71,6 +75,9 @@ function AppRouter() {
       dispatch(toggleNotificationModal());
       dispatch(setSidebarActiveTab(""));
     }
+    if (isLikesModalOpen) {
+      dispatch(toggleLikesModal());
+    }
   };
   const location = useLocation();
   const hideSidebar =
@@ -87,6 +94,7 @@ function AppRouter() {
       {isNotificationModalOpen && <NotificationModal />}
       {toggleNotificationRequestsModal && <NotificationRequestsModal />}
       {isCreaateHighlight && <HighlightOverlay />}
+      {isLikesModalOpen && <LikeModal />}
       <Routes>
         <Route path="/accounts/emailsignup" element={<SignUp />} />
         <Route path="/accounts/login" element={<Login />} />

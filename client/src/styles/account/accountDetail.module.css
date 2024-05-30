@@ -1,27 +1,33 @@
-.accountDetailPage{
-    margin: 0px;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    flex: 6;
-    border-left:var(--divider-border) ;
+.accountDetailPage {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex: 6;
+  border-left: var(--divider-border);
 }
 
-.accountDetailActOverlay{
-    overflow-y:hidden ;
+.accountDetailActOverlay {
+  overflow-y: hidden;
 }
 
+.accountDetailContainer {
+  width: 100%;
+  height: 100%;
+  margin: 0px 13%;
+  padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
-.accountDetailContainer{
-    width: 100%;
-    height: 100%;
-    margin: 0px 13%;
-    padding-top: 70px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+@media screen and (max-width: 768px) {
+  .accountDetailContainer {
+    margin: 0px 2%;
+    gap: 15px;
+  }
 }
