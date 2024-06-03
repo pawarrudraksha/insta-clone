@@ -194,6 +194,53 @@ export const actionOnPost = createAsyncThunk(
     }
   }
 );
+
+export const actionOnLike = createAsyncThunk(
+  "like/action",
+  async ({
+    targetType,
+    targetId,
+    action,
+  }: {
+    targetType: string;
+    targetId: string;
+    action: string;
+  }) => {
+    try {
+      const response = await axios.post("/likes/item", {
+        targetType,
+        targetId,
+        action,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+export const savePost = createAsyncThunk(
+  "post/save",
+  async (postId: string) => {
+    try {
+      const response = await axios.post(`/save-post/${postId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+export const unsavePost = createAsyncThunk(
+  "post/unsave",
+  async (postId: string) => {
+    try {
+      const response = await axios.delete(`/save-post/${postId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "post",
   initialState,

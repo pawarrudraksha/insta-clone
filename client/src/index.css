@@ -1,66 +1,64 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Protest+Riot&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Protest+Riot&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
-*{
+* {
   font-family: "Inter";
   font-weight: 100;
 }
 :root {
   --primary-color: black;
-  --secondary-font-color:#A8A8A8;
+  --secondary-font-color: #a8a8a8;
   --font-color: white;
-  --overlay:rgba(0, 0, 0, 0.4);
-  --btn-black:rgba(0, 0, 0, 0.4);
-  --btn-white:rgba(255,255, 255, 0.2);
-  --tab-bottom-color:rgba(168,168,168,0.4);
-  --font-color-1: rgb(204,204,204);
+  --overlay: rgba(0, 0, 0, 0.4);
+  --btn-black: rgba(0, 0, 0, 0.4);
+  --btn-white: rgba(255, 255, 255, 0.2);
+  --tab-bottom-color: rgba(168, 168, 168, 0.4);
+  --font-color-1: rgb(204, 204, 204);
   --hover-color-1: #1a1a1a;
   --hover-color-2: #302f2f;
   --btn-bg-color: #3b3b3b;
-  --link-color:#cad0dd;
-  --story-viewed-color:rgb(87, 87, 87);
-  --arrow-bg-color:rgb(255, 255, 255);
-  --btn-color:#0095F6;
-  --btn-hover-color:#1877F2;
-  --dark-blue-color:#385185;
-  --selected-bg-color:#E0F1FF;
-  --footer-color:#737373;
-  --search-font-color:#A8A8A8;
-  --modal-color:#232323;
-  --modal-color-2:#121212;
-  --modal-color-3:#1A1A1ACC;
-  --modal-color-4:#272626;
-  --checkbox-color:#3b3a3e;
-  --checkbox-ball-color:#1f1f25;
-  --crop-btn-color:#1c1b1b;
-  --warning-color:rgba(237, 73, 86);
-  --sign-up-secondary-font:#737373;
-
+  --link-color: #cad0dd;
+  --story-viewed-color: rgb(87, 87, 87);
+  --arrow-bg-color: rgb(255, 255, 255);
+  --btn-color: #0095f6;
+  --btn-hover-color: #1877f2;
+  --dark-blue-color: #385185;
+  --selected-bg-color: #e0f1ff;
+  --footer-color: #737373;
+  --search-font-color: #a8a8a8;
+  --modal-color: #232323;
+  --modal-color-2: #121212;
+  --modal-color-3: #1a1a1acc;
+  --modal-color-4: #272626;
+  --checkbox-color: #3b3a3e;
+  --checkbox-ball-color: #1f1f25;
+  --crop-btn-color: #1c1b1b;
+  --warning-color: rgba(237, 73, 86);
+  --sign-up-secondary-font: #737373;
+  --like-color: rgb(255, 48, 64);
 
   --font-size-xsmall: 10px;
   --font-size-small: 12px;
   --font-size-username: 13px;
   --font-size-medium: 14px;
   --font-size-large: 15px;
-  --font-size-sub-title:16px;
+  --font-size-sub-title: 16px;
   --font-size-xlarge: 18px;
-  --font-size-modal-title:24px;
+  --font-size-modal-title: 24px;
   --font-size-xxlarge: 25px;
-  --main-logo-font-size:28px;
-  --main-logo-font-size-large:40px;
+  --main-logo-font-size: 28px;
+  --main-logo-font-size-large: 40px;
   --font-size-xxxlarge: 30px;
-  --font-size-indicator:23px;
+  --font-size-indicator: 23px;
 
   --font-weight-light: 300;
   --font-weight-regular: 400;
@@ -68,14 +66,13 @@ body {
   --font-weight-bold: 600;
   --font-weight-bolder: 700;
 
-  --profile-story-padding:5px;
-  --profile-highlight-padding:3px;
+  --profile-story-padding: 5px;
+  --profile-highlight-padding: 3px;
 
-  --divider-border:.5px solid  #272424;
-  --divider-border-1:.5px solid  #393939;
-  --card-border:1px solid #c9c9c9;
+  --divider-border: 0.5px solid #272424;
+  --divider-border-1: 0.5px solid #393939;
+  --card-border: 1px solid #c9c9c9;
 }
-
 
 ::-webkit-scrollbar {
   width: 0px !important;

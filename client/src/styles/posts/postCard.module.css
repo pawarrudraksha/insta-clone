@@ -140,7 +140,7 @@
   border: none;
   outline: none;
   background-color: transparent;
-  color: white;
+  color: var(--font-color);
 }
 .postCardAddCommentSection p {
   margin: 0px;

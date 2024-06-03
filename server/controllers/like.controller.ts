@@ -104,7 +104,6 @@ const getAllLikes = asyncHandler(
     if (!targetId || !targetType) {
       throw new ApiError(400, "All fields are required");
     }
-
     const limit = Number(req.query.limit || 9);
     const page = Number(req.query.page || 1);
     const skip = (page - 1) * limit;
@@ -132,7 +131,6 @@ const getAllLikes = asyncHandler(
     const likes = await Like.aggregate([
       {
         $match: {
-          userId: user._id,
           [`${targetType}Id`]: target._id,
         },
       },
@@ -159,17 +157,46 @@ const getAllLikes = asyncHandler(
                 name: 1,
                 username: 1,
                 profilePic: 1,
+                isPrivate: 1,
               },
             },
           ],
         },
       },
       {
+        $lookup: {
+          from: "follows",
+          let: { userId: "$userId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$userId", "$$userId"] }, // Check if followerId matches userId
+                    { $eq: ["$follower", user?._id] }, // Check if userId matches the query's userId
+                    { $eq: ["$isRequestAccepted", true] }, // Check if userId matches the query's userId
+                  ],
+                },
+              },
+            },
+          ],
+          as: "followInfo",
+        },
+      },
+      {
         $project: {
           userInfo: { $arrayElemAt: ["$userInfo", 0] },
+          isFollowing: {
+            $cond: {
+              if: { $gt: [{ $size: "$followInfo" }, 0] },
+              then: true,
+              else: false,
+            },
+          }, // Check if followInfo is not empty
         },
       },
     ]);
+
     if (likes.length < 1) {
       return res
         .status(204)

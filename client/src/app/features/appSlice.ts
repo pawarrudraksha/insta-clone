@@ -16,6 +16,7 @@ export interface UserType {
 }
 // Define a type for the slice state
 interface AppState {
+  displayMode: string;
   isSearchModalOpen: boolean;
   isProfileModalOpen: boolean;
   isLikesModalOpen: boolean;
@@ -52,6 +53,7 @@ const initialState: AppState = {
     type: "post",
     _id: "",
   },
+  displayMode: "dark",
 };
 export const searchUsers = createAsyncThunk(
   "app/searchUsers",
@@ -112,6 +114,29 @@ export const deleteFollowRequest = createAsyncThunk(
   }
 );
 
+export const followUser = createAsyncThunk(
+  "app/follow-user",
+  async (userId: string) => {
+    try {
+      const response = await axios.post(`/follow/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+export const unfollowUser = createAsyncThunk(
+  "app/unfollow-user",
+  async (userId: string) => {
+    try {
+      const response = await axios.delete(`/follow/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const appSlice = createSlice({
   name: "app",
   initialState,
@@ -141,6 +166,9 @@ export const appSlice = createSlice({
     setGetAllLikesTargetInfo: (state, action) => {
       state.getAllLikesTargetInfo = action.payload;
     },
+    setDisplayMode: (state, action) => {
+      state.displayMode = action.payload;
+    },
   },
 });
 
@@ -153,11 +181,14 @@ export const {
   setSidebarActiveTab,
   setGetAllLikesTargetInfo,
   toggleLikesModal,
+  setDisplayMode,
 } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectIsSearchModalOpen = (state: RootState): boolean =>
   state.app.isSearchModalOpen;
+export const selectDisplayMode = (state: RootState): string =>
+  state.app.displayMode;
 export const selectIsProfileModalOpen = (state: RootState): boolean =>
   state.app.isProfileModalOpen;
 export const selectIsMoreModalOpen = (state: RootState): boolean =>

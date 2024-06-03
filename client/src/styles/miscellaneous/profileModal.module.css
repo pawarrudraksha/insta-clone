@@ -1,125 +1,128 @@
-.profileModalContainer{
-    position: absolute;
-    background-color: black;
-    width: 360px;
-    height: 360px;
-    z-index: 1000;
-    top: 5%;
-    left: 14%;
-    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5); 
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-radius: 3%;
+.profileModalContainer {
+  position: absolute;
+  background-color: var(--primary-color);
+  width: 360px;
+  height: 360px;
+  z-index: 1000;
+  top: 5%;
+  left: 14%;
+  box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 3%;
 }
 
-.profileModalHeader{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin: 20px 10px;
-    margin-bottom: 0px;
+.profileModalHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 10px;
+  margin-bottom: 0px;
 }
 
-.profileModalHeaderImage img{
-    width:56px;
-    height:56px;
-    border-radius: 50%;
+.profileModalHeaderImage img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
 }
 
-.profileModalInfo{
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+.profileModalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
-.profileModalInfoUsername{
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-bold);
+.profileModalInfoUsername {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  color: var(--font-color);
+  text-decoration: none;
 }
 
-.profileModalInfoName{
-    font-size: var(--font-size-large);
-    color: var(--secondary-font-color);
+.profileModalInfoName {
+  font-size: var(--font-size-large);
+  color: var(--secondary-font-color);
 }
 
-.profileModalAnalytics{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-size: var(--font-size-medium);
+.profileModalAnalytics {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: var(--font-size-medium);
 }
 
-.profileModalAnalyticsBox{
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.profileModalAnalyticsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-.profileModalAnalyticsBox p:first-child{
-    font-size: var(--font-size-large) !important;
-    font-weight: var(--font-weight-bold);
+.profileModalAnalyticsBox p:first-child {
+  font-size: var(--font-size-large) !important;
+  font-weight: var(--font-weight-bold);
 }
-.profileModalPosts{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 4px;
+.profileModalPosts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
 }
-.profileModalPosts img{
-    width: 100%;
-    height: 120px;
+.profileModalPosts img {
+  width: 100%;
+  height: 120px;
 }
-.profileModalPosts video{
-    width: 100%;
-    height: 120px;
-}
-
-.profileModalBtns{
-    display: flex;
-    width:100%;
-    gap: 0px;
-    color: white;
-    justify-content: space-evenly;
+.profileModalPosts video {
+  width: 100%;
+  height: 120px;
 }
 
-
-.profileModalMessageBtn{
-    display: flex;
-    align-items: center;
-    background-color: var(--btn-color);
-    padding: 7px 10px;
-    border-radius: 8px;
-    width: 42%;
-    justify-content: center;
-    gap: 10px;
-    font-size: var(--font-size-large);
-    cursor: pointer;
-    transition: background-color 0.3s ease; 
-}
-.profileModalMessageBtn p{
-    font-weight: var(--font-weight-bold);
-}
-.profileModalMessageBtn svg{
-    font-size: var(--font-size-xlarge);
+.profileModalBtns {
+  display: flex;
+  width: 100%;
+  gap: 0px;
+  color: var(--font-color);
+  justify-content: space-evenly;
 }
 
-.profileModalMessageBtn:hover{
-    background-color: var(--btn-hover-color);
+.profileModalMessageBtn {
+  display: flex;
+  align-items: center;
+  border: none;
+  color: var(--font-color);
+  background-color: var(--btn-color);
+  padding: 7px 10px;
+  border-radius: 8px;
+  width: 42%;
+  justify-content: center;
+  gap: 10px;
+  font-size: var(--font-size-large);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.profileModalMessageBtn p {
+  font-weight: var(--font-weight-bold);
+}
+.profileModalMessageBtn svg {
+  font-size: var(--font-size-xlarge);
 }
 
-.profileModalFollowingBtn{
-    background-color: var(--hover-color-2);
-    color: white;
-    outline: none;
-    padding: 7px 10px;
-    border-radius: 8px;
-    border: none;
-    width: 42%;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-bold);
-    cursor: pointer;
-    transition: background-color 0.3s ease; 
+.profileModalMessageBtn:hover {
+  background-color: var(--btn-hover-color);
 }
 
-.profileModalFollowingBtn:hover{
-    background-color: var(--hover-color-1);
+.profileModalFollowingBtn {
+  background-color: var(--hover-color-2);
+  color: var(--font-color);
+  outline: none;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: none;
+  width: 42%;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profileModalFollowingBtn:hover {
+  background-color: var(--hover-color-1);
 }

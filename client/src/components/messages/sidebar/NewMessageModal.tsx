@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import styles from "../../../styles/messages/newMessageModal.module.css";
-import UserProfileItem from "../miscellaneous/UserProfileItem";
+import UserProfileItem from "../../miscellaneous/UserProfileItem";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   createChat,

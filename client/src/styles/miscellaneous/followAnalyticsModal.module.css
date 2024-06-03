@@ -1,4 +1,4 @@
-.likesOverlay {
+.followOverlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -7,11 +7,11 @@
   justify-content: center;
   background-color: var(--overlay);
 }
-.likesOverlay p {
+.followOverlay p {
   margin: 0px;
 }
 
-.likesModalContainer {
+.followModalContainer {
   position: absolute;
   height: auto;
   max-height: 400px;
@@ -24,7 +24,7 @@
   flex-direction: column;
 }
 
-.likesModalHeader {
+.followModalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,41 +32,44 @@
   box-sizing: border-box;
   border-bottom: var(--divider-border-1);
 }
-.likesModalHeader p {
+.followModalHeader p {
   font-weight: var(--font-weight-bold);
 }
-.likesModalHeader svg {
-  cursor: pointer;
-}
-.likesModalLike {
+.followModalFollow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
 }
-.likesModalLikeContent {
+.followModalFollowContent {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.likesModalLikeContent img {
+.followModalFollowContent img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
 }
 
-.likesModalLikeContentUsername {
+.followModalContentActiveStory img {
+  padding: 4px;
+  width: 45px;
+  height: 45px;
+  border: 2px solid rgba(255, 0, 0, 0.751);
+}
+.followModalFollowContentUsername {
   font-size: var(--font-size-large);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
 }
-.likesModalLikeContentName {
+.followModalFollowContentName {
   font-size: var(--font-size-medium);
   color: var(--secondary-font-color);
 }
-.likesModalFollowBtn {
+.followModalFollowBtn {
   display: flex;
   align-items: center;
   padding: 8px 15px;
@@ -79,15 +82,15 @@
   background-color: var(--btn-color);
   color: var(--font-color);
 }
-.likesModalFollowingBtn {
+.followModalFollowingBtn {
   background-color: var(--hover-color-2);
 }
-.likesModalFollowBtn:hover {
+.followModalFollowBtn:hover {
   background-color: var(--btn-hover-color);
   color: var(--font-color);
 }
 
-.likesModalFollowingBtn:hover {
+.followModalFollowingBtn:hover {
   background-color: var(--modal-color-3);
   cursor: unset;
 }

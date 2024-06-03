@@ -30,7 +30,11 @@ import CreatePostOverlay from "../components/create/CreatePostOverlay";
 import SignUp from "../pages/SignUp";
 import MessagesPage from "../pages/MessagesPage";
 import NewMessageModal from "../components/messages/sidebar/NewMessageModal";
-import { selectIsNewMessageModalOpen } from "../app/features/messagesSlice";
+import {
+  selectIsNewMessageModalOpen,
+  selectIsSharePostToChatModalOpen,
+  toggleSharePostToChatModal,
+} from "../app/features/messagesSlice";
 import MoreModal from "../components/miscellaneous/main/MoreModal";
 import NotificationModal from "../components/notification/NotificationModal";
 import NotificationRequestsModal from "../components/notification/NotificationRequestsModal";
@@ -46,6 +50,14 @@ import CreateStoryPage from "../pages/CreateStoryPage";
 import { selectIsCreateHighlightOpen } from "../app/features/highlightSlice";
 import HighlightOverlay from "../components/createHighlight/HighlightOverlay";
 import LikeModal from "../components/miscellaneous/LikeModal";
+import {
+  selectIsFollowersModalOpen,
+  selectIsFollowingModalOpen,
+  toggleIsFollowersModalOpen,
+  toggleIsFollowingModalOpen,
+} from "../app/features/accountSlice";
+import FollowAnalyticsModal from "../components/miscellaneous/FollowAnalyticsModal";
+import SharePostToChat from "../components/miscellaneous/SharePostToChat";
 
 function AppRouter() {
   const dispatch = useAppDispatch();
@@ -58,10 +70,14 @@ function AppRouter() {
   const isMoreModalOpen = useAppSelector(selectIsMoreModalOpen);
   const isNotificationModalOpen = useAppSelector(selectIsNotificationModalOpen);
   const isLikesModalOpen = useAppSelector(selectIsLikesModalOpen);
+  const isFollowingModalOpen = useAppSelector(selectIsFollowingModalOpen);
+  const isFollowerModalOpen = useAppSelector(selectIsFollowersModalOpen);
+  const isSharePostModalToChatOpen = useAppSelector(
+    selectIsSharePostToChatModalOpen
+  );
   const toggleNotificationRequestsModal = useAppSelector(
     selectIsNotificationRequestsModalOpen
   );
-
   const handleModal = () => {
     if (isSearchModalOpen) {
       dispatch(toggleSearchModal());
@@ -78,6 +94,12 @@ function AppRouter() {
     if (isLikesModalOpen) {
       dispatch(toggleLikesModal());
     }
+    if (isFollowerModalOpen) {
+      dispatch(toggleIsFollowersModalOpen());
+    }
+    if (isFollowingModalOpen) {
+      dispatch(toggleIsFollowingModalOpen());
+    }
   };
   const location = useLocation();
   const hideSidebar =
@@ -90,11 +112,15 @@ function AppRouter() {
       {isCreatePostModalOpen && <CreatePostOverlay />}
       {isPostModalOpen && <PostModal />}
       {isNewMessageModalOpen && <NewMessageModal />}
+      {isSharePostModalToChatOpen && <SharePostToChat />}
       {isMoreModalOpen && <MoreModal />}
       {isNotificationModalOpen && <NotificationModal />}
       {toggleNotificationRequestsModal && <NotificationRequestsModal />}
       {isCreaateHighlight && <HighlightOverlay />}
       {isLikesModalOpen && <LikeModal />}
+      {(isFollowingModalOpen || isFollowerModalOpen) && (
+        <FollowAnalyticsModal />
+      )}
       <Routes>
         <Route path="/accounts/emailsignup" element={<SignUp />} />
         <Route path="/accounts/login" element={<Login />} />

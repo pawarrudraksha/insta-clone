@@ -5,7 +5,11 @@ import { GoChevronRight, GoDotFill } from "react-icons/go";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getFollowRequests } from "../../app/features/appSlice";
 import { selectCurrentUser } from "../../app/features/authSlice";
-import { toggleNotificationRequestsModal } from "../../app/features/notificationSlice";
+import {
+  getAllNotifications,
+  toggleNotificationRequestsModal,
+} from "../../app/features/notificationSlice";
+import { defaultProfilePic } from "../../data/common";
 
 interface RequestType {
   _id: string;
@@ -17,12 +21,22 @@ interface RequestType {
   };
   updatedAt: string;
 }
+
+export interface NotificationType {
+  _id: string;
+  type: string;
+  postId: string;
+  comment: string;
+  updatedAt: string;
+  senderInfo: { _id: string; username: string; profilePic: string };
+}
 const NotificationModal: React.FC = () => {
   const handlePropogation = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
+  const [notifications, setNotifications] = useState<NotificationType[]>([]);
   const [latestFollowRequest, setLatestFollowRequest] = useState<RequestType>({
     _id: "",
     updatedAt: "",
@@ -39,7 +53,17 @@ const NotificationModal: React.FC = () => {
       fetchRequests();
     }
   }, [dispatch, currentUser?._id]);
-  useEffect(() => {});
+  useEffect(() => {
+    if (currentUser?._id) {
+      const fetchNotifications = async () => {
+        const response = await dispatch(getAllNotifications());
+        setNotifications(response?.payload?.data);
+      };
+      fetchNotifications();
+    }
+  }, [currentUser?._id]);
+  console.log(notifications);
+
   return (
     <div
       className={styles.notificationModalWrapper}
@@ -48,7 +72,10 @@ const NotificationModal: React.FC = () => {
       <p className={styles.notificationModalTitle}>Notifications</p>
       {currentUser?.isPrivate && latestFollowRequest?._id && (
         <div className={styles.notificationFollowRequests}>
-          <img src={latestFollowRequest?.follower?.profilePic} alt="" />
+          <img
+            src={latestFollowRequest?.follower?.profilePic || defaultProfilePic}
+            alt=""
+          />
           <div className={styles.notificationFollowReqContent}>
             <div className={styles.notificationFollowReqInfo}>
               <p>Follow request</p>
@@ -65,17 +92,21 @@ const NotificationModal: React.FC = () => {
         </div>
       )}
       <div className={styles.notificationsWrapper}>
-        <div className={styles.notificationItemWrapper}>
-          <p className={styles.notificationTitle}>Today</p>
-          <NotificationItem isFollowRequest />
-          <NotificationItem isFollow />
-          <NotificationItem isLike />
-        </div>
-        <div className={styles.notificationItemWrapper}>
-          <p className={styles.notificationTitle}>This week</p>
-          <NotificationItem isLike />
-          <NotificationItem isLike />
-        </div>
+        {notifications && notifications?.length > 0 && (
+          <div className={styles.notificationItemWrapper}>
+            <p className={styles.notificationTitle}>Today</p>
+            {notifications?.map((item, index) => (
+              <NotificationItem notification={item} key={index} />
+            ))}
+          </div>
+        )}
+        {notifications?.length === 0 && (
+          <div className={styles.notificationItemWrapper}>
+            <p className={styles.notificationTitle}>
+              Your notifications will appear here
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

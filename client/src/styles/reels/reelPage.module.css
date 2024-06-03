@@ -22,6 +22,9 @@
 
 @media screen and (max-width: 768px) {
   .reelCardWrapper {
-    height: 100%;
+    height: 93vh;
+  }
+  .reelsPageContainer {
+    padding: 0px;
   }
 }

@@ -1,98 +1,97 @@
-.managePostsOverlay{
-    background-color:var(--modal-color-3);
-    display: flex;
-    height: 95px;
-    width: auto;
-    max-width: 100%;
-    padding: 10px;
-    position: relative;
+.managePostsOverlay {
+  background-color: var(--modal-color-3);
+  display: flex;
+  height: 95px;
+  width: auto;
+  max-width: 100%;
+  padding: 10px;
+  position: relative;
 }
 
-.managePostsContainer{
-    display: flex;
-    overflow-x: scroll;
-    align-items: center;
-    height: 100%;
-    gap: 10px;
-    overflow-y: hidden;
+.managePostsContainer {
+  display: flex;
+  overflow-x: scroll;
+  align-items: center;
+  height: 100%;
+  gap: 10px;
+  overflow-y: hidden;
 }
 
-
-.managePostsPostItem{
-    position: relative;
-    height: 100%;
-    cursor: pointer;
-    width: 100%;
-    opacity: .7;
+.managePostsPostItem {
+  position: relative;
+  height: 100%;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.7;
 }
 
-.managePostsPostItemActive{
-    opacity: 1;
+.managePostsPostItemActive {
+  opacity: 1;
 }
 
-.managePostsPostItem svg{
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    background-color: var(--modal-color-3);
-    border-radius: 50%;
-    padding: 4px;
-    cursor: pointer;
-    z-index: 999;
-    display: none;
+.managePostsPostItem svg {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background-color: var(--modal-color-3);
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+  z-index: 999;
+  display: none;
 }
-.managePostsPostItemActive svg{
-    display: block;
+.managePostsPostItemActive svg {
+  display: block;
 }
-.managePostsPostItem video{
-    height: 100%;
-    width: 106px;
+.managePostsPostItem video {
+  height: 100%;
+  width: 106px;
 }
-.managePostsPostItem img{
-    height: 100%;
-    width: 106px;
-}
-
-.managePostsAddPostContainer{
-    display: flex;
-    align-items: flex-start;
-    padding:5px 20px;
-}
-.managePostsAddPostContainer svg{
-    font-size: var(--font-size-xxlarge);
-    cursor: pointer;
-    border: .1px solid  var(--modal-color-2);
-    padding: 10px;
-    border-radius: 50%;
-}
-.managePostsAddPostContainer input{
-    display: none;
+.managePostsPostItem img {
+  height: 100%;
+  width: 106px;
 }
 
-.managePostsAddPostContainer svg:active{
-    background-color: var(--modal-color-2)
+.managePostsAddPostContainer {
+  display: flex;
+  align-items: flex-start;
+  padding: 5px 20px;
+}
+.managePostsAddPostContainer svg {
+  font-size: var(--font-size-xxlarge);
+  cursor: pointer;
+  border: 0.1px solid var(--modal-color-2);
+  padding: 10px;
+  border-radius: 50%;
+}
+.managePostsAddPostContainer input {
+  display: none;
 }
 
-.managePostsArrows svg{
-    border-radius: 50%;
-    background-color: var(--font-color);
-    color: black;
-    font-size: var(--font-size-xxlarge);
-    opacity: .7;
-    padding: 0px;
-    position: absolute;
+.managePostsAddPostContainer svg:active {
+  background-color: var(--modal-color-2);
 }
 
-.managePostsLeftArrow{
-    position: absolute;
-    top: 40%;
-    cursor: pointer;
-    left: 2%;
+.managePostsArrows svg {
+  border-radius: 50%;
+  background-color: var(--font-color);
+  color: var(--primary-color);
+  font-size: var(--font-size-xxlarge);
+  opacity: 0.7;
+  padding: 0px;
+  position: absolute;
 }
-.managePostsRightArrow{
-    position: absolute;
-    top: 40%;
-    cursor: pointer;
-    right: 20%;
-    background-color: red;
+
+.managePostsLeftArrow {
+  position: absolute;
+  top: 40%;
+  cursor: pointer;
+  left: 2%;
+}
+.managePostsRightArrow {
+  position: absolute;
+  top: 40%;
+  cursor: pointer;
+  right: 20%;
+  background-color: red;
 }

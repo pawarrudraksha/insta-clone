@@ -19,17 +19,25 @@ import { getUserInfo } from "../../../app/features/accountSlice";
 import {
   actionOnPost,
   openPostModal,
+  postComment,
 } from "../../../app/features/viewPostSlice";
 import { defaultProfilePic } from "../../../data/common";
 import { getTimeSinceUpdate } from "../../../utils/getTimeSinceUpdate";
+import { selectCurrentUser } from "../../../app/features/authSlice";
+import {
+  createNotification,
+  deleteNotification,
+} from "../../../app/features/notificationSlice";
 
 const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
+  const currentUser = useAppSelector(selectCurrentUser);
   const [noOfLikes, setNoOfLikes] = useState<number>(data?.noOfLikes);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(data?.isPostLiked);
+  const [comment, setComment] = useState<string>("");
+  const [noOfComments, setNoOfComments] = useState<number>(data?.noOfComments);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   const handleMouseEnter = async () => {
     const result = await dispatch(getUserInfo(data?.userInfo?.username));
@@ -63,6 +71,9 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
           action: "unlike",
         })
       );
+      if (currentUser?._id !== data?.userInfo?._id) {
+        dispatch(deleteNotification(data?._id));
+      }
       setIsLiked(false);
       setNoOfLikes((prev) => prev - 1);
     } else {
@@ -73,11 +84,43 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
           action: "like",
         })
       );
+      if (currentUser?._id !== data?.userInfo?._id) {
+        dispatch(
+          createNotification({
+            type: "like",
+            receiverId: data?.userInfo?._id,
+            postId: data?._id,
+          })
+        );
+      }
       setIsLiked(true);
       setNoOfLikes((prev) => prev + 1);
     }
   };
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
+  const handlePostComment = async () => {
+    dispatch(
+      postComment({
+        postId: data?._id,
+        text: comment,
+      })
+    );
+
+    dispatch(
+      createNotification({
+        type: "comment",
+        receiverId: data?.userInfo?._id,
+        postId: data?._id,
+        comment,
+      })
+    );
+    setNoOfComments((prev) => prev + 1);
+    setComment("");
+  };
   const postUpdatedTiime = getTimeSinceUpdate(data?.updatedAt);
+
   return (
     <div className={styles.homePost}>
       <div className={styles.homePostHeader} onMouseLeave={handleMouseLeave}>
@@ -115,7 +158,17 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
       </div>
       <div className={styles.homeInteractionsWrapper}>
         <Interactions
-          data={{ noOfLikes: noOfLikes, isPostLiked: isLiked, _id: data?._id }}
+          data={{
+            noOfLikes: noOfLikes,
+            isPostLiked: isLiked,
+            setIsLiked: setIsLiked,
+            setNoOfLikes: setNoOfLikes,
+            _id: data?._id,
+            isCommentsOff: data?.isCommentsOff,
+            isHideLikesAndViews: data?.isHideLikesAndViews,
+            ownerId: data?.userInfo?._id,
+            isPostSaved: data?.isPostSaved,
+          }}
         />
       </div>
       <div className={styles.homePostCaption}>
@@ -125,7 +178,7 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
       {!data?.isCommentsOff && (
         <div className={styles.homePostCardComments}>
           <button onClick={handleViewAllComments}>
-            View all {data?.noOfComments} comments
+            View all {noOfComments} comments
           </button>
           <div className={styles.homePostCardAddComment}>
             <input
@@ -133,8 +186,15 @@ const HomePost: React.FC<{ data: HomePostData }> = ({ data }) => {
               placeholder="Add a comment"
               className={styles.homePostCardAddCommentInput}
               onChange={handleCommentChange}
+              value={comment}
             />
             <HiOutlineEmojiHappy />
+            <button
+              disabled={!comment.trim() ? true : false}
+              onClick={handlePostComment}
+            >
+              Post
+            </button>
           </div>
         </div>
       )}

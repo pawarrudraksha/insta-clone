@@ -24,7 +24,12 @@
   flex-direction: column;
   gap: 30px;
 }
-
+.accountDetailPrivateAccount {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
 @media screen and (max-width: 768px) {
   .accountDetailContainer {
     margin: 0px 2%;

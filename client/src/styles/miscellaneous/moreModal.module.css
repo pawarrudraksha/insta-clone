@@ -1,60 +1,99 @@
-.moreModalWrapper{
-    width: 250px;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    border-radius: 15px;
-    bottom: 10%;
-    left: 2%;
-    background-color: var(--modal-color);
-    box-sizing: border-box;
+.moreModalWrapper {
+  width: 250px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  border-radius: 15px;
+  bottom: 10%;
+  left: 2%;
+  background-color: var(--modal-color);
+  box-sizing: border-box;
 }
-.moreModalWrapper *{
-    margin: 0px;
-}
-
-
-.moreTabsWrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
-    border-bottom: 2px solid var(--hover-color-2);
-    padding: 15px;
-    padding-bottom: 10px;
+.moreModalWrapper * {
+  margin: 0px;
 }
 
-.moreTab{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    align-items: center;
-    border-radius: 10px;
-    cursor: pointer;
-    opacity: .8;
+.moreTabsWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 2px solid var(--hover-color-2);
+  padding: 15px;
+  padding-bottom: 10px;
+  position: relative;
 }
 
-.moreTab p{
-    font-size: var(--font-size-medium);
-    font-weight: var(--font-weight-lightw);
-}
-.moreTab:hover{
-    background-color: var(--hover-color-2);
+.moreTab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.8;
+  background: transparent;
+  border: none;
+  color: var(--font-color);
 }
 
-.moreTab svg{
-    font-size: var(--font-size-xxlarge);
+.moreTab p {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-lightw);
 }
-.moreBtn{
-    background-color: transparent;
-    outline: none;
-    border: none;
-    width: 100%;
-    padding: 15px 25px;
-    text-align: start;
-    border-top: 3px solid var(--hover-color-2);
-    color: var(--font-color);
-    font-size: var(--font-size-large);
+.moreTab:hover {
+  background-color: var(--hover-color-2);
+}
+
+.moreTab svg {
+  font-size: var(--font-size-xxlarge);
+}
+.moreBtn {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 15px 25px;
+  text-align: start;
+  border-top: 3px solid var(--hover-color-2);
+  color: var(--font-color);
+  cursor: pointer;
+  font-size: var(--font-size-large);
+}
+
+.moreModalAppearanceModal {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 22%;
+  left: 101%;
+  background-color: var(--modal-color);
+  gap: 5px;
+  white-space: nowrap;
+  padding: 10px 5px;
+  z-index: 999;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.moreModalAppearanceModal button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 12px;
+  background: transparent;
+  color: var(--font-color);
+  cursor: pointer;
+  border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.moreModalAppearanceModal svg {
+  font-size: var(--font-size-xlarge);
+}
+.moreModalAppearanceModal button:hover {
+  background-color: var(--hover-color-2);
 }

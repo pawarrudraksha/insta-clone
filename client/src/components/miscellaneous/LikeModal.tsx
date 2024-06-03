@@ -2,9 +2,15 @@ import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import styles from "../../styles/miscellaneous/likeModal.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectGetAllLikesTarget } from "../../app/features/appSlice";
+import {
+  followUser,
+  selectGetAllLikesTarget,
+  toggleLikesModal,
+} from "../../app/features/appSlice";
 import { getAllLikes } from "../../app/features/viewPostSlice";
 import { defaultProfilePic } from "../../data/common";
+import { selectCurrentUser } from "../../app/features/authSlice";
+import { createNotification } from "../../app/features/notificationSlice";
 
 interface LikesType {
   _id: string;
@@ -13,12 +19,16 @@ interface LikesType {
     name: string;
     username: string;
     profilePic: string;
+    isPrivate: string;
   };
+  isFollowing: boolean;
 }
 const LikeModal: React.FC = () => {
+  const currentUser = useAppSelector(selectCurrentUser);
   const targetInfo = useAppSelector(selectGetAllLikesTarget);
   const dispatch = useAppDispatch();
   const [likes, setLikes] = useState<LikesType[]>([]);
+  const [followReqSent, setFollowReqSent] = useState<string[]>([]);
   useEffect(() => {
     if (targetInfo?._id) {
       const fetchLikes = async () => {
@@ -34,13 +44,23 @@ const LikeModal: React.FC = () => {
     }
   }, [targetInfo?._id]);
 
+  const handleFollow = (userId: string) => {
+    if (!followReqSent.includes(userId)) {
+      setFollowReqSent([...followReqSent, userId]);
+      dispatch(followUser(userId));
+      dispatch(createNotification({ type: "follow", receiverId: userId }));
+    }
+  };
+  const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
   return (
     <div className={styles.likesOverlay}>
-      <div className={styles.likesModalContainer}>
+      <div className={styles.likesModalContainer} onClick={handleModalClick}>
         <div className={styles.likesModalHeader}>
           <p></p>
           <p>Likes</p>
-          <IoMdClose />
+          <IoMdClose onClick={() => dispatch(toggleLikesModal())} />
         </div>
         <div className={styles.likesModalContent}>
           {likes &&
@@ -61,7 +81,21 @@ const LikeModal: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <button className={styles.likesModalFollowBtn}>Follow</button>
+                {currentUser?.username !== like?.userInfo?.username && (
+                  <button
+                    className={`${styles.likesModalFollowBtn} ${
+                      like?.isFollowing && styles.likesModalFollowingBtn
+                    }`}
+                    onClick={() => handleFollow(like?.userInfo?._id)}
+                  >
+                    {like?.isFollowing ||
+                    followReqSent.includes(like?.userInfo?._id)
+                      ? !like?.isFollowing && like?.userInfo?.isPrivate
+                        ? "Requested"
+                        : "Following"
+                      : "Follow"}
+                  </button>
+                )}
               </div>
             ))}
         </div>

@@ -93,7 +93,10 @@ const Messages: React.FC = () => {
                     await dispatch(fetchFollowingDoc(postOwner?._id))
                   )?.payload?.data;
 
-                  if (!isFollow?._id && postOwner?.isPrivate) {
+                  if (
+                    (!isFollow?._id && postOwner?.isPrivate) ||
+                    !isFollow?.isRequestAccepted
+                  ) {
                     return {
                       hasAccess: false,
                       _id: msg?.message?._id,

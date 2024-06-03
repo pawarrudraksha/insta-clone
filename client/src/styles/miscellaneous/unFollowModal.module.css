@@ -1,0 +1,22 @@
+.unFollowModal {
+  background-color: var(--hover-color-2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.unFollowModal button {
+  background-color: transparent;
+  border: none;
+  color: var(--font-color);
+  border: 1px solid var(--secondary-font-color);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.unFollowModal button:first-child {
+  background-color: var(--btn-color-1);
+}

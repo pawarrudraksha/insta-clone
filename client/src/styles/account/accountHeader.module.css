@@ -33,6 +33,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
 }
 .accountHeaderContentTitle svg {
   font-size: 18px;
@@ -85,6 +86,13 @@
   display: flex;
   gap: 3px;
   font-size: 14px;
+  background: transparent;
+  border: none;
+  color: var(--font-color);
+  cursor: pointer;
+}
+.accountHeaderContentAnalyticsBox:first-child {
+  cursor: unset;
 }
 .accountHeaderContentAnalyticsBox p:first-child {
   font-weight: var(--font-weight-bold);
@@ -129,6 +137,11 @@
   font-size: var(--font-size-medium);
 }
 
+.accountHeaderUnfollowModalWrapper {
+  position: absolute;
+  top: 33px;
+  left: 100px;
+}
 .accountHeaderContentDescriptionMobile {
   display: none;
 }

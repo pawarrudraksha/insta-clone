@@ -31,5 +31,5 @@
 }
 
 .likedPostIcon {
-  color: rgb(255, 48, 64);
+  color: var(--like-color);
 }

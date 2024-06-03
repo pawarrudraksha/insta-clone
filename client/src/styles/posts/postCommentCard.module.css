@@ -1,89 +1,97 @@
-.postCommentCardContainer{
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
+.postCommentCardContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
 }
 
-.postCommentCardContentsContainer{
-    display: flex;
-    gap: 10px;
-    width: 100%;
+.postCommentCardContentsContainer {
+  display: flex;
+  gap: 10px;
+  width: 100%;
 }
-.postCommentCardProfilePic img{
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-}
-
-.postCommentCardContentAndCommentWrapper{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.postCommentCardContent p{
-    display: inline;
-    margin: 0px 2px;
-    font-size: var(--font-size-medium);
-    color: var(--font-color-1);
+.postCommentCardProfilePic img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
 }
 
-.postCommentCardContentUsername{
-    font-weight: var(--font-weight-bold);
-    color: var(--font-color) !important;
-    cursor: pointer;
+.postCommentCardContentAndCommentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.postCommentCardContent p {
+  display: inline;
+  margin: 0px 2px;
+  font-size: var(--font-size-medium);
+  color: var(--font-color-1);
 }
 
-
-.postCommentCardInfo{
-    display: flex;
-    gap: 10px;
-    font-size: var(--font-size-small);
-    color: var(--secondary-font-color);
-}
-.postCommentCardInfo button{
-    font-size: var(--font-size-small);
-    color: var(--secondary-font-color);
-    outline: none;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-.postCommentCardReplySection{
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    color: var(--secondary-font-color);
-    gap: 15px;
+.postCommentCardContentUsername {
+  font-weight: var(--font-weight-bold);
+  color: var(--font-color) !important;
+  cursor: pointer;
 }
 
-.postCommentCardReplySectionHeader{
-    display: flex;
-    align-items: center;
+.postCommentCardInfo {
+  display: flex;
+  gap: 10px;
+  font-size: var(--font-size-small);
+  color: var(--secondary-font-color);
 }
-.postCommentCardReplySectionHeader hr{
-    width: 20px;
-    margin: 0px;
-    color: var(--secondary-font-color);
+.postCommentCardInfo button {
+  font-size: var(--font-size-small);
+  color: var(--secondary-font-color);
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
-
-.postCommentCardReplySectionHeader button{
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
-    background: transparent;
-    outline: none;
-    border: none;
-    color: var(--secondary-font-color);
-    cursor: pointer;
-}
-
-.postCommentCardContentWrapper{
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.postCommentCardReplySection {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  color: var(--secondary-font-color);
+  gap: 15px;
 }
 
-.postCommentLikeBtn svg{
-    padding-top: 5px;
-    font-size: var(--font-size-small);
-    cursor: pointer;
+.postCommentCardReplySectionHeader {
+  display: flex;
+  align-items: center;
+}
+.postCommentCardReplySectionHeader hr {
+  width: 20px;
+  margin: 0px;
+  color: var(--secondary-font-color);
+}
+
+.postCommentCardReplySectionHeader button {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  background: transparent;
+  outline: none;
+  border: none;
+  color: var(--secondary-font-color);
+  cursor: pointer;
+}
+
+.postCommentCardContentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.postCommentLikeBtn {
+  background: transparent;
+  border: none;
+  color: var(--font-color);
+  display: inline-block;
+  height: fit-content;
+}
+.postCommentLikeBtnLiked {
+  color: var(--like-color);
+}
+.postCommentLikeBtn svg {
+  padding-top: 5px;
+  font-size: var(--font-size-small);
+  cursor: pointer;
 }

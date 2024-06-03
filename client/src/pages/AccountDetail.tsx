@@ -45,7 +45,7 @@ const AccountDetail: React.FC = () => {
     }
   }, [username]);
   useEffect(() => {
-    if (user._id) {
+    if (user?._id) {
       const getFollowDoc = async () => {
         const data = await dispatch(fetchFollowingDoc(user._id));
         setIsFollow(data?.payload?.data);
@@ -53,6 +53,8 @@ const AccountDetail: React.FC = () => {
       getFollowDoc();
     }
   }, [user]);
+  console.log(isFollow);
+
   return (
     <div
       className={`${styles.accountDetailPage} ${
@@ -65,7 +67,9 @@ const AccountDetail: React.FC = () => {
           {user?.isPrivate &&
           (!isFollow?._id || !isFollow.isRequestAccepted) &&
           user?._id !== currentUser?._id ? (
-            <div>User account is private</div>
+            <div className={styles.accountDetailPrivateAccount}>
+              User account is private
+            </div>
           ) : (
             <>
               <AccountHighlight />

@@ -23,7 +23,7 @@
   height: 28px;
   text-decoration: none;
   text-decoration: none;
-  color: white;
+  color: var(--font-color);
   align-self: center;
 }
 

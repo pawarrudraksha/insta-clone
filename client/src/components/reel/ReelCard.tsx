@@ -6,6 +6,8 @@ import {
   FaRegBookmark,
   FaRegHeart,
   FaUser,
+  FaHeart,
+  FaBookmark,
 } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import { IoIosMore } from "react-icons/io";
@@ -15,13 +17,33 @@ import { HiMiniSpeakerWave } from "react-icons/hi2";
 import { BsDot } from "react-icons/bs";
 import { Reel } from "../../pages/ReelsPage";
 import { defaultProfilePic } from "../../data/common";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  actionOnPost,
+  savePost,
+  unsavePost,
+} from "../../app/features/viewPostSlice";
+import {
+  createNotification,
+  deleteNotification,
+} from "../../app/features/notificationSlice";
+import { selectCurrentUser } from "../../app/features/authSlice";
+import {
+  setSharePostId,
+  toggleSharePostToChatModal,
+} from "../../app/features/messagesSlice";
 
 interface Props {
   reel: Reel;
 }
 
 const ReelCard: React.FC<Props> = ({ reel }) => {
+  const currentUser = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isReelLiked, setIsReelLiked] = useState<boolean>(reel?.isReelLiked);
+  const [isReelSaved, setIsReelSaved] = useState<boolean>(reel?.isReelSaved);
+  const [noOfLikes, setNoOfLikes] = useState<number>(reel?.noOfLikes);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [showMore, setShowMore] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -85,6 +107,54 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
     };
   }, []);
 
+  const handleLikeReel = async () => {
+    if (isReelLiked) {
+      dispatch(
+        actionOnPost({
+          targetId: reel?._id,
+          targetType: "post",
+          action: "unlike",
+        })
+      );
+      if (currentUser?._id !== reel?.userInfo?._id) {
+        dispatch(deleteNotification(reel?._id));
+      }
+      setIsReelLiked(false);
+      setNoOfLikes((prev) => prev - 1);
+    } else {
+      dispatch(
+        actionOnPost({
+          targetId: reel?._id,
+          targetType: "post",
+          action: "like",
+        })
+      );
+      if (currentUser?._id !== reel?.userInfo?._id) {
+        dispatch(
+          createNotification({
+            type: "like",
+            receiverId: reel?.userInfo?._id,
+            postId: reel?._id,
+          })
+        );
+      }
+      setIsReelLiked(true);
+      setNoOfLikes((prev) => prev + 1);
+    }
+  };
+  const handleSharePost = () => {
+    dispatch(setSharePostId(reel?._id));
+    dispatch(toggleSharePostToChatModal());
+  };
+  const handleSavePost = () => {
+    if (isReelSaved) {
+      dispatch(unsavePost(reel?._id));
+      setIsReelSaved(false);
+    } else {
+      dispatch(savePost(reel?._id));
+      setIsReelSaved(true);
+    }
+  };
   return (
     <div className={styles.reelWrapper}>
       <div className={styles.reel}>
@@ -160,17 +230,35 @@ const ReelCard: React.FC<Props> = ({ reel }) => {
         </div>
       </div>
       <div className={styles.reelCardInteractions}>
-        <div className={styles.reelCardInteraction}>
-          <FaRegHeart />
-          <p>{reel?.noOfLikes}</p>
+        <div
+          className={`${styles.reelCardInteraction} ${
+            isReelLiked && styles.reelCardInteractionWhenLiked
+          }`}
+        >
+          <button onClick={handleLikeReel}>
+            {isReelLiked ? <FaHeart /> : <FaRegHeart />}
+          </button>
+          <p>{noOfLikes}</p>
         </div>
         <div className={styles.reelCardInteraction}>
           <FaRegComment />
           <p>{reel?.noOfComments}</p>
         </div>
-        <FiSend />
-        <FaRegBookmark />
-        <IoIosMore />
+        <button
+          className={styles.reelCardInteractionsBtn}
+          onClick={handleSharePost}
+        >
+          <FiSend />
+        </button>
+        <button
+          className={styles.reelCardInteractionsBtn}
+          onClick={handleSavePost}
+        >
+          {isReelSaved ? <FaBookmark /> : <FaRegBookmark />}
+        </button>
+        <button className={styles.reelCardInteractionsBtn}>
+          <IoIosMore />
+        </button>
         <div className={styles.reelCardInteractionsMusic}>
           <img src={reel?.posts?.audioTrack?.coverPic} alt="" />
         </div>

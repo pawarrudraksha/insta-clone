@@ -1,52 +1,53 @@
-.homeSuggestionCard{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    position: relative;
+.homeSuggestionCard {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
 }
 
-.homeSuggestionCardImg img{
-    width: 40px;
-    height: 40px;
-    border-radius: 50%
+.homeSuggestionCardImg img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
-.homeSuggestionCardContent{
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+.homeSuggestionCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
-.homeSuggestionCardInfoName{
-    font-size: var(--font-size-medium);
-    margin: 0px;
+.homeSuggestionCardInfoName {
+  font-size: var(--font-size-medium);
+  margin: 0px;
+  color: var(--font-color);
+  text-decoration: none;
 }
-.homeSuggestionCardInfoIsSelf{
-    margin: 0px;
-    font-size: var(--font-size-medium);
-    color: var(--secondary-font-color);
-}
-
-.homeSuggestionCardInfo{
-    font-size: var(--font-size-small);
-    margin: 0px;
-    color: var(--secondary-font-color);
+.homeSuggestionCardInfoIsSelf {
+  margin: 0px;
+  font-size: var(--font-size-medium);
+  color: var(--secondary-font-color);
 }
 
-.homeSuggestionsFollowBtn{
-    background-color: transparent;
-    border: none;
-    color: var(--btn-color);
-    font-size: var(--font-size-small);
-    cursor: pointer;
-    transition: color ease 0.3s;
-    margin-left: auto; /* Push the button to the end */
-
+.homeSuggestionCardInfo {
+  font-size: var(--font-size-small);
+  margin: 0px;
+  color: var(--secondary-font-color);
 }
 
-.homeSuggestionsFollowBtn:hover{
-    color:var(--font-color);
-    align-self: center;
+.homeSuggestionsFollowBtn {
+  background-color: transparent;
+  border: none;
+  color: var(--btn-color);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+  transition: color ease 0.3s;
+  margin-left: auto; /* Push the button to the end */
 }
 
-.homeSuggestionCard p{
-    margin: 0px;
+.homeSuggestionsFollowBtn:hover {
+  color: var(--font-color);
+  align-self: center;
+}
+
+.homeSuggestionCard p {
+  margin: 0px;
 }

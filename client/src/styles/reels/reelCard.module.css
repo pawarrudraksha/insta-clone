@@ -168,6 +168,13 @@
   align-items: center;
 }
 
+.reelCardInteractionsBtn {
+  background: transparent;
+  border: none;
+  color: var(--font-color);
+  cursor: pointer;
+}
+
 .reelCardInteractions svg {
   font-size: var(--font-size-xxlarge);
 }
@@ -183,6 +190,16 @@
   flex-direction: column;
   align-items: center;
   gap: 3px;
+}
+.reelCardInteraction button {
+  background-color: transparent;
+  border: none;
+  height: fit-content;
+  color: var(--font-color);
+  cursor: pointer;
+}
+.reelCardInteractionWhenLiked button {
+  color: var(--like-color);
 }
 
 .reelCardInteraction p {

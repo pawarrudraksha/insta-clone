@@ -131,6 +131,20 @@ export const sendTextMessage = createAsyncThunk(
     }
   }
 );
+export const sharePost = createAsyncThunk(
+  "chat/share-post",
+  async ({ chatId, postId }: { chatId: string; postId: string }) => {
+    try {
+      const response = await axios.post("/messages/share-post", {
+        chatId,
+        postId,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const getMessageById = createAsyncThunk(
   "chat/get-message-by-id",
@@ -172,6 +186,8 @@ interface MessagesState {
   replyMsg: replyMsgState;
   checkedUsers: User[];
   currentChatInfo: ChatInfo;
+  sharePostId: string;
+  isSharePostToChatModalOpen: boolean;
 }
 
 // Define the initial state using that type
@@ -194,6 +210,8 @@ const initialState: MessagesState = {
     chatName: "",
     isGroupChat: false,
   },
+  sharePostId: "",
+  isSharePostToChatModalOpen: false,
 };
 
 export const messagesSlice = createSlice({
@@ -227,6 +245,12 @@ export const messagesSlice = createSlice({
     setCurrentChatInfo: (state, action) => {
       state.currentChatInfo = action.payload;
     },
+    setSharePostId: (state, action) => {
+      state.sharePostId = action.payload;
+    },
+    toggleSharePostToChatModal: (state) => {
+      state.isSharePostToChatModalOpen = !state.isSharePostToChatModalOpen;
+    },
   },
 });
 
@@ -239,6 +263,8 @@ export const {
   resetCheckedUsers,
   setCheckedUsers,
   setCurrentChatInfo,
+  toggleSharePostToChatModal,
+  setSharePostId,
 } = messagesSlice.actions;
 
 export const selectIsChatDetailsOpen = (state: RootState): boolean =>
@@ -253,5 +279,9 @@ export const selectCheckedUsers = (state: RootState): User[] =>
   state.messages.checkedUsers;
 export const selectCurrentChatInfo = (state: RootState): ChatInfo =>
   state.messages.currentChatInfo;
+export const selectSharePostId = (state: RootState): string =>
+  state.messages.sharePostId;
+export const selectIsSharePostToChatModalOpen = (state: RootState): boolean =>
+  state.messages.isSharePostToChatModalOpen;
 
 export default messagesSlice.reducer;

@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../../../styles//messages/chatDetailsMemberItem.module.css";
-import SelectCheckbox from "../../miscellaneous/SelectCheckbox";
-import { defaultProfilePic } from "../../../data/common";
+import styles from "../../styles/messages/chatDetailsMemberItem.module.css";
+import SelectCheckbox from "./SelectCheckbox";
+import { defaultProfilePic } from "../../data/common";
 
 interface UserProfileItemProps {
   isCheckbox?: boolean;
@@ -30,7 +30,7 @@ const UserProfileItem: React.FC<UserProfileItemProps> = ({
       </div>
       {isCheckbox && (
         <SelectCheckbox
-          _id={userInfo._id}
+          _id={userInfo?._id}
           type="user"
           username={userInfo?.username}
         />

@@ -25,6 +25,7 @@ import {
   setGetAllLikesTargetInfo,
   toggleLikesModal,
 } from "../../../app/features/appSlice";
+import { createNotification } from "../../../app/features/notificationSlice";
 
 interface ReceivedPostItem {
   content: {
@@ -43,6 +44,9 @@ interface Post {
   noOfLikes: number;
   _id: string;
   isPostLiked: boolean;
+  isPostSaved: boolean;
+  isCommentsOff?: boolean;
+  isHideLikesAndViews?: boolean;
 }
 interface CarouselPostsType {
   type: string;
@@ -70,6 +74,7 @@ const PostCard: React.FC = () => {
     updatedAt: "",
     noOfLikes: -1,
     isPostLiked: false,
+    isPostSaved: false,
   });
   useEffect(() => {
     if (postId) {
@@ -140,14 +145,25 @@ const PostCard: React.FC = () => {
             toReplyCommentId: replyComment?.commentId,
           })
         );
+
         setComment("");
         dispatch(setToReplyComment({ username: "", commentId: "" }));
       } else {
         await dispatch(postComment({ postId, text: comment }));
+
         setComment("");
       }
+      dispatch(
+        createNotification({
+          type: "comment",
+          receiverId: post?.userInfo?._id,
+          postId: post?._id,
+          comment,
+        })
+      );
     }
   };
+
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (
       e.key === "Backspace" &&
@@ -157,6 +173,7 @@ const PostCard: React.FC = () => {
       dispatch(setToReplyComment({ username: "", commentId: "" }));
     }
   };
+
   const postUpdatedTime = getTimeSinceUpdate(post?.updatedAt);
   const postUpdatedDate = getTDateSinceUpdate(post?.updatedAt);
   const handleModalClick = () => {
@@ -165,6 +182,16 @@ const PostCard: React.FC = () => {
       dispatch(setGetAllLikesTargetInfo([]));
     }
   };
+  const [isLiked, setIsLiked] = useState<boolean>(post?.isPostLiked);
+  const [noOfLikes, setNoOfLikes] = useState<number>(post?.noOfLikes);
+  useEffect(() => {
+    if (post?._id) {
+      setNoOfLikes(post?.noOfLikes);
+      setIsLiked(post?.isPostLiked);
+    }
+  }, [post]);
+  console.log(post);
+  console.log(noOfLikes);
   return (
     <div className={styles.postCardContainer} onClick={handleModalClick}>
       <div className={styles.postCardWrapper}>
@@ -209,7 +236,8 @@ const PostCard: React.FC = () => {
               </div>
             </div>
             <div className={styles.postCardCommentsContainer}>
-              {postComments &&
+              {!post?.isCommentsOff &&
+                postComments &&
                 postComments?.length >= 1 &&
                 postComments?.map((comment, index) => (
                   <PostCommentCard comment={comment} key={index} />
@@ -219,13 +247,21 @@ const PostCard: React.FC = () => {
           </div>
           <div className={styles.postCardInteractionSection}>
             <div className={styles.postCardInteractionSectionIcons}>
-              <Interactions
-                data={{
-                  isPostLiked: post?.isPostLiked,
-                  noOfLikes: post?.noOfLikes,
-                  _id: post?._id,
-                }}
-              />
+              {post?._id !== "" && (
+                <Interactions
+                  data={{
+                    isPostLiked: isLiked,
+                    noOfLikes: noOfLikes,
+                    setIsLiked,
+                    setNoOfLikes,
+                    _id: post?._id,
+                    isCommentsOff: post?.isCommentsOff,
+                    isHideLikesAndViews: post?.isHideLikesAndViews,
+                    ownerId: post?.userInfo?._id,
+                    isPostSaved: post?.isPostSaved,
+                  }}
+                />
+              )}
               <div className={styles.postCardCaptionContentMobile}>
                 <div className={styles.postCardCaptionContent}>
                   <div className={styles.postCardCaptionInnerContent}>
@@ -242,35 +278,37 @@ const PostCard: React.FC = () => {
                   : ` ${postUpdatedDate?.month} ${postUpdatedDate?.date} `}
               </p>
             </div>
-            <div className={styles.postCardAddCommentSection}>
-              <BsEmojiSmile />
-              {replyComment && replyComment?.commentId && (
-                <p>{`@${replyComment?.username}`}</p>
-              )}
-              {replyComment ? (
-                <input
-                  type="text"
-                  placeholder=""
-                  value={comment}
-                  ref={inputRef}
-                  onChange={handleInputChange}
-                  onKeyDown={handleBackspace}
-                />
-              ) : (
-                <input
-                  type="text"
-                  placeholder="Add a comment..."
-                  value={comment}
-                  onChange={handleInputChange}
-                />
-              )}
-              <button
-                disabled={!comment.trim() ? true : false}
-                onClick={handlePostComment}
-              >
-                Post
-              </button>
-            </div>
+            {!post?.isCommentsOff && (
+              <div className={styles.postCardAddCommentSection}>
+                <BsEmojiSmile />
+                {replyComment && replyComment?.commentId && (
+                  <p>{`@${replyComment?.username}`}</p>
+                )}
+                {replyComment ? (
+                  <input
+                    type="text"
+                    placeholder=""
+                    value={comment}
+                    ref={inputRef}
+                    onChange={handleInputChange}
+                    onKeyDown={handleBackspace}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={comment}
+                    onChange={handleInputChange}
+                  />
+                )}
+                <button
+                  disabled={!comment.trim() ? true : false}
+                  onClick={handlePostComment}
+                >
+                  Post
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

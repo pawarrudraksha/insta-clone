@@ -23,7 +23,7 @@ const createStory = asyncHandler(
     }
     const story = await Story.create({
       content,
-      caption,
+      caption: caption,
       userId: user._id,
     });
     const isStoryPosted = await Story.findById(story._id);

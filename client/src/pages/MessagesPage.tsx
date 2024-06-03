@@ -9,7 +9,7 @@ const MessagesPage: React.FC = () => {
   const isMobile = window.innerWidth < 768;
   return (
     <div className={styles.messagesPageWrapper}>
-      {isMobile && url.includes("/direct/inbox") && <ChatsSidebar />}
+      {(!isMobile || url.includes("/direct/inbox")) && <ChatsSidebar />}
       {url.includes("/direct/t") && <Chat />}
       {url.includes("/direct/inbox") && !isMobile && <InitialChat />}
     </div>
